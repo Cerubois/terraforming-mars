@@ -1,62 +1,88 @@
-import {Card} from '../Card';
 import {Tags} from '../Tags';
 import {Player} from '../../Player';
-import {CorporationCard} from './CorporationCard';
+import {IProjectCard} from '../IProjectCard';
+import {Card} from '../Card';
+import {CorporationCard} from '../corporation/CorporationCard';
+import {SelectOption} from '../../inputs/SelectOption';
+import {OrOptions} from '../../inputs/OrOptions';
+import {ResourceType} from '../../ResourceType';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
-import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 import {Size} from '../render/Size';
-import {IActionCard, IResourceCard} from '../ICard';
+import {Resources} from '../../Resources';
+import {ResourceType} from '../../ResourceType';
+import {Priority} from '../../deferredActions/DeferredAction';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
-import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
+import {IResourceCard} from '../ICard';
+import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 
 export class ArtemisClub extends Card implements CorporationCard {
   constructor() {
     super({
       cardType: CardType.CORPORATION,
-      name: CardName.ARTEMIS CLUB,
+      name: CardName.ARTEMIS_CLUB,
       tags: [Tags.ANIMAL],
-      startingMegaCredits: 43,
+      startingMegaCredits: 43, // 44 + 4 as card resolution when played
+      initialActionText: 'Draw a card with an animal tag',
 
       metadata: {
         cardNumber: 'S01',
-        description: 'AS YOUR FIRST ACTION, draw cards from the deck until you reveal a card with the animal tag. Take that card into your hand and discard the rest. Score 1 VP for every animal on this card',
+        description: 'You start with 43 M€. As your first action, reveal cards until you have revealed an animal tag. Take it and discard the rest.',
         renderData: CardRenderer.builder((b) => {
-          b.br.br;
-          b.megacredits(43).nbsp.cards(1)digit;
-          b.corpBox('action', (ce) => {
-            ce.action('Remove 1 animal from ANY card to add 1 animal to this card', (eb) => {
-               eb.animals(1).any.startAction.animals(1);
+          b.megacredits(43).nbsp.cards(1).secondaryTag(Tags.MICROBE);
+          b.corpBox('effect', (ce) => {
+            ce.vSpace(Size.LARGE);
+            ce.effect(undefined, (eb) => {
+              eb.animal(1).played.any.startEffect;
+              eb.megacredits(1).any.asterix();
+            });
+            ce.vSpace();
+            ce.effect('when an animal tag is played, incl. this, THAT PLAYER gains 1 M€, you gain 1 M€, and you add an animal to this card.', (eb) => {
+              eb.animals(1).played.any.startEffect;
+              eb.megacredits(1);
             });
           });
         }),
       },
     });
   }
+
   public initialAction(player: Player) {
     player.drawCard(1, {tag: Tags.ANIMAL});
     return undefined;
   }
 
- public resourceCount: number = 0;
+  public onCardPlayed(player: Player, card: IProjectCard) {
+    return this._onCardPlayed(player, card);
+  }
 
-    public getVictoryPoints(): number {
-      return this.resourceCount;
-    }
+  public onCorpCardPlayed(player: Player, card: CorporationCard) {
+    return this._onCardPlayed(player, card);
+  }
 
-    public play() {
+  private _onCardPlayed(player: Player, card: IProjectCard | CorporationCard): OrOptions | undefined {
+    if (card.tags.includes(Tags.MICROBE) === false) {
       return undefined;
     }
+    const gainPerMicrobe = 1;
+    const animalTagsCount = card.tags.filter((tag) => tag === Tags.ANIMAL).length;
+    const megacreditsGain = microbeTagsCount * gainPerAnimal;
 
-    public canAct(player: Player): boolean {
-      if (player.game.isSoloMode()) return true;
-      return RemoveResourcesFromCard.getAvailableTargetCards(player, ResourceType.ANIMAL).length > 0;
-    }
-
-    public action(player: Player) {
-      player.game.defer(new RemoveResourcesFromCard(player, ResourceType.ANIMAL));
-      player.game.defer(new AddResourcesToCard(player, ResourceType.ANIMAL, {filter: (c) => c.name === this.name}));
+     const getMegacredits = new SelectOption(`Gain ${megacreditsGain} MC`, 'Gain M€', () => {
+      player.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
       return undefined;
-    }
+    });
+
+    // Artemis owner get 1M€ per animal tag
+    player.game.getCardPlayer(this.name).addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
+
+    // Card player choose gets 1 M€ per animal tag  
+      player.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
+      return undefined;
+  }
+
+  public play() {
+    return undefined;
+  }
 }
