@@ -9,7 +9,6 @@ import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {Resources} from '../../Resources';
-import {ResourceType} from '../../ResourceType';
 import {IResourceCard} from '../ICard';
 
 export class ArtemisSanctuary extends Card implements CorporationCard {
@@ -17,7 +16,7 @@ export class ArtemisSanctuary extends Card implements CorporationCard {
     super({
       cardType: CardType.CORPORATION,
       name: CardName.ARTEMIS_SANCTUARY,
-      tags: [Tags.ANIMAL.PLANT],
+      tags: [Tags.ANIMAL, Tags.PLANT],
       startingMegaCredits: 41,
       initialActionText: 'Draw a card with an animal tag',
 
@@ -29,7 +28,7 @@ export class ArtemisSanctuary extends Card implements CorporationCard {
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.effect(undefined, (eb) => {
-              eb.animal(1).played.any.startEffect;
+              eb.animals(1).played.any.startEffect;
               eb.megacredits(1).any.asterix();
             });
             ce.vSpace();
@@ -70,7 +69,7 @@ export class ArtemisSanctuary extends Card implements CorporationCard {
  
   }
 
-  public play() {
+  public play(player : Player) {
     player.addProduction(Resources.PLANTS, 1);
     //player.addProduction(Resources.MEGACREDITS, 1)
     return undefined;
