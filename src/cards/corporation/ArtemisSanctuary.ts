@@ -22,7 +22,7 @@ export class ArtemisSanctuary extends Card implements CorporationCard {
       initialActionText: 'Draw a card with an animal tag',
 
       metadata: {
-        cardNumber: 'S01',
+        cardNumber: 'R52',
         description: 'You start with 41 M€, and 1 plant production. As your first action, reveal cards until you have revealed an animal tag. Take it and discard the rest.',
         renderData: CardRenderer.builder((b) => {
           b.production((pb) => pb.plants(2)).megacredits(41).nbsp.cards(1);
