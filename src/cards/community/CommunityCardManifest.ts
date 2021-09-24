@@ -25,6 +25,7 @@ export const COMMUNITY_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.PLAYWRIGHTS, Factory: Playwrights},
     {cardName: CardName.CURIOSITY_II, Factory: CuriosityII},
     {cardName: CardName.MIDAS, Factory: Midas},
+    {cardName: CardName.ARTEMIS_SANCTUARY, Factory: AgricolaInc},
   ],
   preludeCards: [
     {cardName: CardName.RESEARCH_GRANT, Factory: ResearchGrant},
