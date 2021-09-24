@@ -61,7 +61,7 @@ export class ArtemisSactuary extends Card implements CorporationCard {
       if (tag === Tags.ANIMAL) {
         player.game.getCardPlayer(this.name).addProduction(Resources.PLANTS, 1, {log: true});
       }
-    
+    }
     
   private _onCardPlayed(player: Player, card: IProjectCard | CorporationCard) {
     for (const tag of card.tags) {
