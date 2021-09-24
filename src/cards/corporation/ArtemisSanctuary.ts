@@ -3,13 +3,13 @@ import {Player} from '../../Player';
 import {IProjectCard} from '../IProjectCard';
 import {Card} from '../Card';
 import {CorporationCard} from '../corporation/CorporationCard';
-import {ResourceType} from '../../ResourceType';
+//import {ResourceType} from '../../ResourceType';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {Resources} from '../../Resources';
-import {IResourceCard} from '../ICard';
+//import {IResourceCard} from '../ICard';
 
 export class ArtemisSanctuary extends Card implements CorporationCard {
   constructor() {
