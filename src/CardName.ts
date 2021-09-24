@@ -342,7 +342,6 @@ export enum CardName {
     ZEPPELINS = 'Zeppelins',
 
     // Corps:
-    ARTEMIS_SANCTUARY = 'Artemis Sanctuary',
     BEGINNER_CORPORATION = 'Beginner Corporation',
     CREDICOR = 'CrediCor',
     ECOLINE = 'EcoLine',
@@ -476,6 +475,7 @@ export enum CardName {
     MIDAS = 'Midas',
     PLAYWRIGHTS = 'Playwrights',
     PROJECT_WORKSHOP = 'Project Workshop',
+    ARTEMIS_SANCTUARY = 'Artemis Sanctuary',
 
     // Community preludes
     VALUABLE_GASES = 'Valuable Gases',
