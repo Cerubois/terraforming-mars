@@ -12,11 +12,11 @@ import {Resources} from '../../Resources';
 import {ResourceType} from '../../ResourceType';
 import {IResourceCard} from '../ICard';
 
-export class ArtemisSactuary extends Card implements CorporationCard {
+export class ArtemisSanctuary extends Card implements CorporationCard {
   constructor() {
     super({
       cardType: CardType.CORPORATION,
-      name: CardName.ARTEMIS_SACTUARY,
+      name: CardName.ARTEMIS_SANCTUARY,
       tags: [Tags.ANIMAL.PLANT],
       startingMegaCredits: 41,
       initialActionText: 'Draw a card with an animal tag',
@@ -60,15 +60,12 @@ export class ArtemisSactuary extends Card implements CorporationCard {
     for (const tag of card.tags) {
       if (tag === Tags.ANIMAL) {
         player.game.getCardPlayer(this.name).addProduction(Resources.PLANTS, 1, {log: true});
-      }
-    }
-    
-  private _onCardPlayed(player: Player, card: IProjectCard | CorporationCard) {
-    for (const tag of card.tags) {
       if (tag === Tags.PLANT) {
         player.game.getCardPlayer(this.name).addResource(Resources.MEGACREDITS, 1, {log: true});
       }
     }
+    
+ 
   }
 
   public play() {
