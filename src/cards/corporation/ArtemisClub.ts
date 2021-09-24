@@ -10,8 +10,6 @@ import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {Resources} from '../../Resources';
 import {ResourceType} from '../../ResourceType';
-import {Priority} from '../../deferredActions/DeferredAction';
-import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {IResourceCard} from '../ICard';
 
 export class ArtemisSactuary extends Card implements CorporationCard {
@@ -59,12 +57,12 @@ export class ArtemisSactuary extends Card implements CorporationCard {
   }
 
   private _onCardPlayed(player: Player, card: IProjectCard | CorporationCard): OrOptions | undefined {
-    if (card.tags.includes(Tags.MICROBE) === false) {
+    if (card.tags.includes(Tags.ANIMAL) === false) {
       return undefined;
     }
     const gainPerMicrobe = 1;
     const animalTagsCount = card.tags.filter((tag) => tag === Tags.ANIMAL).length;
-    const megacreditsGain = microbeTagsCount * gainPerAnimal;
+    const megacreditsGain = animalTagsCount * gainPerAnimal;
 
      const getMegacredits = new SelectOption(`Gain ${megacreditsGain} MC`, 'Gain M€', () => {
       player.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
