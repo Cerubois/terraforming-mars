@@ -342,7 +342,7 @@ export enum CardName {
     ZEPPELINS = 'Zeppelins',
 
     // Corps:
-    ARTEMIS_SANCTUARY = 'Artemis Sanctuary'
+    ARTEMIS_SANCTUARY = 'Artemis Sanctuary',
     BEGINNER_CORPORATION = 'Beginner Corporation',
     CREDICOR = 'CrediCor',
     ECOLINE = 'EcoLine',
