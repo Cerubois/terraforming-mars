@@ -23,11 +23,11 @@ export class ArtemisClub extends Card implements CorporationCard {
         cardNumber: 'S01',
         description: 'AS YOUR FIRST ACTION, draw cards from the deck until you reveal a card with the animal tag. Take that card into your hand and discard the rest. Score 1 VP for every animal on this card',
         renderData: CardRenderer.builder((b) => {
-          b.br;
+          b.br.br;
           b.megacredits(43).nbsp.cards(1)digit;
-          b.corpBox('effect', (ce) => {
-            ce.effect('Remove 1 animal from ANY card to add 1 animal to this card', (eb) => {
-              eb.titanium(1).startEffect.plus(Size.SMALL).megacredits(1);
+          b.corpBox('action', (ce) => {
+            ce.action('Remove 1 animal from ANY card to add 1 animal to this card', (eb) => {
+               eb.animals(1).any.startAction.animals(1);
             });
           });
         }),
