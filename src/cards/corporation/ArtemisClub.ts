@@ -3,8 +3,6 @@ import {Player} from '../../Player';
 import {IProjectCard} from '../IProjectCard';
 import {Card} from '../Card';
 import {CorporationCard} from '../corporation/CorporationCard';
-import {SelectOption} from '../../inputs/SelectOption';
-import {OrOptions} from '../../inputs/OrOptions';
 import {ResourceType} from '../../ResourceType';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
@@ -15,22 +13,21 @@ import {ResourceType} from '../../ResourceType';
 import {Priority} from '../../deferredActions/DeferredAction';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {IResourceCard} from '../ICard';
-import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 
-export class ArtemisClub extends Card implements CorporationCard {
+export class ArtemisSactuary extends Card implements CorporationCard {
   constructor() {
     super({
       cardType: CardType.CORPORATION,
-      name: CardName.ARTEMIS_CLUB,
-      tags: [Tags.ANIMAL],
-      startingMegaCredits: 43, // 44 + 4 as card resolution when played
+      name: CardName.ARTEMIS_SACTUARY,
+      tags: [Tags.ANIMAL.PLANT],
+      startingMegaCredits: 39,
       initialActionText: 'Draw a card with an animal tag',
 
       metadata: {
         cardNumber: 'S01',
-        description: 'You start with 43 M€. As your first action, reveal cards until you have revealed an animal tag. Take it and discard the rest.',
+        description: 'You start with 39 M€, and 1 plant production. As your first action, reveal cards until you have revealed an animal tag. Take it and discard the rest.',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(43).nbsp.cards(1).secondaryTag(Tags.MICROBE);
+          b.production((pb) => pb.plants(2)).megacredits(39).nbsp.cards(1);
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.effect(undefined, (eb) => {
@@ -38,7 +35,7 @@ export class ArtemisClub extends Card implements CorporationCard {
               eb.megacredits(1).any.asterix();
             });
             ce.vSpace();
-            ce.effect('when an animal tag is played, incl. this, THAT PLAYER gains 1 M€, you gain 1 M€, and you add an animal to this card.', (eb) => {
+            ce.effect('when an animal tag is played, incl. this, THAT PLAYER gains 1 M€, you gain 1 M€.', (eb) => {
               eb.animals(1).played.any.startEffect;
               eb.megacredits(1);
             });
