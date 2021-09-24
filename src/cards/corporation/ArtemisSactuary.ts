@@ -18,14 +18,14 @@ export class ArtemisSactuary extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.ARTEMIS_SACTUARY,
       tags: [Tags.ANIMAL.PLANT],
-      startingMegaCredits: 39,
+      startingMegaCredits: 41,
       initialActionText: 'Draw a card with an animal tag',
 
       metadata: {
         cardNumber: 'S01',
-        description: 'You start with 39 M€, and 1 plant production. As your first action, reveal cards until you have revealed an animal tag. Take it and discard the rest.',
+        description: 'You start with 41 M€, and 1 plant production. As your first action, reveal cards until you have revealed an animal tag. Take it and discard the rest.',
         renderData: CardRenderer.builder((b) => {
-          b.production((pb) => pb.plants(2)).megacredits(39).nbsp.cards(1);
+          b.production((pb) => pb.plants(2)).megacredits(41).nbsp.cards(1);
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.effect(undefined, (eb) => {
@@ -33,7 +33,7 @@ export class ArtemisSactuary extends Card implements CorporationCard {
               eb.megacredits(1).any.asterix();
             });
             ce.vSpace();
-            ce.effect('when an animal tag is played, incl. this, THAT PLAYER gains 1 M€, you gain 1 M€.', (eb) => {
+            ce.effect('When you play an animal tag gain 1 plant production. If you play a plant tag gain 1 SpaceBuck', (eb) => {
               eb.animals(1).played.any.startEffect;
               eb.megacredits(1);
             });
@@ -56,28 +56,23 @@ export class ArtemisSactuary extends Card implements CorporationCard {
     return this._onCardPlayed(player, card);
   }
 
-  private _onCardPlayed(player: Player, card: IProjectCard | CorporationCard){
-    if (card.tags.includes(Tags.ANIMAL) === false) {
-      return undefined;
+  private _onCardPlayed(player: Player, card: IProjectCard | CorporationCard) {
+    for (const tag of card.tags) {
+      if (tag === Tags.ANIMAL) {
+        player.game.getCardPlayer(this.name).addProduction(Resources.PLANTS, 1, {log: true});
+      }
     }
-    const gainPerAnimal = 1;
-    const animalTagsCount = card.tags.filter((tag) => tag === Tags.ANIMAL).length;
-    const megacreditsGain = animalTagsCount * gainPerAnimal;
-
-     const getMegacredits = new SelectOption(`Gain ${megacreditsGain} MC`, 'Gain M€', () => {
-      player.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
-      return undefined;
-    });
-
-    // Artemis owner get 1M€ per animal tag
-    player.game.getCardPlayer(this.name).addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
-
-    // Card player gets 1 M€ per animal tag  
-      player.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
-      return undefined;
+  private _onCardPlayed(player: Player, card: IProjectCard | CorporationCard) {
+    for (const tag of card.tags) {
+      if (tag === Tags.PLANT) {
+        player.game.getCardPlayer(this.name).addResource(Resources.MEGACREDITS, 1, {log: true});
+      }
+    }
   }
 
   public play() {
+    player.addProduction(Resources.PLANTS, 1);
+    //player.addProduction(Resources.MEGACREDITS, 1)
     return undefined;
   }
 }
