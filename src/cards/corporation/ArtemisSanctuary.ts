@@ -60,9 +60,11 @@ export class ArtemisSanctuary extends Card implements CorporationCard {
     for (const tag of card.tags) {
       if (tag === Tags.ANIMAL) {
         player.game.getCardPlayer(this.name).addProduction(Resources.PLANTS, 1, {log: true});
-      if (tag === Tags.PLANT) {
-        player.game.getCardPlayer(this.name).addResource(Resources.MEGACREDITS, 1, {log: true});
       }
+      if (player.isCorporation(this.name) && card.tags.includes(Tags.PLANT)) {
+        player.addResource(Resources.MEGACREDITS, 1, {log: true});
+      }
+      
     }
     
  
