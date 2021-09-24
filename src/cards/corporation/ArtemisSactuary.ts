@@ -56,11 +56,11 @@ export class ArtemisSactuary extends Card implements CorporationCard {
     return this._onCardPlayed(player, card);
   }
 
-  private _onCardPlayed(player: Player, card: IProjectCard | CorporationCard): OrOptions | undefined {
+  private _onCardPlayed(player: Player, card: IProjectCard | CorporationCard){
     if (card.tags.includes(Tags.ANIMAL) === false) {
       return undefined;
     }
-    const gainPerMicrobe = 1;
+    const gainPerAnimal = 1;
     const animalTagsCount = card.tags.filter((tag) => tag === Tags.ANIMAL).length;
     const megacreditsGain = animalTagsCount * gainPerAnimal;
 
@@ -72,7 +72,7 @@ export class ArtemisSactuary extends Card implements CorporationCard {
     // Artemis owner get 1M€ per animal tag
     player.game.getCardPlayer(this.name).addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
 
-    // Card player choose gets 1 M€ per animal tag  
+    // Card player gets 1 M€ per animal tag  
       player.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
       return undefined;
   }
