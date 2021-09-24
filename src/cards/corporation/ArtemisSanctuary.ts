@@ -33,7 +33,7 @@ export class ArtemisSanctuary extends Card implements CorporationCard {
               eb.megacredits(1).any.asterix();
             });
             ce.vSpace();
-            ce.effect('When you play an animal tag gain 1 plant production. If you play a plant tag gain 1 SpaceBuck', (eb) => {
+            ce.effect('When any animal tag is played, gain 1 plant production. If you play a plant tag gain 1 SpaceBuck', (eb) => {
               eb.animals(1).played.any.startEffect;
               eb.megacredits(1);
             });
