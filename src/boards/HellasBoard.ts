@@ -8,10 +8,11 @@ import {SpaceType} from '../SpaceType';
 import {BoardBuilder} from './BoardBuilder';
 import {SerializedBoard} from './SerializedBoard';
 import {Random} from '../Random';
+import {GameOptions} from '../Game';
 
 export class HellasBoard extends Board {
-  public static newInstance(shuffle: boolean, rng: Random, includeVenus: boolean): HellasBoard {
-    const builder = new BoardBuilder(includeVenus);
+  public static newInstance(gameOptions: GameOptions, rng: Random): HellasBoard {
+    const builder = new BoardBuilder(gameOptions.venusNextExtension, gameOptions.pathfindersExpansion);
 
     const PLANT = SpaceBonus.PLANT;
     const STEEL = SpaceBonus.STEEL;
@@ -39,7 +40,7 @@ export class HellasBoard extends Board {
     // y=8
     builder.land().land(HEAT, HEAT).land(SpaceBonus.OCEAN).doNotShuffleLastSpace().land(HEAT, HEAT).land();
 
-    if (shuffle) {
+    if (gameOptions.shuffleMapOption) {
       builder.shuffle(rng);
     }
 
@@ -55,19 +56,19 @@ export class HellasBoard extends Board {
     return player.canAfford(HELLAS_BONUS_OCEAN_COST) ? spaces : spaces.filter((space) => space.id !== SpaceName.HELLAS_OCEAN_TILE);
   }
 
-  public getSpaces(spaceType: SpaceType, player: Player): Array<ISpace> {
+  public override getSpaces(spaceType: SpaceType, player: Player): Array<ISpace> {
     return this.filterHellas(player, super.getSpaces(spaceType, player));
   }
 
-  public getAvailableSpacesForCity(player: Player): Array<ISpace> {
+  public override getAvailableSpacesForCity(player: Player): Array<ISpace> {
     return this.filterHellas(player, super.getAvailableSpacesForCity(player));
   }
 
-  public getAvailableSpacesOnLand(player: Player): Array<ISpace> {
+  public override getAvailableSpacesOnLand(player: Player): Array<ISpace> {
     return this.filterHellas(player, super.getAvailableSpacesOnLand(player));
   }
 
-  public getAvailableSpacesForGreenery(player: Player): Array<ISpace> {
+  public override getAvailableSpacesForGreenery(player: Player): Array<ISpace> {
     return this.filterHellas(player, super.getAvailableSpacesForGreenery(player));
   }
 

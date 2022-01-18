@@ -19,13 +19,14 @@ export class MareNubiumMine extends MoonCard {
       cost: 17,
       productionBox: Units.of({titanium: 1}),
       reserveUnits: Units.of({titanium: 1}),
+      tr: {moonMining: 1},
 
       metadata: {
         description: 'Spend 1 titanium. Increase your titanium production 1 step. Place a mine ON THE RESERVED AREA and raise the Mining Rate 1 step.',
         cardNumber: 'M02',
         renderData: CardRenderer.builder((b) => {
           b.minus().titanium(1);
-          b.production((pb) => pb.titanium(1)).moonMine().secondaryTag(AltSecondaryTag.MOON_MINING_RATE).asterix();
+          b.production((pb) => pb.titanium(1)).moonMine({secondaryTag: AltSecondaryTag.MOON_MINING_RATE}).asterix();
         }),
       },
     }, {
@@ -33,8 +34,7 @@ export class MareNubiumMine extends MoonCard {
     });
   }
 
-
-  public play(player: Player) {
+  public override play(player: Player) {
     super.play(player);
     MoonExpansion.addMineTile(player, MoonSpaces.MARE_NUBIUM, this.name);
     MoonExpansion.raiseMiningRate(player);

@@ -21,6 +21,7 @@ export class MareSerenitatisMine extends MoonCard {
       cost: 21,
       productionBox: Units.of({steel: 1, titanium: 1}),
       reserveUnits: Units.of({steel: 1, titanium: 2}),
+      tr: {moonMining: 1, moonLogistics: 1},
 
       metadata: {
         description: 'Spend 2 titanium and 1 steel. Increase your steel and titanium production 1 step ' +
@@ -29,7 +30,7 @@ export class MareSerenitatisMine extends MoonCard {
         renderData: CardRenderer.builder((b) => {
           b.minus().titanium(2).minus().steel(1).br;
           b.production((pb) => pb.steel(1).titanium(1)).br;
-          b.moonMine().secondaryTag(AltSecondaryTag.MOON_MINING_RATE).asterix().nbsp.moonRoad().secondaryTag(AltSecondaryTag.MOON_MINING_RATE).asterix();
+          b.moonMine({secondaryTag: AltSecondaryTag.MOON_MINING_RATE}).asterix().nbsp.moonRoad({secondaryTag: AltSecondaryTag.MOON_MINING_RATE}).asterix();
         }),
       },
     }, {
@@ -37,7 +38,7 @@ export class MareSerenitatisMine extends MoonCard {
     });
   }
 
-  public play(player: Player) {
+  public override play(player: Player) {
     super.play(player);
     MoonExpansion.addMineTile(player, MoonSpaces.MARE_SERENITATIS, this.name);
     MoonExpansion.raiseMiningRate(player);

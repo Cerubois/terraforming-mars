@@ -2,7 +2,7 @@ import * as http from 'http';
 import {Handler} from './Handler';
 import {IContext} from './IHandler';
 import {Database} from '../database/Database';
-import {BoardName} from '../boards/BoardName';
+import {BoardName, RandomBoardOption} from '../boards/BoardName';
 import {Cloner} from '../database/Cloner';
 import {GameLoader} from '../database/GameLoader';
 import {Game, GameOptions} from '../Game';
@@ -25,14 +25,22 @@ export class GameHandler extends Handler {
     return prefix + Math.floor(Math.random() * Math.pow(16, 12)).toString(16);
   }
 
-  public get(req: http.IncomingMessage, res: http.ServerResponse, ctx: IContext): void {
+  public static boardOptions(board: string) {
+    const allBoards = Object.values(BoardName);
+
+    if (board === RandomBoardOption.ALL) return allBoards;
+    if (board === RandomBoardOption.OFFICIAL) return allBoards.filter((name) => name !== BoardName.ARABIA_TERRA);
+    return [board];
+  }
+
+  public override get(req: http.IncomingMessage, res: http.ServerResponse, ctx: IContext): void {
     req.url = '/assets/index.html';
     ServeAsset.INSTANCE.get(req, res, ctx);
   }
 
   // TODO(kberg): much of this code can be moved outside of handler, and that
   // would be better.
-  public put(req: http.IncomingMessage, res: http.ServerResponse, ctx: IContext): void {
+  public override put(req: http.IncomingMessage, res: http.ServerResponse, ctx: IContext): void {
     let body = '';
     req.on('data', function(data) {
       body += data.toString();
@@ -59,10 +67,8 @@ export class GameHandler extends Handler {
           }
         }
 
-        if (gameReq.board === 'random') {
-          const boards = Object.values(BoardName);
-          gameReq.board = boards[Math.floor(Math.random() * boards.length)];
-        }
+        const boards = GameHandler.boardOptions(gameReq.board);
+        gameReq.board = boards[Math.floor(Math.random() * boards.length)];
 
         const gameOptions: GameOptions = {
           boardName: gameReq.board,
@@ -82,6 +88,7 @@ export class GameHandler extends Handler {
           aresHazards: true, // Not a runtime option.
           politicalAgendasExtension: gameReq.politicalAgendasExtension,
           moonExpansion: gameReq.moonExpansion,
+          pathfindersExpansion: gameReq.pathfindersExpansion,
           promoCardsOption: gameReq.promoCardsOption,
           communityCardsOption: gameReq.communityCardsOption,
           solarPhaseOption: gameReq.solarPhaseOption,
@@ -101,7 +108,11 @@ export class GameHandler extends Handler {
           requiresVenusTrackCompletion: gameReq.requiresVenusTrackCompletion,
           requiresMoonTrackCompletion: gameReq.requiresMoonTrackCompletion,
           moonStandardProjectVariant: gameReq.moonStandardProjectVariant,
-          altVenusBoard: false,
+          altVenusBoard: gameReq.altVenusBoard,
+          escapeVelocityMode: gameReq.escapeVelocityMode,
+          escapeVelocityThreshold: gameReq.escapeVelocityThreshold,
+          escapeVelocityPeriod: gameReq.escapeVelocityPeriod,
+          escapeVelocityPenalty: gameReq.escapeVelocityPenalty,
         };
 
         if (gameOptions.clonedGamedId !== undefined && !gameOptions.clonedGamedId.startsWith('#')) {

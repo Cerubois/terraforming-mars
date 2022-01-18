@@ -32,6 +32,28 @@ export class TestPlayer extends Player {
     }
   }
 
+  public getProductionForTest(): Units {
+    return {
+      megacredits: this.megaCreditProduction,
+      steel: this.steelProduction,
+      titanium: this.titaniumProduction,
+      plants: this.plantProduction,
+      energy: this.energyProduction,
+      heat: this.heatProduction,
+    };
+  }
+
+  public getResourcesForTest(): Units {
+    return {
+      megacredits: this.megaCredits,
+      steel: this.steel,
+      titanium: this.titanium,
+      plants: this.plants,
+      energy: this.energy,
+      heat: this.heat,
+    };
+  }
+
   public getVictoryPoints(): VictoryPointsBreakdown {
     this.victoryPointsBreakdown = super.getVictoryPoints();
     return this.victoryPointsBreakdown;
@@ -43,11 +65,10 @@ export class TestPlayer extends Player {
 
   public tagsForTest: Partial<TagsForTest> | undefined = undefined;
 
-  public getTagCount(tag: Tags, includeEventsTags:boolean = false, includeWildcardTags:boolean = true): number {
-    if (this.tagsForTest !== undefined) {
-      return this.tagsForTest[tag] || 0;
-    }
-    return super.getTagCount(tag, includeEventsTags, includeWildcardTags);
+  public getRawTagCount(tag: Tags, includeEventsTags:boolean = false): number {
+    return this.tagsForTest !== undefined ?
+      this.tagsForTest[tag] ?? 0 :
+      super.getRawTagCount(tag, includeEventsTags);
   }
 
   public runInput(input: ReadonlyArray<ReadonlyArray<string>>, pi: PlayerInput): void {
@@ -63,6 +84,13 @@ export class TestPlayer extends Player {
       energy: this.energy,
       heat: this.heat,
     });
+  }
+
+  public popWaitingFor(): PlayerInput | undefined {
+    const waitingFor = this.getWaitingFor();
+    this.waitingFor = undefined;
+    this.waitingForCb = undefined;
+    return waitingFor;
   }
 }
 
@@ -81,4 +109,6 @@ export interface TagsForTest {
   wild: number;
   moon: number;
   event: number;
+  mars: number;
+  clone: number;
 }

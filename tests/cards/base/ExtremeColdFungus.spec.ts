@@ -19,12 +19,12 @@ describe('ExtremeColdFungus', () => {
 
   it('Cannot play', () => {
     (game as any).temperature = -8;
-    expect(card.canPlay(player)).is.not.true;
+    expect(player.canPlayIgnoringCost(card)).is.not.true;
   });
 
   it('Can play', () => {
     (game as any).temperature = -12;
-    expect(card.canPlay(player)).is.true;
+    expect(player.canPlayIgnoringCost(card)).is.true;
   });
 
   it('Should play', () => {
@@ -37,7 +37,7 @@ describe('ExtremeColdFungus', () => {
     player.playedCards.push(tardigrades);
 
     const action = card.action(player);
-    expect(action instanceof OrOptions).is.true;
+    expect(action).instanceOf(OrOptions);
     expect(action!.options).has.lengthOf(2);
 
         action!.options[0].cb();
@@ -53,7 +53,7 @@ describe('ExtremeColdFungus', () => {
     player.playedCards.push(tardigrades, ants);
 
     const action = card.action(player);
-    expect(action instanceof OrOptions).is.true;
+    expect(action).instanceOf(OrOptions);
     expect(action!.options).has.lengthOf(2);
 
         action!.options[0].cb([tardigrades]);

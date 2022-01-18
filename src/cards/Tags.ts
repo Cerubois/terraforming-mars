@@ -10,7 +10,9 @@ export enum Tags {
     MICROBE = 'microbe',
     ANIMAL = 'animal',
     CITY = 'city',
-    WILDCARD = 'wild',
     MOON = 'moon',
+    MARS = 'mars',
+    WILDCARD = 'wild',
     EVENT = 'event',
+    CLONE = 'clone',
 }

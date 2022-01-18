@@ -19,6 +19,7 @@ export class MomentumViriumHabitat extends MoonCard {
       cost: 23,
       productionBox: Units.of({heat: 2, megacredits: 3}),
       reserveUnits: Units.of({titanium: 1}),
+      tr: {moonColony: 1},
 
       metadata: {
         description: 'Spend 1 titanium. Increase your heat production 2 steps and your M€ production 3 steps. ' +
@@ -29,7 +30,7 @@ export class MomentumViriumHabitat extends MoonCard {
           b.production((pb) => {
             pb.heat(2).megacredits(3);
           }).br;
-          b.moonColony().secondaryTag(AltSecondaryTag.MOON_COLONY_RATE).asterix();
+          b.moonColony({secondaryTag: AltSecondaryTag.MOON_COLONY_RATE}).asterix();
         }),
       },
     }, {
@@ -37,8 +38,7 @@ export class MomentumViriumHabitat extends MoonCard {
     });
   };
 
-
-  public play(player: Player) {
+  public override play(player: Player) {
     super.play(player);
     MoonExpansion.addColonyTile(player, MoonSpaces.MOMENTUM_VIRIUM, this.name);
     MoonExpansion.raiseColonyRate(player);

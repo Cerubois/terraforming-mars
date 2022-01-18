@@ -6,6 +6,7 @@ import {SimpleGameModel} from './SimpleGameModel';
 import {GameOptionsModel} from './GameOptionsModel';
 import {ICard} from '../cards/ICard';
 import {IProjectCard} from '../cards/IProjectCard';
+import {isICloneTagCard} from '../cards/pathfinders/ICloneTagCard';
 import {Board} from '../boards/Board';
 import {ISpace} from '../boards/ISpace';
 import {Player} from '../Player';
@@ -42,6 +43,7 @@ import {Units} from '../Units';
 import {SelectPartyToSendDelegate} from '../inputs/SelectPartyToSendDelegate';
 import {GameModel} from './GameModel';
 import {Turmoil} from '../turmoil/Turmoil';
+import {PathfindersModel} from './PathfindersModel';
 
 export class Server {
   public static getSimpleGameModel(game: Game): SimpleGameModel {
@@ -78,6 +80,7 @@ export class Server {
       oceans: game.board.getOceansOnBoard(),
       oxygenLevel: game.getOxygenLevel(),
       passedPlayers: game.getPassedPlayers(),
+      pathfinders: PathfindersModel.serialize(game),
       phase: game.phase,
       spaces: this.getSpaces(game.board),
       spectatorId: game.spectatorId,
@@ -86,6 +89,7 @@ export class Server {
       turmoil: turmoil,
       undoCount: game.undoCount,
       venusScaleLevel: game.getVenusScaleLevel(),
+      step: game.lastSaveId,
     };
   }
 
@@ -118,6 +122,7 @@ export class Server {
       id: game.spectatorId ?? '',
       game: this.getGameModel(game),
       players: game.getPlayers().map(this.getPlayer),
+      thisPlayer: undefined,
     };
   }
 
@@ -224,6 +229,7 @@ export class Server {
       canUseSteel: undefined,
       canUseTitanium: undefined,
       canUseHeat: undefined,
+      canUseSeeds: undefined,
       players: undefined,
       availableSpaces: undefined,
       min: undefined,
@@ -232,6 +238,7 @@ export class Server {
       microbes: undefined,
       floaters: undefined,
       science: undefined,
+      seeds: undefined,
       coloniesModel: undefined,
       payProduction: undefined,
       aresData: undefined,
@@ -262,6 +269,7 @@ export class Server {
       playerInputModel.floaters = shtpfpc.floaters;
       playerInputModel.canUseHeat = shtpfpc.canUseHeat;
       playerInputModel.science = shtpfpc.scienceResources;
+      playerInputModel.seeds = shtpfpc.seedResources;
       break;
     case PlayerInputTypes.SELECT_CARD:
       const selectCard = waitingFor as SelectCard<ICard>;
@@ -279,13 +287,15 @@ export class Server {
       }
       break;
     case PlayerInputTypes.SELECT_COLONY:
-      playerInputModel.coloniesModel = (waitingFor as SelectColony).coloniesModel;
+      playerInputModel.coloniesModel = ColonyModel.getColonyModel(player.game, (waitingFor as SelectColony).colonies);
       break;
     case PlayerInputTypes.SELECT_HOW_TO_PAY:
       playerInputModel.amount = (waitingFor as SelectHowToPay).amount;
       playerInputModel.canUseSteel = (waitingFor as SelectHowToPay).canUseSteel;
       playerInputModel.canUseTitanium = (waitingFor as SelectHowToPay).canUseTitanium;
       playerInputModel.canUseHeat = (waitingFor as SelectHowToPay).canUseHeat;
+      playerInputModel.canUseSeeds = (waitingFor as SelectHowToPay).canUseSeeds;
+      playerInputModel.seeds = player.getSpendableSeedResources();
       break;
     case PlayerInputTypes.SELECT_PLAYER:
       playerInputModel.players = (waitingFor as SelectPlayer).players.map(
@@ -336,7 +346,7 @@ export class Server {
     case PlayerInputTypes.SHIFT_ARES_GLOBAL_PARAMETERS:
       playerInputModel.aresData = (waitingFor as ShiftAresGlobalParameters).aresData;
       break;
-    }
+    };
     return playerInputModel;
   }
 
@@ -361,6 +371,7 @@ export class Server {
       reserveUnits: options.reserveUnits ? options.reserveUnits[index] : Units.EMPTY,
       bonusResource: (card as IProjectCard).bonusResource,
       discount: card.cardDiscount,
+      cloneTag: isICloneTagCard(card) ? card.cloneTag : undefined,
     }));
   }
 
@@ -368,6 +379,7 @@ export class Server {
     const game = player.game;
     return {
       actionsTakenThisRound: player.actionsTakenThisRound,
+      actionsTakenThisGame: player.actionsTakenThisGame,
       actionsThisGeneration: Array.from(player.getActionsThisGeneration()),
       availableBlueCardActionCount: player.getAvailableBlueActionCount(),
       cardCost: player.cardCost,
@@ -385,6 +397,7 @@ export class Server {
       id: game.phase === Phase.END ? player.id : player.color,
       influence: Turmoil.ifTurmoilElse(game, (turmoil) => turmoil.getPlayerInfluence(player), () => 0),
       isActive: player.id === game.activePlayer,
+      lastCardPlayed: player.lastCardPlayed,
       megaCredits: player.megaCredits,
       megaCreditProduction: player.getProduction(Resources.MEGACREDITS),
       name: player.name,
@@ -468,6 +481,7 @@ export class Server {
 
   public static getGameOptionsAsModel(options: GameOptions): GameOptionsModel {
     return {
+      altVenusBoard: options.altVenusBoard,
       aresExtension: options.aresExtension,
       boardName: options.boardName,
       cardsBlackList: options.cardsBlackList,
@@ -475,10 +489,15 @@ export class Server {
       communityCardsOption: options.communityCardsOption,
       corporateEra: options.corporateEra,
       draftVariant: options.draftVariant,
+      escapeVelocityMode: options.escapeVelocityMode,
+      escapeVelocityThreshold: options.escapeVelocityThreshold,
+      escapeVelocityPeriod: options.escapeVelocityPeriod,
+      escapeVelocityPenalty: options.escapeVelocityPenalty,
       fastModeOption: options.fastModeOption,
       includeVenusMA: options.includeVenusMA,
       initialDraftVariant: options.initialDraftVariant,
       moonExpansion: options.moonExpansion,
+      pathfindersExpansion: options.pathfindersExpansion,
       preludeExtension: options.preludeExtension,
       promoCardsOption: options.promoCardsOption,
       politicalAgendasExtension: options.politicalAgendasExtension,
@@ -489,10 +508,10 @@ export class Server {
       solarPhaseOption: options.solarPhaseOption,
       soloTR: options.soloTR,
       randomMA: options.randomMA,
-      turmoilExtension: options.turmoilExtension,
-      venusNextExtension: options.venusNextExtension,
       requiresMoonTrackCompletion: options.requiresMoonTrackCompletion,
       requiresVenusTrackCompletion: options.requiresVenusTrackCompletion,
+      turmoilExtension: options.turmoilExtension,
+      venusNextExtension: options.venusNextExtension,
       undoOption: options.undoOption,
     };
   }

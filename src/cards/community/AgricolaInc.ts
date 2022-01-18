@@ -18,6 +18,8 @@ export class AgricolaInc extends Card implements CorporationCard {
       startingMegaCredits: 40,
       cardType: CardType.CORPORATION,
 
+      victoryPoints: 'special',
+
       metadata: {
         cardNumber: 'R36',
         description: 'You start with 1 plant production, 1 M€ production and 40 M€.',
@@ -40,7 +42,7 @@ export class AgricolaInc extends Card implements CorporationCard {
     return undefined;
   }
 
-  public getVictoryPoints(player: Player): number {
+  public override getVictoryPoints(player: Player): number {
     const scorableTags : Array<Tags> = [Tags.CITY, Tags.EARTH, Tags.ENERGY, Tags.JOVIAN, Tags.MICROBE, Tags.PLANT, Tags.SCIENCE, Tags.SPACE, Tags.BUILDING, Tags.ANIMAL];
     if (player.game.gameOptions.venusNextExtension) scorableTags.push(Tags.VENUS);
 

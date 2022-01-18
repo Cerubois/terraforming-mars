@@ -11,6 +11,7 @@ export class AerospaceMission extends PreludeCard {
     super({
       name: CardName.AEROSPACE_MISSION,
       tags: [Tags.SPACE],
+      startingMegacredits: -14,
 
       metadata: {
         cardNumber: 'Y01',
@@ -23,7 +24,7 @@ export class AerospaceMission extends PreludeCard {
     });
   }
 
-  public canPlay(player: Player) {
+  public override canPlay(player: Player) {
     return player.canAfford(14);
   }
 

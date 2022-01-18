@@ -2,6 +2,9 @@
         <div class="player-tags">
             <div class="player-tags-main">
                 <tag-count :tag="'vp'" :count="getVpCount()" :size="'big'" :type="'main'" :hideCount="hideVpCount()" />
+                <div v-if="isEscapeVelocityOn()" class="tag-display tooltip tooltip-top" data-tooltip="Escape Velocity penalty">
+                  <tag-count :tag="'escape'" :count="getEscapeVelocityPenalty()" :size="'big'" :type="'main'"/>
+                </div>
                 <tag-count :tag="'tr'" :count="getTR()" :size="'big'" :type="'main'"/>
                 <div class="tag-and-discount">
                   <PlayerTagDiscount v-if="hasTagDiscount('all')" :amount="getTagDiscountAmount('all')" :color="player.color" />
@@ -37,7 +40,7 @@
 import Vue from 'vue';
 import TagCount from '@/client/components/TagCount.vue';
 import {ITagCount} from '@/ITagCount';
-import {PlayerViewModel, PublicPlayerModel} from '@/models/PlayerModel';
+import {ViewModel, PublicPlayerModel} from '@/models/PlayerModel';
 import {GameModel} from '@/models/GameModel';
 import {Tags} from '@/cards/Tags';
 import {CardName} from '@/CardName';
@@ -45,7 +48,6 @@ import {SpecialTags} from '@/cards/SpecialTags';
 import PlayerTagDiscount from '@/client/components/overview/PlayerTagDiscount.vue';
 import JovianMultiplier from '@/client/components/overview/JovianMultiplier.vue';
 import {PartyName} from '@/turmoil/parties/PartyName';
-import {TurmoilPolicy} from '@/turmoil/TurmoilPolicy';
 import {CardModel} from '@/models/CardModel';
 import {Shared} from '@/client/components/overview/Shared';
 
@@ -88,6 +90,7 @@ export const PLAYER_INTERFACE_TAGS_ORDER: Array<InterfaceTagsType> = [
   Tags.ANIMAL,
   Tags.CITY,
   Tags.MOON,
+  Tags.MARS,
   'separator',
   Tags.EVENT,
   SpecialTags.NONE,
@@ -117,7 +120,7 @@ export default Vue.extend({
   name: 'PlayerTags',
   props: {
     playerView: {
-      type: Object as () => PlayerViewModel,
+      type: Object as () => ViewModel,
     },
     player: {
       type: Object as () => PublicPlayerModel,
@@ -133,7 +136,7 @@ export default Vue.extend({
   },
   computed: {
     isThisPlayer(): boolean {
-      return this.player.color === this.playerView.thisPlayer.color;
+      return this.player.color === this.playerView.thisPlayer?.color;
     },
   },
 
@@ -187,11 +190,11 @@ export default Vue.extend({
       const turmoil = this.playerView.game.turmoil;
       if (tag === Tags.SPACE &&
         turmoil && turmoil.ruling === PartyName.UNITY &&
-        turmoil.politicalAgendas?.unity.policyId === TurmoilPolicy.UNITY_POLICY_4) {
+        turmoil.politicalAgendas?.unity.policyId === 'up04') {
         return true;
       }
 
-      if (tag === 'all' && this.playerView.thisPlayer.cardDiscount > 0) {
+      if (tag === 'all' && (this.playerView.thisPlayer?.cardDiscount ?? 0) > 0) {
         return true;
       }
 
@@ -206,11 +209,11 @@ export default Vue.extend({
       }
 
       if (tag === Tags.SPACE && this.playerView.game.turmoil?.ruling === PartyName.UNITY) {
-        if (this.playerView.game.turmoil.politicalAgendas?.unity.policyId === TurmoilPolicy.UNITY_POLICY_4) discount += 2;
+        if (this.playerView.game.turmoil.politicalAgendas?.unity.policyId === 'up04') discount += 2;
       }
 
       if (tag === 'all') {
-        discount += this.playerView.thisPlayer.cardDiscount;
+        discount += this.playerView.thisPlayer?.cardDiscount ?? 0;
       }
 
       return discount;
@@ -249,6 +252,12 @@ export default Vue.extend({
         }
       }
       return multipliers;
+    },
+    isEscapeVelocityOn: function(): boolean {
+      return this.playerView.game.gameOptions.escapeVelocityMode;
+    },
+    getEscapeVelocityPenalty: function(): number {
+      return this.player.victoryPointsBreakdown.escapeVelocity;
     },
   },
 });

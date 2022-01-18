@@ -8,6 +8,7 @@ import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
+import {all} from '../Options';
 
 export class HiredRaiders extends Card implements IProjectCard {
   constructor() {
@@ -19,9 +20,9 @@ export class HiredRaiders extends Card implements IProjectCard {
       metadata: {
         cardNumber: '124',
         renderData: CardRenderer.builder((b) => {
-          b.text('steal', Size.MEDIUM, true).steel(2).any.br;
+          b.text('steal', Size.MEDIUM, true).steel(2, {all}).br;
           b.or().br;
-          b.text('steal', Size.MEDIUM, true).megacredits(3).any;
+          b.text('steal', Size.MEDIUM, true).megacredits(3, {all});
         }),
         description: 'Steal up to 2 steel, or 3 M€ from any player.',
       },
@@ -52,7 +53,7 @@ export class HiredRaiders extends Card implements IProjectCard {
 
         availableActions.options.push(new SelectOption(optionTitle, 'Confirm', () => {
           player.steel += amountStolen;
-          target.deductResource(Resources.STEEL, 2, {log: true, from: player});
+          target.deductResource(Resources.STEEL, 2, {log: true, from: player, stealing: true});
           return undefined;
         }));
       }
@@ -63,7 +64,7 @@ export class HiredRaiders extends Card implements IProjectCard {
 
         availableActions.options.push(new SelectOption(optionTitle, 'Confirm', () => {
           player.megaCredits += amountStolen;
-          target.deductResource(Resources.MEGACREDITS, 3, {log: true, from: player});
+          target.deductResource(Resources.MEGACREDITS, 3, {log: true, from: player, stealing: true});
           return undefined;
         }));
       }

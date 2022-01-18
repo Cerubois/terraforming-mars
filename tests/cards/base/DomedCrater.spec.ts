@@ -18,21 +18,21 @@ describe('DomedCrater', function() {
   });
 
   it('Can\'t play without energy production', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(player.canPlayIgnoringCost(card)).is.not.true;
   });
 
   it('Can\'t play if oxygen level too high', function() {
     player.addProduction(Resources.ENERGY, 1);
     (game as any).oxygenLevel = 8;
-    expect(card.canPlay(player)).is.not.true;
+    expect(player.canPlayIgnoringCost(card)).is.not.true;
   });
 
   it('Should play', function() {
     player.addProduction(Resources.ENERGY, 1);
-    expect(card.canPlay(player)).is.true;
+    expect(player.canPlayIgnoringCost(card)).is.true;
 
     const action = card.play(player);
-    expect(action instanceof SelectSpace).is.true;
+    expect(action).instanceOf(SelectSpace);
 
     action.cb(action.availableSpaces[0]);
     expect(action.availableSpaces[0].tile && action.availableSpaces[0].tile.tileType).to.eq(TileType.CITY);

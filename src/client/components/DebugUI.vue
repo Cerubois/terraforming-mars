@@ -6,10 +6,6 @@
             </div>
             <div class="form-group">
               <input class="form-input form-input-line" placeholder="filter" v-model="filterText">
-              <input type="checkbox" name="filterDescription" id="filterDescription-checkbox" v-model="filterDescription">
-              <label for="filterDescription-checkbox">
-                  <span v-i18n>Filter description</span>
-              </label>
               <input type="checkbox" name="sortById" id="sortById-checkbox" v-model="sortById">
               <label for="sortById-checkbox">
                   <span v-i18n>Sort by ID (work in progress)</span>
@@ -79,6 +75,12 @@
                 <div class="create-game-expansion-icon expansion-icon-themoon"></div>
                 <span v-i18n>The Moon</span>
               </label><span/>
+
+              <input type="checkbox" name="pathfinders" id="pathfinders-checkbox" v-model="pathfinders">
+              <label for="pathfinders-checkbox" class="expansion-button">
+                <div class="create-game-expansion-icon expansion-icon-pathfinders"></div>
+                <span v-i18n>Pathfinders</span>
+              </label><span/>
             </div>
 
             <div class="create-game-page-column" style = "flex-flow: inherit; ">
@@ -117,6 +119,14 @@
                   <Card v-show="filtered(card)" :card="{'name': card}" />
               </div>
             </section>
+
+            <section class="debug-ui-cards-list">
+              <h2>Global Events</h2>
+              <div class="cardbox" v-for="globalEventName in getAllGlobalEvents()" :key="globalEventName">
+                <!-- <global-event :globalEvent="getGlobalEvent(globalEventName)" type="prior" :showIcons="false"></global-event> -->
+                <global-event :globalEvent="getGlobalEvent(globalEventName)" type="prior" :showIcons="true"></global-event>
+              </div>
+            </section>
         </div>
 </template>
 
@@ -124,37 +134,16 @@
 
 import Vue from 'vue';
 import Card from '@/client/components/card/Card.vue';
-import {
-  ALL_CARD_MANIFESTS,
-  ALL_CORPORATION_CARD_NAMES,
-  ALL_PRELUDE_CARD_NAMES,
-  ALL_PROJECT_CARD_NAMES,
-  ALL_STANDARD_PROJECT_CARD_NAMES,
-} from '@/cards/AllCards';
 import {GameModule} from '@/GameModule';
-import {ICard} from '@/cards/ICard';
 import {CardType} from '@/cards/CardType';
-import {ICardRenderDescription, isIDescription} from '@/cards/render/ICardRenderDescription';
 import {CardName} from '@/CardName';
-import {ICardFactory} from '@/cards/ICardFactory';
 import {PreferencesManager} from '@/client/utils/PreferencesManager';
-
-const cards: Map<CardName, {card: ICard, module: GameModule, cardNumber: string}> = new Map();
-
-ALL_CARD_MANIFESTS.forEach((manifest) => {
-  const module = manifest.module;
-  [
-    manifest.projectCards,
-    manifest.corporationCards,
-    manifest.preludeCards,
-    manifest.standardProjects].forEach((deck) => {
-    deck.factories.forEach((cf: ICardFactory<ICard>) => {
-      const card: ICard = new cf.Factory();
-      const cardNumber = card.metadata.cardNumber;
-      cards.set(card.name, {card, module, cardNumber});
-    });
-  });
-});
+import {GlobalEventName} from '@/turmoil/globalEvents/GlobalEventName';
+import {GlobalEventModel} from '@/models/TurmoilModel';
+import {PartyName} from '@/turmoil/parties/PartyName';
+import {ALL_EVENTS, getGlobalEventByName} from '@/turmoil/globalEvents/GlobalEventDealer';
+import GlobalEvent from '@/client/components/GlobalEvent.vue';
+import {byType, getCard, getCards, toName} from '../cards/ClientCardManifest';
 
 const MODULE_BASE = 'b';
 const MODULE_CORP = 'c';
@@ -171,7 +160,6 @@ const ALL_MODULES = `${MODULE_BASE}${MODULE_CORP}${MODULE_PRELUDE}${MODULE_VENUS
 
 export interface DebugUIModel {
   filterText: string,
-  filterDescription: boolean,
   sortById: boolean,
   base: boolean,
   corporateEra: boolean,
@@ -182,6 +170,7 @@ export interface DebugUIModel {
   community: boolean,
   ares: boolean,
   moon: boolean,
+  pathfinders: boolean,
   promo: boolean,
   types: Record<CardType, boolean>,
 }
@@ -190,11 +179,11 @@ export default Vue.extend({
   name: 'debug-ui',
   components: {
     Card,
+    GlobalEvent,
   },
   data() {
     return {
       filterText: '',
-      filterDescription: false,
       sortById: false,
       base: true,
       corporateEra: true,
@@ -206,6 +195,7 @@ export default Vue.extend({
       ares: true,
       moon: true,
       promo: true,
+      pathfinders: true,
       types: {
         event: true,
         active: true,
@@ -323,33 +313,62 @@ export default Vue.extend({
       data.promo = !data.promo;
       data.ares = !data.ares;
       data.moon = !data.moon;
+      data.pathfinders = !data.pathfinders;
     },
     sort(names: Array<CardName>): Array<CardName> {
       const copy = [...names];
       if (this.$data.sortById) {
         return copy.sort((a: CardName, b: CardName) => {
-          const an = cards.get(a)?.cardNumber || '';
-          const bn = cards.get(b)?.cardNumber || '';
+          const an = getCard(a)?.card.metadata.cardNumber || '';
+          const bn = getCard(b)?.card.metadata.cardNumber || '';
           return an.localeCompare(bn);
         });
       } else {
-        return copy.sort();
+        return copy.sort((a, b) => a.localeCompare(b));
       }
     },
     getAllStandardProjectCards() {
-      return this.sort(ALL_STANDARD_PROJECT_CARD_NAMES);
+      const names = getCards(byType(CardType.STANDARD_PROJECT)).map(toName);
+      return this.sort(names);
     },
     getAllProjectCards() {
-      return this.sort(ALL_PROJECT_CARD_NAMES);
+      const names: Array<CardName> = [];
+      names.push(...getCards(byType(CardType.AUTOMATED)).map(toName));
+      names.push(...getCards(byType(CardType.ACTIVE)).map(toName));
+      names.push(...getCards(byType(CardType.EVENT)).map(toName));
+      return this.sort(names);
     },
     getAllCorporationCards() {
-      return this.sort(ALL_CORPORATION_CARD_NAMES);
+      const names = getCards(byType(CardType.CORPORATION)).map(toName);
+      return this.sort(names);
     },
     getAllPreludeCards() {
-      return this.sort(ALL_PRELUDE_CARD_NAMES);
+      const names = getCards(byType(CardType.PRELUDE)).map(toName);
+      return this.sort(names);
+    },
+    getAllGlobalEvents() {
+      return ALL_EVENTS.keys();
+    },
+    // Copied from LogPanel.vue
+    getGlobalEvent(globalEventName: GlobalEventName): GlobalEventModel {
+      const globalEvent = getGlobalEventByName(globalEventName);
+      if (globalEvent) {
+        return {
+          name: globalEvent.name,
+          description: globalEvent.description,
+          revealed: globalEvent.revealedDelegate,
+          current: globalEvent.currentDelegate,
+        };
+      }
+      return {
+        name: globalEventName,
+        description: 'global event not found',
+        revealed: PartyName.GREENS,
+        current: PartyName.GREENS,
+      };
     },
     filtered(cardName: CardName): boolean {
-      const card = cards.get(cardName);
+      const card = getCard(cardName);
       if (card === undefined) {
         return false;
       }
@@ -357,18 +376,7 @@ export default Vue.extend({
       const filterText = this.$data.filterText.toUpperCase();
       if (this.$data.filterText.length > 0) {
         if (cardName.toUpperCase().includes(filterText) === false) {
-          if (this.$data.filterDescription) {
-            let desc: string | ICardRenderDescription | undefined = card.card.metadata?.description;
-            if (isIDescription(desc)) {
-              desc = desc.text;
-            }
-            // TODO(kberg): optimize by having all the descriptions in upper case.
-            if (desc === undefined || desc.toUpperCase().includes(filterText) === false) {
-              return false;
-            }
-          } else {
-            return false;
-          }
+          return false;
         }
       }
 
@@ -395,6 +403,8 @@ export default Vue.extend({
         return this.ares === true;
       case GameModule.Moon:
         return this.moon === true;
+      case GameModule.Pathfinders:
+        return this.pathfinders === true;
       default:
         return true;
       }
@@ -407,4 +417,3 @@ export default Vue.extend({
 });
 
 </script>
-

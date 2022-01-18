@@ -8,8 +8,8 @@ import {CardName} from '../../CardName';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
-import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 import {Card} from '../Card';
+import {VictoryPoints} from '../ICard';
 
 export class FloatingHabs extends Card implements IActionCard, IResourceCard {
   constructor() {
@@ -18,7 +18,9 @@ export class FloatingHabs extends Card implements IActionCard, IResourceCard {
       cardType: CardType.ACTIVE,
       tags: [Tags.VENUS],
       cost: 5,
+
       resourceType: ResourceType.FLOATER,
+      victoryPoints: VictoryPoints.resource(1, 2),
 
       requirements: CardRequirements.builder((b) => b.tag(Tags.SCIENCE, 2)),
       metadata: {
@@ -30,21 +32,16 @@ export class FloatingHabs extends Card implements IActionCard, IResourceCard {
           b.vpText('1 VP for every 2nd Floater on this card.');
         }),
         description: 'Requires 2 Science tags.',
-        victoryPoints: CardRenderDynamicVictoryPoints.floaters(1, 2),
       },
     });
   };
-  public resourceCount: number = 0;
+  public override resourceCount: number = 0;
 
   public play() {
     return undefined;
   }
   public canAct(player: Player): boolean {
     return player.canAfford(2);
-  }
-
-  public getVictoryPoints(): number {
-    return Math.floor(this.resourceCount / 2);
   }
 
   public action(player: Player) {

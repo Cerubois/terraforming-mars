@@ -17,10 +17,19 @@ export class ScienceTagCard implements IProjectCard {
   public get cardType() {
     return CardType.PROXY;
   }
+  public canPlay() {
+    return false;
+  }
   public get metadata(): ICardMetadata {
     throw new Error('ScienceTagCard is a proxy card, not a real card. Should not render');
   }
   public play() {
     return undefined;
+  }
+  public get resourceCount() {
+    return 0;
+  }
+  public getVictoryPoints() {
+    return 0;
   }
 }

@@ -21,12 +21,12 @@ describe('Stratopolis', function() {
   });
 
   it('Can\'t play', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(player.canPlayIgnoringCost(card)).is.not.true;
   });
 
   it('Should play', function() {
     player.playedCards.push(new Research());
-    expect(card.canPlay(player)).is.true;
+    expect(player.canPlayIgnoringCost(card)).is.true;
 
     card.play(player);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
@@ -43,7 +43,7 @@ describe('Stratopolis', function() {
     player.playedCards.push(card, card2);
 
     const action = card.action(player);
-    expect(action instanceof SelectCard).is.true;
+    expect(action).instanceOf(SelectCard);
         action!.cb([card2]);
         expect(player.getResourcesOnCard(card2)).to.eq(2);
   });

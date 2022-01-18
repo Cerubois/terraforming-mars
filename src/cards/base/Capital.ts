@@ -46,12 +46,12 @@ export class Capital extends Card implements IProjectCard {
       productionBox: Units.of({energy: -2, megacredits: 5}),
 
       requirements: CardRequirements.builder((b) => b.oceans(4)),
+      victoryPoints: 'special',
       metadata,
     });
   }
   public canPlay(player: Player): boolean {
     return player.getProduction(Resources.ENERGY) >= 2 &&
-        super.canPlay(player) &&
         player.game.board.getAvailableSpacesForCity(player).length > 0;
   }
   public getVictoryPoints(player: Player) {

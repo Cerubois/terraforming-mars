@@ -18,6 +18,7 @@
               <li v-for="(message, index) in messages" :key="index" v-on:click.prevent="messageClicked(message)" v-html="messageToHTML(message)"></li>
             </ul>
           </div>
+          <div class='debugid'>(debugid {{step}})</div>
         </div>
         <div class="card-panel" v-if="cards.length > 0 || globalEventNames.length > 0">
           <Button size="big" type="close" :disableOnServerBusy="false" @click="hideMe" align="right"/>
@@ -25,7 +26,7 @@
             <Card :card="{name: card, resources: getResourcesOnCard(card)}"/>
           </div>
           <div id="log_panel_card" class="cardbox" v-for="globalEventName in globalEventNames" :key="globalEventName">
-            <global-event :globalEvent="getGlobalEvent(globalEventName)" type="prior"></global-event>
+            <global-event :globalEvent="getGlobalEvent(globalEventName)" type="prior" :showIcons="false"></global-event>
           </div>
         </div>
       </div>
@@ -41,8 +42,6 @@ import {LogMessageData} from '@/LogMessageData';
 import {LogMessageDataType} from '@/LogMessageDataType';
 import {PublicPlayerModel} from '@/models/PlayerModel';
 import Card from '@/client/components/card/Card.vue';
-import {CardFinder} from '@/CardFinder';
-import {ICard} from '@/cards/ICard';
 import {CardName} from '@/CardName';
 import {TileType} from '@/TileType';
 import {playerColorClass} from '@/utils/utils';
@@ -56,6 +55,7 @@ import {GlobalEventModel} from '@/models/TurmoilModel';
 import {PartyName} from '@/turmoil/parties/PartyName';
 import Button from '@/client/components/common/Button.vue';
 import {Log} from '@/Log';
+import {getCard} from '@/client/cards/ClientCardManifest';
 
 let logRequest: XMLHttpRequest | undefined;
 
@@ -76,6 +76,11 @@ export default Vue.extend({
     },
     color: {
       type: String as () => Color,
+    },
+    step: {
+      type: Number,
+      required: false,
+      default: 0,
     },
   },
   data() {
@@ -159,14 +164,9 @@ export default Vue.extend({
             }
           }
         }
-        const card = new CardFinder().getCardByName<ICard>(cardName, (manifest) => [
-          manifest.projectCards,
-          manifest.preludeCards,
-          manifest.standardProjects,
-          manifest.standardActions,
-        ]);
-        if (card && card.cardType) {
-          return this.cardToHtml(card.cardType, data.value);
+        const card = getCard(cardName);
+        if (card && card.card.cardType) {
+          return this.cardToHtml(card.card.cardType, data.value);
         }
         break;
 
@@ -201,7 +201,7 @@ export default Vue.extend({
         });
         return `BUG: Unparseable message: ${message.message}, (${data.join(', ')})`;
       } catch (err) {
-        return `BUG: Unparseable message: ${message.message} ${err.toString()}`;
+        return `BUG: Unparseable message: ${message.message} ${String(err)}`;
       }
     },
     messageToHTML(message: LogMessage) {

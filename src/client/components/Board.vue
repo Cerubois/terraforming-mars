@@ -10,10 +10,19 @@
             <board-space :space="getSpaceById('01')" text="Ganymede Colony"></board-space>
             <board-space :space="getSpaceById('02')" text="Phobos Space Haven"></board-space>
             <board-space :space="getSpaceById('69')" text="Stanford Torus"></board-space>
-            <board-space :space="getSpaceById('70')" text="Luna Metropolis" v-if="venusNextExtension"></board-space>
-            <board-space :space="getSpaceById('71')" text="Dawn City" v-if="venusNextExtension"></board-space>
-            <board-space :space="getSpaceById('72')" text="Stratopolis" v-if="venusNextExtension"></board-space>
-            <board-space :space="getSpaceById('73')" text="Maxwell Base" v-if="venusNextExtension"></board-space>
+            <template v-if="venusNextExtension">
+              <board-space :space="getSpaceById('70')" text="Luna Metropolis"></board-space>
+              <board-space :space="getSpaceById('71')" text="Dawn City"></board-space>
+              <board-space :space="getSpaceById('72')" text="Stratopolis"></board-space>
+              <board-space :space="getSpaceById('73')" text="Maxwell Base"></board-space>
+            </template>
+            <template v-if="pathfindersExpansion">
+              <!-- <board-space :space="getSpaceById('74')" text="Martian Transhipment Station"></board-space> -->
+              <board-space :space="getSpaceById('75')" text="Ceres Spaceport"></board-space>
+              <board-space :space="getSpaceById('76')" text="Dyson Screens"></board-space>
+              <board-space :space="getSpaceById('77')" text="Lunar Embassy"></board-space>
+              <board-space :space="getSpaceById('78')" text="Venera Base"></board-space>
+            </template>
         </div>
 
         <div class="global-numbers">
@@ -55,6 +64,17 @@
                     <div class="global-ares-severe-dust-storms"
                     :class="'global-ares-severe-dust-storms-'+aresData.hazardData.severeDustStormOxygen.threshold"></div>
                 </div>
+            </div>
+
+            <div v-if="altVenusBoard" class="global-alt-venus">
+              <div class="std-wild-resource p18"></div>
+              <div class="std-wild-resource p20"></div>
+              <div class="std-wild-resource p22"></div>
+              <div class="std-wild-resource p24"></div>
+              <div class="std-wild-resource p26"></div>
+              <div class="std-wild-resource p28"></div>
+              <div class="std-wild-resource p30"></div>
+              <div class="wild-resource p30b"></div>
             </div>
         </div>
 
@@ -143,6 +163,36 @@
                         <tspan x="4" dy="12">Mons</tspan>
                     </text>
                 </g>
+
+                <g v-if="boardName === 'arabia terra'" id="tikhonarov" transform="translate(487, 185)">
+                    <text class="board-caption">
+                        <tspan>Tikhonarov</tspan>
+                    </text>
+                    <line x1="15" y1="5" x2="3" y2="20" class="board-line"></line>
+                    <text x="1" y="22" class="board-caption board_caption--black">&#x25cf;</text>
+                </g>
+                <g v-if="boardName === 'arabia terra'" id="ladon" transform="translate(286, 496)">
+                    <text class="board-caption">
+                        <tspan>Ladon</tspan>
+                    </text>
+                    <line x1="20" y1="-12" x2="17" y2="-70" class="board-line"></line>
+                    <text x="14" y="-68" class="board-caption board_caption--black">&#x25cf;</text>
+                </g>
+                <g v-if="boardName === 'arabia terra'" id="flaugergues" transform="translate(480, 405)">
+                    <text class="board-caption">
+                        <tspan>Flaugergues</tspan>
+                    </text>
+                    <line x1="0" y1="2" x2="-15" y2="10" class="board-line"></line>
+                    <text x="-17" y="12" class="board-caption board_caption--black">&#x25cf;</text>
+                </g>
+                <g v-if="boardName === 'arabia terra'" id="charybdis" transform="translate(455, 450)">
+                    <text class="board-caption">
+                        <tspan>Charybdis</tspan>
+                    </text>
+                    <line x1="0" y1="2" x2="-15" y2="10" class="board-line"></line>
+                    <text x="-17" y="12" class="board-caption board_caption--black">&#x25cf;</text>
+                </g>
+
             </svg>
         </div>
     </div>
@@ -174,6 +224,9 @@ export default Vue.extend({
     venusScaleLevel: {
       type: Number,
     },
+    altVenusBoard: {
+      type: Boolean,
+    },
     boardName: {
       type: String,
     },
@@ -187,6 +240,9 @@ export default Vue.extend({
       type: Number,
     },
     aresExtension: {
+      type: Boolean,
+    },
+    pathfindersExpansion: {
       type: Boolean,
     },
     aresData: {

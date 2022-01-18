@@ -19,10 +19,13 @@ export class LunaMiningHub extends MoonCard {
       cardType: CardType.AUTOMATED,
       tags: [Tags.BUILDING],
       cost: 16,
+
       productionBox: Units.of({steel: 1, titanium: 1}),
       reserveUnits: Units.of({steel: 1, titanium: 1}),
-
+      tr: {moonMining: 1},
+      victoryPoints: 'special',
       requirements: CardRequirements.builder((b) => b.miningRate(5)),
+
       metadata: {
         cardNumber: 'M14',
         description: {
@@ -41,7 +44,7 @@ export class LunaMiningHub extends MoonCard {
     });
   };
 
-  public play(player: Player) {
+  public override play(player: Player) {
     super.play(player);
     player.game.defer(new PlaceSpecialMoonTile(
       player, {
@@ -53,7 +56,7 @@ export class LunaMiningHub extends MoonCard {
     return undefined;
   }
 
-  public getVictoryPoints(player: Player) {
+  public override getVictoryPoints(player: Player) {
     const moonData = MoonExpansion.moonData(player.game);
     const usedSpace = moonData.moon.getSpaceByTileCard(this.name);
     if (usedSpace !== undefined) {

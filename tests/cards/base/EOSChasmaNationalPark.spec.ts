@@ -20,9 +20,9 @@ describe('EosChasmaNationalPark', () => {
 
   it('Can play', () => {
     (game as any).temperature = -14;
-    expect(card.canPlay(player)).is.not.true;
+    expect(player.canPlayIgnoringCost(card)).is.not.true;
     (game as any).temperature = -12;
-    expect(card.canPlay(player)).is.true;
+    expect(player.canPlayIgnoringCost(card)).is.true;
   });
 
   it('Should play', () => {
@@ -31,9 +31,9 @@ describe('EosChasmaNationalPark', () => {
     const fish = new Fish();
     player.playedCards.push(birds, fish);
 
-    expect(card.canPlay(player)).is.true;
+    expect(player.canPlayIgnoringCost(card)).is.true;
     const action = card.play(player);
-    expect(action instanceof SelectCard).is.true;
+    expect(action).instanceOf(SelectCard);
     player.playedCards.push(card);
         action!.cb([birds]);
 
@@ -50,7 +50,7 @@ describe('EosChasmaNationalPark', () => {
     const birds = new Birds();
     player.playedCards.push(birds);
 
-    expect(card.canPlay(player)).is.true;
+    expect(player.canPlayIgnoringCost(card)).is.true;
     card.play(player);
     player.playedCards.push(card);
 

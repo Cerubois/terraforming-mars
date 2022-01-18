@@ -143,6 +143,19 @@
                                     </div>
                                 </div>
                             </template>
+
+                            <input type="checkbox" name="pathfinders" id="pathfinders-checkbox" v-model="pathfindersExpansion">
+                            <label for="pathfinders-checkbox" class="expansion-button">
+                                <div class="create-game-expansion-icon expansion-icon-pathfinders"></div>
+                                <span v-i18n>Pathfinders</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Pathfinders" class="tooltip" target="_blank">&#9432;</a>
+                            </label>
+
+                            <template v-if="venusNext">
+                                <input type="checkbox" v-model="altVenusBoard" id="altVenusBoard-checkbox">
+                                <label for="altVenusBoard-checkbox">
+                                    <span v-i18n>Alternate Venus Board</span> &nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#alt-venus" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
                         </div>
 
                         <div class="create-game-page-column">
@@ -150,6 +163,7 @@
 
                             <template v-for="boardName in boards">
                               <div v-bind:key="boardName">
+                                <div v-if="boardName==='arabia terra'" class="create-game-subsection-label" v-i18n>Fan-made</div>
                                 <input type="radio" :value="boardName" name="board" v-model="board" :id="boardName+'-checkbox'">
                                 <label :for="boardName+'-checkbox'" class="expansion-button">
                                     <span :class="getBoardColorClass(boardName)">&#x2B22;</span><span class="capitalized" v-i18n>{{ boardName }}</span>
@@ -186,6 +200,26 @@
                             <input type="checkbox" v-model="showTimers" id="timer-checkbox">
                             <label for="timer-checkbox">
                                 <span v-i18n>Show timers</span>
+                            </label>
+
+                            <input type="checkbox" v-model="escapeVelocityMode" id="escapevelocity-checkbox">
+                            <label for="escapevelocity-checkbox">
+                                <div class="create-game-expansion-icon expansion-icon-escape-velocity"></div>
+                                <span v-i18n>Escape Velocity</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Escape-Velocity" class="tooltip" target="_blank">&#9432;</a>
+                            </label>
+
+                            <label for="escapeThreshold-checkbox" v-show="escapeVelocityMode">
+                              <span v-i18n>After&nbsp;</span>
+                              <input type="number" class="create-game-corporations-count" value="30" step="5" min="0" :max="180" v-model="escapeVelocityThreshold" id="escapeThreshold-checkbox">
+                              <span v-i18n>&nbsp;min</span>
+                            </label>
+
+                            <label for="escapePeriod-checkbox" v-show="escapeVelocityMode">
+                              <span v-i18n>Reduce&nbsp;</span>
+                              <input type="number" class="create-game-corporations-count" value="1" min="1" :max="10" v-model="escapeVelocityPenalty" id="escapePeriod-checkbox">
+                              <span v-i18n>&nbsp;VP every&nbsp;</span>
+                              <input type="number" class="create-game-corporations-count" value="2" min="1" :max="10" v-model="escapeVelocityPeriod" id="escapePeriod-checkbox">
+                              <span v-i18n>&nbsp;min</span>
                             </label>
 
                             <input type="checkbox" v-model="shuffleMapOption" id="shuffleMap-checkbox">
@@ -357,7 +391,7 @@
 
                             <label>
                                 <div class="btn btn-primary btn-action btn-lg"><i class="icon icon-upload"></i></div>
-                                <input style="display: none" type="file" id="settings-file" ref="file" v-on:change="handleSettingsUpload()"/>
+                                <input style="display: none" type="file" accept=".json" id="settings-file" ref="file" v-on:change="handleSettingsUpload()"/>
                             </label>
 
                             <label>
@@ -381,6 +415,7 @@
                   v-bind:promoCardsOption="promoCardsOption"
                   v-bind:communityCardsOption="communityCardsOption"
                   v-bind:moonExpansion="moonExpansion"
+                  v-bind:pathfindersExpansion="pathfindersExpansion"
               ></CorporationsFilter>
             </div>
 
@@ -406,7 +441,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Color} from '@/Color';
-import {BoardName} from '@/boards/BoardName';
+import {BoardName, RandomBoardOption} from '@/boards/BoardName';
 import {CardName} from '@/CardName';
 import CorporationsFilter from '@/client/components/create/CorporationsFilter.vue';
 import {translateTextWithParams} from '@/client/directives/i18n';
@@ -421,6 +456,8 @@ import {GameId} from '@/Game';
 import {AgendaStyle} from '@/turmoil/PoliticalAgendas';
 
 import * as constants from '@/constants';
+
+type BoardNameType = BoardName | RandomBoardOption;
 
 export interface CreateGameModel {
     constants: typeof constants;
@@ -446,8 +483,8 @@ export interface CreateGameModel {
     showColoniesList: boolean;
     showCardsBlackList: boolean;
     isSoloModePage: boolean;
-    board: BoardName | 'random';
-    boards: Array<BoardName | 'random'>;
+    board: BoardNameType;
+    boards: Array<BoardNameType>;
     seed: number;
     solarPhaseOption: boolean;
     shuffleMapOption: boolean;
@@ -456,6 +493,7 @@ export interface CreateGameModel {
     aresExtension: boolean;
     politicalAgendasExtension: AgendaStyle;
     moonExpansion: boolean;
+    pathfindersExpansion: boolean;
     undoOption: boolean;
     showTimers: boolean;
     fastModeOption: boolean;
@@ -468,7 +506,12 @@ export interface CreateGameModel {
     requiresVenusTrackCompletion: boolean;
     requiresMoonTrackCompletion: boolean;
     moonStandardProjectVariant: boolean;
+    altVenusBoard: boolean;
     seededGame: boolean;
+    escapeVelocityMode: boolean;
+    escapeVelocityThreshold: number;
+    escapeVelocityPeriod: number;
+    escapeVelocityPenalty: number;
 }
 
 export interface NewPlayerModel {
@@ -520,7 +563,9 @@ export default Vue.extend({
         BoardName.ORIGINAL,
         BoardName.HELLAS,
         BoardName.ELYSIUM,
-        'random',
+        RandomBoardOption.OFFICIAL,
+        BoardName.ARABIA_TERRA,
+        RandomBoardOption.ALL,
       ],
       seed: Math.random(),
       seededGame: false,
@@ -531,6 +576,7 @@ export default Vue.extend({
       aresExtension: false,
       politicalAgendasExtension: AgendaStyle.STANDARD,
       moonExpansion: false,
+      pathfindersExpansion: false,
       undoOption: false,
       showTimers: true,
       fastModeOption: false,
@@ -544,6 +590,11 @@ export default Vue.extend({
       requiresVenusTrackCompletion: false,
       requiresMoonTrackCompletion: false,
       moonStandardProjectVariant: false,
+      altVenusBoard: false,
+      escapeVelocityMode: false,
+      escapeVelocityThreshold: constants.DEFAULT_ESCAPE_VELOCITY_THRESHOLD,
+      escapeVelocityPeriod: constants.DEFAULT_ESCAPE_VELOCITY_PERIOD,
+      escapeVelocityPenalty: constants.DEFAULT_ESCAPE_VELOCITY_PENALTY,
     };
   },
   components: {
@@ -720,6 +771,7 @@ export default Vue.extend({
     deselectMoonCompletion() {
       if (this.$data.moonExpansion === false) {
         this.requiresMoonTrackCompletion = false;
+        this.moonStandardProjectVariant = false;
       }
     },
     getBoardColorClass(boardName: string): string {
@@ -729,6 +781,8 @@ export default Vue.extend({
         return 'create-game-board-hexagon create-game-hellas';
       } else if (boardName === BoardName.ELYSIUM) {
         return 'create-game-board-hexagon create-game-elysium';
+      } else if (boardName === BoardName.ARABIA_TERRA) {
+        return 'create-game-board-hexagon create-game-arabia-terra';
       } else {
         return 'create-game-board-hexagon create-game-random';
       }
@@ -805,6 +859,7 @@ export default Vue.extend({
       const aresExtension = component.aresExtension;
       const politicalAgendasExtension = this.politicalAgendasExtension;
       const moonExpansion = component.moonExpansion;
+      const pathfindersExpansion = component.pathfindersExpansion;
       const undoOption = component.undoOption;
       const showTimers = component.showTimers;
       const fastModeOption = component.fastModeOption;
@@ -815,6 +870,10 @@ export default Vue.extend({
       const beginnerOption = component.beginnerOption;
       const randomFirstPlayer = component.randomFirstPlayer;
       const requiresVenusTrackCompletion = component.requiresVenusTrackCompletion;
+      const escapeVelocityMode = component.escapeVelocityMode;
+      const escapeVelocityThreshold = component.escapeVelocityMode ? component.escapeVelocityThreshold : undefined;
+      const escapeVelocityPeriod = component.escapeVelocityMode ? component.escapeVelocityPeriod : undefined;
+      const escapeVelocityPenalty = component.escapeVelocityMode ? component.escapeVelocityPenalty : undefined;
       let clonedGamedId: undefined | GameId = undefined;
 
       // Check custom colony count
@@ -875,6 +934,7 @@ export default Vue.extend({
         aresExtension: aresExtension,
         politicalAgendasExtension: politicalAgendasExtension,
         moonExpansion: moonExpansion,
+        pathfindersExpansion: pathfindersExpansion,
         undoOption,
         showTimers,
         fastModeOption,
@@ -891,6 +951,11 @@ export default Vue.extend({
         requiresVenusTrackCompletion,
         requiresMoonTrackCompletion: component.requiresMoonTrackCompletion,
         moonStandardProjectVariant: component.moonStandardProjectVariant,
+        altVenusBoard: component.altVenusBoard,
+        escapeVelocityMode,
+        escapeVelocityThreshold,
+        escapeVelocityPeriod,
+        escapeVelocityPenalty,
       }, undefined, 4);
       return dataToSend;
     },

@@ -17,6 +17,7 @@ export class LunarDustProcessingPlant extends MoonCard implements IProjectCard {
       tags: [Tags.BUILDING],
       cost: 6,
       reserveUnits: Units.of({titanium: 1}),
+      tr: {moonLogistics: 1},
 
       metadata: {
         description: 'Spend 1 titanium. Raise the Logistic Rate 1 step.',
@@ -31,8 +32,7 @@ export class LunarDustProcessingPlant extends MoonCard implements IProjectCard {
     });
   };
 
-
-  public play(player: Player) {
+  public override play(player: Player) {
     super.play(player);
     MoonExpansion.raiseLogisticRate(player);
     return undefined;

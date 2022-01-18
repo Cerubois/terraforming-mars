@@ -21,13 +21,13 @@ export class ByElection extends PreludeCard implements IProjectCard {
         cardNumber: 'Y02',
         renderData: CardRenderer.builder((b) => {
           b.text('set ruling party', Size.SMALL, true).br;
-          b.plus().influence(1);
+          b.plus().influence();
         }),
         description: 'Set the ruling party to one of your choice. Gain 1 influence.',
       },
     });
   }
-  public canPlay() {
+  public override canPlay() {
     return true;
   }
 
