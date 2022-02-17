@@ -374,7 +374,7 @@ export class Game implements ISerializable<SerializedGame> {
           }
         }
         if (gameOptions.initialDraftVariant === false) {
-          for (let i = 0; i < 10; i++) {
+          for (let i = 0; i < 30; i++) {
             player.dealtProjectCards.push(dealer.dealCard(game));
           }
         }
