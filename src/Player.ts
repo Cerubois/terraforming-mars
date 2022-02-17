@@ -1258,6 +1258,10 @@ export class Player implements ISerializable<SerializedPlayer> {
   public dealCards(quantity: number, cards: Array<IProjectCard>): void {
     for (let i = 0; i < quantity; i++) {
       cards.push(this.game.dealer.dealCard(this.game, true));
+
+      // Testing single card. Comment when done
+      cards.push(this.cardFinder.getProjectCardByName(CardName.TOLL_STATION));
+
     }
   }
 
@@ -1331,9 +1335,9 @@ export class Player implements ISerializable<SerializedPlayer> {
       this.draftedCards = [];
     }
 
-    // Testing specific card. Comment out when done.
-    const cardFinder = new CardFinder();
-    cards[0] = cardFinder.getProjectCardByName('Toll Station');
+    //----- Testing specific card. Comment out when done. -----
+    //const cardFinder = new CardFinder();
+    //cards[0] = cardFinder.getProjectCardByName('Toll Station');
     // ------
     
     const action = DrawCards.choose(this, dealtCards, {paying: true});
