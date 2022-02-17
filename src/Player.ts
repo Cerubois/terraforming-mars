@@ -1331,6 +1331,10 @@ export class Player implements ISerializable<SerializedPlayer> {
       this.draftedCards = [];
     }
 
+    // Testing specific card. Comment out when done.
+    dealtCards[0] = cardFinder.getProjectCardByName('Toll Station');
+    // ------
+    
     const action = DrawCards.choose(this, dealtCards, {paying: true});
     this.setWaitingFor(action, () => this.game.playerIsFinishedWithResearchPhase(this));
   }
