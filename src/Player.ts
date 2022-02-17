@@ -1259,8 +1259,10 @@ export class Player implements ISerializable<SerializedPlayer> {
     for (let i = 0; i < quantity; i++) {
       cards.push(this.game.dealer.dealCard(this.game, true));
 
-      // Testing single card. Comment when done
-      cards.push(this.cardFinder.getProjectCardByName(CardName.TOLL_STATION));
+      // ----- Testing single card. Comment when done -----
+      const cardFinder = new CardFinder();
+      cards.push(cardFinder.getProjectCardByName(CardName.TOLL_STATION));
+      // -----
 
     }
   }
