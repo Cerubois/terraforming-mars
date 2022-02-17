@@ -1332,6 +1332,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     // Testing specific card. Comment out when done.
+    const cardFinder = new CardFinder();
     dealtCards[0] = cardFinder.getProjectCardByName('Toll Station');
     // ------
     
