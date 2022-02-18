@@ -1,15 +1,15 @@
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
-import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../CardType';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Size} from '../render/Size';
 import {played} from '../Options';
 import {CorporationCard} from '../corporation/CorporationCard';
-import {ResourceType} from '../../common/ResourceType';
+import {ResourceType} from '../../ResourceType';
 import {ISpace} from '../../boards/ISpace';
-import {Board} from '../../boards/Board';
+import {TileType} from '../../TileType';
 
 export class SoylentSeedlingSystems extends Card implements CorporationCard {
   constructor() {
@@ -47,7 +47,7 @@ export class SoylentSeedlingSystems extends Card implements CorporationCard {
     if (cardOwner.id !== activePlayer.id) {
       return;
     }
-    if (Board.isGreenerySpace(space)) {
+    if (space.tile?.tileType === TileType.GREENERY) {
       cardOwner.addResourceTo(this, {log: true});
     }
   }

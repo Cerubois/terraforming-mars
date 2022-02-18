@@ -4,7 +4,7 @@ import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 import {CopernicusSolarArrays} from '../../../src/cards/moon/CopernicusSolarArrays';
 import {expect} from 'chai';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 

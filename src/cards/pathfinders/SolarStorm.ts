@@ -1,13 +1,13 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
-import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../CardType';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../common/Resources';
-import {Tags} from '../../common/cards/Tags';
+import {Resources} from '../../Resources';
+import {Tags} from '../Tags';
 import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
-import {ResourceType} from '../../common/ResourceType';
+import {ResourceType} from '../../ResourceType';
 import {all, digit} from '../Options';
 
 export class SolarStorm extends Card implements IProjectCard {
@@ -33,7 +33,7 @@ export class SolarStorm extends Card implements IProjectCard {
 
   public play(player: Player) {
     player.addProduction(Resources.HEAT, 1);
-    player.game.getPlayersInGenerationOrder().forEach((p) => {
+    player.game.getPlayers().forEach((p) => {
       if (!p.plantsAreProtected()) {
         p.deductResource(Resources.PLANTS, 2, {log: true, from: player});
       }

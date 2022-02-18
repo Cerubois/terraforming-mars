@@ -14,12 +14,12 @@
 
         <span
           v-for="award in fundedAwards"
-          :key="award.name"
+          :key="award.award.name"
           :title="award.player_name"
           class="milestone-award-inline paid"
           data-test="funded-awards"
         >
-          <span v-i18n>{{ award.name }}</span>
+          <span v-i18n>{{ award.award.name }}</span>
           <span class="ma-player-cube">
             <i
               class="board-cube"
@@ -40,17 +40,14 @@
         </span>
       </div>
 
-      <span @click="toggleDescription" title="press to show or hide the description" data-test="toggle-description">
-        <div v-show="showAwards">
-          <Award
-            v-for="award in awards"
-            :key="award.name"
-            :award="award"
-            :showScores="showScores"
-            :showDescription="showDescription"
-          />
-        </div>
-      </span>
+      <div v-show="showAwards">
+        <Award
+          v-for="award in awards"
+          :key="award.award.name"
+          :award="award"
+          :showScores="showScores"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -58,8 +55,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import Award from '@/client/components/Award.vue';
-import {AWARD_COSTS} from '@/common/constants';
-import {FundedAwardModel} from '@/common/models/FundedAwardModel';
+import {AWARD_COSTS} from '@/constants';
+import {FundedAwardModel} from '@/models/FundedAwardModel';
 import {PreferencesManager} from '@/client/utils/PreferencesManager';
 
 export default Vue.extend({
@@ -78,7 +75,6 @@ export default Vue.extend({
   data() {
     return {
       showAwards: true,
-      showDescription: false,
       PreferencesManager,
     };
   },
@@ -86,10 +82,6 @@ export default Vue.extend({
     toggleList() {
       this.showAwards = !this.showAwards;
     },
-    toggleDescription() {
-      this.showDescription = !this.showDescription;
-    },
-
   },
   computed: {
     fundedAwards(): FundedAwardModel[] {

@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
-import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../CardType';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CardRequirements} from '../CardRequirements';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 
 export class HydrogenProcessingPlant extends Card implements IProjectCard {
   constructor() {
@@ -31,7 +31,7 @@ export class HydrogenProcessingPlant extends Card implements IProjectCard {
   }
 
   public produce(player: Player) {
-    player.addProduction(Resources.ENERGY, Math.floor(player.game.board.getOceanCount({wetlands: true}) / 2), {log: true});
+    player.addProduction(Resources.ENERGY, Math.floor(player.game.board.getOceansOnBoard() / 2), {log: true});
   }
 
   public play(player: Player) {

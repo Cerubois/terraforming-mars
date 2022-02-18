@@ -1,9 +1,9 @@
 import {Player} from '../Player';
-import {ResourceType} from '../common/ResourceType';
+import {ResourceType} from '../ResourceType';
 import {OrOptions} from '../inputs/OrOptions';
 import {SelectCard} from '../inputs/SelectCard';
 import {SelectOption} from '../inputs/SelectOption';
-import {CardName} from '../common/cards/CardName';
+import {CardName} from '../CardName';
 import {ICard} from '../cards/ICard';
 import {DeferredAction, Priority} from './DeferredAction';
 
@@ -77,7 +77,7 @@ export class RemoveResourcesFromCard implements DeferredAction {
       }
     } else {
       resourceCards = [];
-      player.game.getPlayersInGenerationOrder().forEach((p) => {
+      player.game.getPlayers().forEach((p) => {
         switch (resourceType) {
         case ResourceType.ANIMAL:
           if (p.hasProtectedHabitats() && player.id !== p.id) return;

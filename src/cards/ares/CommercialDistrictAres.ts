@@ -1,8 +1,8 @@
-import {SpaceBonus} from '../../common/boards/SpaceBonus';
-import {CardName} from '../../common/cards/CardName';
+import {SpaceBonus} from '../../SpaceBonus';
+import {CardName} from '../../CardName';
 import {CommercialDistrict} from '../base/CommercialDistrict';
 import {CardRenderer} from '../render/CardRenderer';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 
 

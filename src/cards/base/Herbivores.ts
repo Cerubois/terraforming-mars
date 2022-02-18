@@ -1,13 +1,14 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {ISpace} from '../../boards/ISpace';
-import {Resources} from '../../common/Resources';
-import {ResourceType} from '../../common/ResourceType';
-import {CardName} from '../../common/cards/CardName';
+import {ResourceType} from '../../ResourceType';
+import {TileType} from '../../TileType';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {IResourceCard} from '../ICard';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {DecreaseAnyProduction} from '../../deferredActions/DecreaseAnyProduction';
@@ -15,7 +16,6 @@ import {CardRenderer} from '../render/CardRenderer';
 import {CardRequirements} from '../CardRequirements';
 import {Size} from '../render/Size';
 import {all} from '../Options';
-import {Board} from '../../boards/Board';
 
 export class Herbivores extends Card implements IProjectCard, IResourceCard {
   constructor() {
@@ -46,22 +46,22 @@ export class Herbivores extends Card implements IProjectCard, IResourceCard {
       },
     });
   }
-  public override resourceCount: number = 0;
+    public resourceCount: number = 0;
 
-  public override canPlay(player: Player): boolean {
-    return player.game.someoneCanHaveProductionReduced(Resources.PLANTS, 1);
-  }
-
-  public onTilePlaced(cardOwner: Player, activePlayer: Player, space: ISpace) {
-    if (cardOwner.id === activePlayer.id && Board.isGreenerySpace(space)) {
-      cardOwner.game.defer(new AddResourcesToCard(cardOwner, ResourceType.ANIMAL, {filter: (c) => c.name === this.name}));
+    public canPlay(player: Player): boolean {
+      return player.game.someoneHasResourceProduction(Resources.PLANTS, 1);
     }
-  }
 
-  public play(player: Player) {
-    player.addResourceTo(this);
-    player.game.defer(
-      new DecreaseAnyProduction(player, Resources.PLANTS, {count: 1}));
-    return undefined;
-  }
+    public onTilePlaced(cardOwner: Player, activePlayer: Player, space: ISpace) {
+      if (cardOwner.id === activePlayer.id && space.tile?.tileType === TileType.GREENERY) {
+        cardOwner.game.defer(new AddResourcesToCard(cardOwner, ResourceType.ANIMAL, {filter: (c) => c.name === this.name}));
+      }
+    }
+
+    public play(player: Player) {
+      player.addResourceTo(this);
+      player.game.defer(
+        new DecreaseAnyProduction(player, Resources.PLANTS, {count: 1}));
+      return undefined;
+    }
 }

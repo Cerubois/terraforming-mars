@@ -1,10 +1,11 @@
 import {IParty} from './IParty';
 import {Party} from './Party';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {PartyName} from './PartyName';
 import {Game} from '../../Game';
-import {Tags} from '../../common/cards/Tags';
-import {Resources} from '../../common/Resources';
+import {Tags} from '../../cards/Tags';
+import {Resources} from '../../Resources';
 import {Bonus} from '../Bonus';
+import {TileType} from '../../TileType';
 import {Policy} from '../Policy';
 import {ISpace} from '../../boards/ISpace';
 import {Player} from '../../Player';
@@ -13,12 +14,11 @@ import {ICard} from '../../cards/ICard';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectCard} from '../../inputs/SelectCard';
 import {SelectOption} from '../../inputs/SelectOption';
-import {ResourceType} from '../../common/ResourceType';
-import {Phase} from '../../common/Phase';
+import {ResourceType} from '../../ResourceType';
+import {Phase} from '../../Phase';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
-import {POLITICAL_AGENDAS_MAX_ACTION_USES} from '../../common/constants';
-import {Board} from '../../boards/Board';
+import {POLITICAL_AGENDAS_MAX_ACTION_USES} from '../../constants';
 
 export class Greens extends Party implements IParty {
   name = PartyName.GREENS;
@@ -39,7 +39,7 @@ class GreensBonus01 implements Bonus {
   }
 
   grant(game: Game) {
-    game.getPlayersInGenerationOrder().forEach((player) => {
+    game.getPlayers().forEach((player) => {
       player.addResource(Resources.MEGACREDITS, this.getScore(player));
     });
   }
@@ -52,12 +52,12 @@ class GreensBonus02 implements Bonus {
 
   getScore(player: Player) {
     const boardSpaces = player.game.board.spaces;
-    const count = boardSpaces.filter((space) => Board.isGreenerySpace(space) && Board.spaceOwnedBy(space, player)).length;
+    const count = boardSpaces.filter((space) => space.tile && space.tile.tileType === TileType.GREENERY && space.player !== undefined && space.player.id === player.id).length;
     return count * 2;
   }
 
   grant(game: Game) {
-    game.getPlayersInGenerationOrder().forEach((player) => {
+    game.getPlayers().forEach((player) => {
       player.addResource(Resources.MEGACREDITS, this.getScore(player));
     });
   }
@@ -69,7 +69,7 @@ class GreensPolicy01 implements Policy {
   description: string = 'When you place a greenery tile, gain 4 M€';
 
   onTilePlaced(player: Player, space: ISpace) {
-    if (Board.isGreenerySpace(space) && player.game.phase === Phase.ACTION) {
+    if (space.tile?.tileType === TileType.GREENERY && player.game.phase === Phase.ACTION) {
       player.addResource(Resources.MEGACREDITS, 4);
     }
   }

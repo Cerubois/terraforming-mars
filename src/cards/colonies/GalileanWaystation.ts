@@ -1,9 +1,9 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
-import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../Tags';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
-import {Resources} from '../../common/Resources';
+import {CardName} from '../../CardName';
+import {Resources} from '../../Resources';
 import {Card} from '../Card';
 import {CardRenderer} from '../render/CardRenderer';
 import {all, played} from '../Options';
@@ -28,7 +28,7 @@ export class GalileanWaystation extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    const amount = player.game.getPlayersInGenerationOrder()
+    const amount = player.game.getPlayers()
       .map((aplayer) => aplayer.getTagCount(Tags.JOVIAN, player.id === aplayer.id ? 'default' : 'raw'))
       .reduce((a, c) => a + c, 0);
     player.addProduction(Resources.MEGACREDITS, amount, {log: true});

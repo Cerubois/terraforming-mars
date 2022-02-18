@@ -1,5 +1,5 @@
 import {Player} from '../../../Player';
-import {CardName} from '../../../common/cards/CardName';
+import {CardName} from '../../../CardName';
 import {CardRenderer} from '../../render/CardRenderer';
 import {StandardProjectCard} from '../../StandardProjectCard';
 import {SelectCard} from '../../../inputs/SelectCard';
@@ -22,7 +22,7 @@ export class SellPatentsStandardProject extends StandardProjectCard {
     });
   }
 
-  public override canAct(player: Player): boolean {
+  public canAct(player: Player): boolean {
     return player.cardsInHand.length > 0;
   }
 
@@ -30,7 +30,7 @@ export class SellPatentsStandardProject extends StandardProjectCard {
     // no-op
   }
 
-  public override action(player: Player): SelectCard<IProjectCard> {
+  public action(player: Player): SelectCard<IProjectCard> {
     return new SelectCard(
       'Sell patents',
       'Sell',

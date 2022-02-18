@@ -1,14 +1,14 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {IActionCard} from '../ICard';
-import {ResourceType} from '../../common/ResourceType';
+import {ResourceType} from '../../ResourceType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 
 export class RustEatingBacteria extends Card implements IActionCard, IProjectCard {
   constructor() {
@@ -31,7 +31,7 @@ export class RustEatingBacteria extends Card implements IActionCard, IProjectCar
         }),
       },
     });
-  }
+  };
 
   public override resourceCount = 0;
 

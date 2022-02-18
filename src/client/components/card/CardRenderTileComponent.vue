@@ -1,13 +1,13 @@
 <template>
-  <div :class="tiles"><div v-if="symbols !== ''" :class="symbols"></div></div>
+    <div :class="getTiles()"><div :class="getSymbols()"></div></div>
 </template>
 
 <script lang="ts">
 
 import Vue from 'vue';
 import {CardRenderTile} from '@/cards/render/CardRenderer';
-import {generateClassString} from '@/common/utils/utils';
-import {TileType} from '@/common/TileType';
+import {generateClassString} from '@/utils/utils';
+import {TileType} from '@/TileType';
 
 interface Classes {
   // The tile div is used to display a full tile. If distinct version
@@ -117,9 +117,6 @@ const TILE_CLASSES: Map<TileType, Classes> = new Map([
   [TileType.SOLAR_FARM, {
     tile: 'card-tile-solar-farm',
   }],
-  [TileType.WETLANDS, {
-    tile: 'card-tile-wetlands',
-  }],
 ]);
 
 export default Vue.extend({
@@ -130,8 +127,8 @@ export default Vue.extend({
       required: true,
     },
   },
-  computed: {
-    tiles(): string {
+  methods: {
+    getTiles(): string {
       const classes: string[] = ['card-tile'];
       if (this.item.hasSymbol) {
         classes.push('card-tile-canvas');
@@ -145,7 +142,7 @@ export default Vue.extend({
       return generateClassString(classes);
     },
     // Symbols for tiles go on top of the tile canvas
-    symbols(): string {
+    getSymbols(): string {
       const classes: string[] = [];
       if (this.item.hasSymbol) {
         const symbolClass = TILE_CLASSES.get(this.item.tile);

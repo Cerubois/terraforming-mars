@@ -1,12 +1,12 @@
 import {IActionCard} from '../ICard';
 import {Player} from '../../Player';
-import {CorporationCard} from '../corporation/CorporationCard';
+import {CorporationCard} from './../corporation/CorporationCard';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 
 export class RobinsonIndustries extends Card implements IActionCard, CorporationCard {

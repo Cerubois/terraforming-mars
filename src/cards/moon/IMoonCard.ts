@@ -1,4 +1,4 @@
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 
 export interface IMoonCard {
   tilesBuilt: Array<TileType>;

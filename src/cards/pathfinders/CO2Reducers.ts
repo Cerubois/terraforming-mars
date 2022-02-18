@@ -1,9 +1,9 @@
 import {Player} from '../../Player';
 import {PreludeCard} from '../prelude/PreludeCard';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Tags} from '../../common/cards/Tags';
-import {Units} from '../../common/Units';
+import {Tags} from '../Tags';
+import {Units} from '../../Units';
 
 export class CO2Reducers extends PreludeCard {
   constructor() {

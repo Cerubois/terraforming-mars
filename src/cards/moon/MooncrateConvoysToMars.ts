@@ -1,9 +1,9 @@
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {CardRequirements} from '../CardRequirements';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {PartyName} from '../../turmoil/parties/PartyName';
 import {MoonExpansion} from '../../moon/MoonExpansion';
 import {Player} from '../../Player';
 import {SellSteel} from '../../moon/SellSteel';
@@ -28,12 +28,12 @@ export class MooncrateConvoysToMars extends Card {
         }),
       },
     });
-  }
+  };
 
   public play(player: Player) {
     MoonExpansion.raiseLogisticRate(player, 1);
     const game = player.game;
-    game.getPlayersInGenerationOrder().forEach((player) => {
+    game.getPlayers().forEach((player) => {
       game.defer(new SellSteel(player));
     });
     return undefined;

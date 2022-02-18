@@ -1,9 +1,8 @@
 import {Player} from '../Player';
-import {Resources} from '../common/Resources';
+import {Resources} from '../Resources';
 import {OrOptions} from '../inputs/OrOptions';
 import {SelectOption} from '../inputs/SelectOption';
 import {DeferredAction, Priority} from './DeferredAction';
-import {CardName} from '../common/cards/CardName';
 
 export class StealResources implements DeferredAction {
   public priority = Priority.ATTACK_OPPONENT;
@@ -24,7 +23,7 @@ export class StealResources implements DeferredAction {
       return undefined;
     }
 
-    let candidates: Array<Player> = this.player.game.getPlayersInGenerationOrder().filter((p) => p.id !== this.player.id && p.getResource(this.resource) > 0);
+    let candidates: Array<Player> = this.player.game.getPlayers().filter((p) => p.id !== this.player.id && p.getResource(this.resource) > 0);
     if (this.resource === Resources.PLANTS) {
       candidates = candidates.filter((p) => !p.plantsAreProtected());
     }
@@ -37,13 +36,7 @@ export class StealResources implements DeferredAction {
     }
 
     const stealOptions = candidates.map((candidate) => {
-      let qtyToSteal = Math.min(candidate.getResource(this.resource), this.count);
-
-      // Botanical Experience hook.
-      if (candidate.cardIsInEffect(CardName.BOTANICAL_EXPERIENCE)) {
-        qtyToSteal = Math.ceil(qtyToSteal / 2);
-      }
-
+      const qtyToSteal = Math.min(candidate.getResource(this.resource), this.count);
       return new SelectOption(
         'Steal ' + qtyToSteal + ' ' + this.resource + ' from ' + candidate.name,
         'Steal',

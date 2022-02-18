@@ -1,21 +1,21 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {SelectSpace} from '../../inputs/SelectSpace';
-import {SpaceType} from '../../common/boards/SpaceType';
+import {SpaceType} from '../../SpaceType';
 import {ISpace} from '../../boards/ISpace';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 import {Board} from '../../boards/Board';
 import {ICardMetadata} from '../ICardMetadata';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 
 export class Capital extends Card implements IProjectCard {
   constructor(
@@ -50,11 +50,11 @@ export class Capital extends Card implements IProjectCard {
       metadata,
     });
   }
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     return player.getProduction(Resources.ENERGY) >= 2 &&
         player.game.board.getAvailableSpacesForCity(player).length > 0;
   }
-  public override getVictoryPoints(player: Player) {
+  public getVictoryPoints(player: Player) {
     const usedSpace = player.game.board.getSpaceByTileCard(this.name);
     if (usedSpace !== undefined) {
       return player.game.board.getAdjacentSpaces(usedSpace)

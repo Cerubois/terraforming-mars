@@ -1,10 +1,10 @@
 import {Player} from '../../Player';
 import {PreludeCard} from '../prelude/PreludeCard';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Tags} from '../../common/cards/Tags';
-import {CardType} from '../../common/cards/CardType';
-import {Units} from '../../common/Units';
+import {Tags} from '../Tags';
+import {CardType} from '../CardType';
+import {Units} from '../../Units';
 
 export class PersonalAgenda extends PreludeCard {
   constructor() {

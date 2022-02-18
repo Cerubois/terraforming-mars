@@ -1,12 +1,12 @@
 import {Card} from '../Card';
 import {IActionCard} from '../ICard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {CorporationCard} from './CorporationCard';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 
 export const ACTION_COST = 3;
 export class UnitedNationsMarsInitiative extends Card implements IActionCard, CorporationCard {

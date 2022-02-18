@@ -1,15 +1,15 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
-import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../CardType';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../common/Resources';
-import {Tags} from '../../common/cards/Tags';
+import {Resources} from '../../Resources';
+import {Tags} from '../Tags';
 import {CardRequirements} from '../CardRequirements';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
-import {ResourceType} from '../../common/ResourceType';
-import {Units} from '../../common/Units';
+import {ResourceType} from '../../ResourceType';
+import {Units} from '../../Units';
 
 export class DesignedOrganisms extends Card implements IProjectCard {
   constructor() {

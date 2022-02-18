@@ -1,10 +1,10 @@
 import {Card} from '../Card';
 import {CorporationCard} from '../corporation/CorporationCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {all, played} from '../Options';
 import {IProjectCard} from '../IProjectCard';
@@ -54,7 +54,7 @@ export class Ringcom extends Card implements CorporationCard {
 
   public onCardPlayed(player: Player, card: IProjectCard): void {
     if (card.tags.includes(Tags.JOVIAN)) {
-      player.game.getPlayersInGenerationOrder().forEach((p) => {
+      player.game.getPlayers().forEach((p) => {
         if (p.corporationCard?.name === this.name) {
           p.addResource(Resources.TITANIUM, 1, {log: true});
         }

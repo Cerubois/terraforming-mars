@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {CardName} from '../../../src/common/cards/CardName';
+import {CardName} from '../../../src/CardName';
 import {ALL_CARD_MANIFESTS} from '../../../src/cards/AllCards';
 import {CapitalAres} from '../../../src/cards/ares/CapitalAres';
 import {SolarFarm} from '../../../src/cards/ares/SolarFarm';
@@ -10,26 +10,23 @@ import {NoctisFarming} from '../../../src/cards/base/NoctisFarming';
 import {RoboticWorkforce} from '../../../src/cards/base/RoboticWorkforce';
 import {ResearchCoordination} from '../../../src/cards/prelude/ResearchCoordination';
 import {UtopiaInvest} from '../../../src/cards/turmoil/UtopiaInvest';
-import {Tags} from '../../../src/common/cards/Tags';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {SelectSpace} from '../../../src/inputs/SelectSpace';
-import {Resources} from '../../../src/common/Resources';
-import {SpaceBonus} from '../../../src/common/boards/SpaceBonus';
+import {Resources} from '../../../src/Resources';
+import {SpaceBonus} from '../../../src/SpaceBonus';
 import {ARES_OPTIONS_NO_HAZARDS} from '../../ares/AresTestHelper';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
-import {TileType} from '../../../src/common/TileType';
+import {TileType} from '../../../src/TileType';
 import {ICard} from '../../../src/cards/ICard';
 import {TestPlayer} from '../../TestPlayer';
-import {Units} from '../../../src/common/Units';
+import {Units} from '../../../src/Units';
 import {fail} from 'assert';
 import {SolarWindPower} from '../../../src/cards/base/SolarWindPower';
 import {MarsUniversity} from '../../../src/cards/base/MarsUniversity';
 import {Gyropolis} from '../../../src/cards/venusNext/Gyropolis';
 import {VenusGovernor} from '../../../src/cards/venusNext/VenusGovernor';
-import {CardType} from '../../../src/common/cards/CardType';
-import {CorporationCard} from '../../../src/cards/corporation/CorporationCard';
-import {IProjectCard} from '../../../src/cards/IProjectCard';
 
 describe('RoboticWorkforce', () => {
   let card : RoboticWorkforce; let player : TestPlayer; let game : Game;
@@ -236,18 +233,19 @@ describe('RoboticWorkforce', () => {
           game.moonData!.moon.spaces[4].player = player;
         }
 
-        if (card.cardType === CardType.CORPORATION) {
-          (game as any).playCorporationCard(player, card as CorporationCard);
-        } else {
-          player.playCard(card as IProjectCard);
+        const action = card.play(player);
+        if (action !== undefined) {
+          if (action instanceof SelectSpace) {
+            action.cb(action.availableSpaces[0]);
+          }
         }
 
-        // SelectSpace will trigger production changes in the right cards (e.g. Mining Rights)
         while (game.deferredActions.length) {
-          TestingUtils.runNextAction(game);
-          const waitingFor = player.popWaitingFor();
-          if (waitingFor instanceof SelectSpace) {
-            waitingFor.cb(waitingFor.availableSpaces[0]);
+          const defAction = game.deferredActions.pop()!.execute();
+          if (defAction !== undefined) {
+            if (defAction instanceof SelectSpace) {
+              defAction.cb(defAction.availableSpaces[0]);
+            }
           }
         }
 
@@ -267,7 +265,7 @@ describe('RoboticWorkforce', () => {
           if (card.productionBox === undefined || isEmpty(card.productionBox)) {
             fail(card.name + ' should be registered for Robotic Workforce');
           }
-        }
+        };
       }
     };
   });

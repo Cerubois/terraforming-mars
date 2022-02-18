@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {ElectroCatapult} from '../../../src/cards/base/ElectroCatapult';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayer} from '../../TestPlayer';
 import {TestPlayers} from '../../TestPlayers';
 
@@ -37,7 +37,8 @@ describe('ElectroCatapult', () => {
     card.play(player);
 
     expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(card.getVictoryPoints()).to.eq(1);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
   });
   it('Should act', () => {
     player.plants = 1;

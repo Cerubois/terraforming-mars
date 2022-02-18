@@ -44,7 +44,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import {IAresGlobalParametersResponse} from '@/inputs/ShiftAresGlobalParameters';
-import {PlayerInputModel} from '@/common/models/PlayerInputModel';
+import {PlayerInputModel} from '@/models/PlayerInputModel';
 
 export default Vue.extend({
   name: 'ShiftAresGlobalParameters',

@@ -1,10 +1,10 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CardRenderer} from '../render/CardRenderer';
-import {ResourceType} from '../../common/ResourceType';
+import {ResourceType} from '../../ResourceType';
 import {IActionCard, VictoryPoints} from '../ICard';
 import {Card} from '../Card';
 import {CardRequirements} from '../CardRequirements';
@@ -32,7 +32,7 @@ export class Solarpedia extends Card implements IProjectCard, IActionCard {
         description: 'Requires 1 Venus, Earth, Mars, and Jovian Tag. Add 2 data to any card. 1 VP for every 6 data resources here.',
       },
     });
-  }
+  };
 
   public override resourceCount = 0;
 

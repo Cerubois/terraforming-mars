@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {BiomassCombustors} from '../../../src/cards/base/BiomassCombustors';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('BiomassCombustors', function() {
@@ -42,6 +42,7 @@ describe('BiomassCombustors', function() {
     expect(player.getProduction(Resources.ENERGY)).to.eq(2);
     expect(player2.getProduction(Resources.PLANTS)).to.eq(0);
 
-    expect(card.getVictoryPoints()).to.eq(-1);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(-1);
   });
 });

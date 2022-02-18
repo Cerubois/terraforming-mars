@@ -2,12 +2,12 @@ import {IProjectCard} from '../IProjectCard';
 import {IActionCard, IResourceCard} from '../ICard';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
-import {ResourceType} from '../../common/ResourceType';
-import {Tags} from '../../common/cards/Tags';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
+import {ResourceType} from '../../ResourceType';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {CardRenderer} from '../render/CardRenderer';
 
 export class AsteroidHollowing extends Card implements IActionCard, IProjectCard, IResourceCard {
@@ -32,7 +32,7 @@ export class AsteroidHollowing extends Card implements IActionCard, IProjectCard
       },
     });
   }
-  public override resourceCount = 0;
+  public resourceCount = 0;
 
   public play() {
     return undefined;

@@ -3,9 +3,9 @@ import {getTestPlayer, newTestGame} from '../../TestGame';
 import {VitalColony} from '../../../src/cards/pathfinders/VitalColony';
 import {Player} from '../../../src/Player';
 import {SelectColony} from '../../../src/inputs/SelectColony';
-import {ColonyName} from '../../../src/common/colonies/ColonyName';
+import {ColonyName} from '../../../src/colonies/ColonyName';
 import {Game} from '../../../src/Game';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 
 describe('VitalColony', function() {
   let card: VitalColony;

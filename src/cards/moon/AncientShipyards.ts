@@ -1,12 +1,12 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
-import {Tags} from '../../common/cards/Tags';
-import {ResourceType} from '../../common/ResourceType';
+import {CardType} from '../CardType';
+import {Tags} from '../Tags';
+import {ResourceType} from '../../ResourceType';
 import {StealResources} from '../../deferredActions/StealResources';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
 import {all} from '../Options';
 import {VictoryPoints} from '../ICard';
@@ -20,11 +20,11 @@ export class AncientShipyards extends MoonCard {
       cost: 6,
 
       resourceType: ResourceType.RESOURCE_CUBE,
-      victoryPoints: VictoryPoints.resource(-1, 1),
+      victoryPoints: VictoryPoints.resource(-1, 2),
       reserveUnits: Units.of({titanium: 3}),
 
       metadata: {
-        description: 'Spend 3 titanium. -1 VP for every resource here.',
+        description: 'Spend 3 titanium. -1 VP for every 2 resources here.',
         cardNumber: 'M19',
         renderData: CardRenderer.builder((b) => {
           b.action('Steal 8 M€ from any player and add a resource cube here.', (eb) => {
@@ -34,7 +34,7 @@ export class AncientShipyards extends MoonCard {
         }),
       },
     });
-  }
+  };
   public override resourceCount: number = 0;
 
   public override play(player: Player) {

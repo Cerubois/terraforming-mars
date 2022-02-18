@@ -3,8 +3,8 @@ import {AerialLenses} from '../../../src/cards/turmoil/AerialLenses';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Player} from '../../../src/Player';
-import {Resources} from '../../../src/common/Resources';
-import {PartyName} from '../../../src/common/turmoil/PartyName';
+import {Resources} from '../../../src/Resources';
+import {PartyName} from '../../../src/turmoil/parties/PartyName';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 

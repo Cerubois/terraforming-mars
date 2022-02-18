@@ -1,10 +1,10 @@
 import {IProjectCard} from '../IProjectCard';
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
-import {Tags} from '../../common/cards/Tags';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {CardRenderer} from '../render/CardRenderer';
 import {played} from '../Options';
 
@@ -33,7 +33,7 @@ export class OrbitalCleanup extends Card implements IProjectCard {
     });
   }
 
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     return player.getProduction(Resources.MEGACREDITS) >= -3;
   }
 

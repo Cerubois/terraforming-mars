@@ -1,12 +1,12 @@
 import {IActionCard, IResourceCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../common/ResourceType';
-import {CardName} from '../../common/cards/CardName';
+import {ResourceType} from '../../ResourceType';
+import {CardName} from '../../CardName';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
 import {CardRequirements} from '../CardRequirements';
@@ -38,7 +38,7 @@ export class Ants extends Card implements IActionCard, IProjectCard, IResourceCa
     });
   }
 
-  public override resourceCount = 0;
+  public resourceCount = 0;
 
   public play() {
     return undefined;

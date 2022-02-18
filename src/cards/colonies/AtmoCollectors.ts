@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
-import {ResourceType} from '../../common/ResourceType';
+import {CardName} from '../../CardName';
+import {ResourceType} from '../../ResourceType';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {IResourceCard} from '../ICard';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {Card} from '../Card';
 import {Size} from '../render/Size';
@@ -37,7 +37,7 @@ export class AtmoCollectors extends Card implements IProjectCard, IResourceCard 
     });
   }
 
-  public override resourceCount: number = 0;
+  public resourceCount: number = 0;
 
   public canAct(): boolean {
     return true;

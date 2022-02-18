@@ -1,8 +1,8 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {PreludeCard} from '../prelude/PreludeCard';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {CardRenderer} from '../render/CardRenderer';
 import {PlaceMoonRoadTile} from '../../moon/PlaceMoonRoadTile';
 
@@ -20,7 +20,7 @@ export class BasicInfrastructure extends PreludeCard {
         }),
       },
     });
-  }
+  };
 
   public tilesBuilt = [TileType.MOON_ROAD];
 

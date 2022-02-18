@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {SpaceElevator} from '../../../src/cards/base/SpaceElevator';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('SpaceElevator', function() {
@@ -22,7 +22,8 @@ describe('SpaceElevator', function() {
   it('Should play', function() {
     card.play(player);
     expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
-    expect(card.getVictoryPoints()).to.eq(2);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
   });
 
   it('Should act', function() {

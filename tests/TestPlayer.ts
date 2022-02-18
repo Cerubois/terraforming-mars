@@ -1,10 +1,12 @@
 import {Player} from '../src/Player';
 import {PlayerInput} from '../src/PlayerInput';
-import {Color} from '../src/common/Color';
-import {Units} from '../src/common/Units';
-import {Tags} from '../src/common/cards/Tags';
+import {Color} from '../src/Color';
+import {Units} from '../src/Units';
+import {Tags} from '../src/cards/Tags';
+import {VictoryPointsBreakdown} from '../src/VictoryPointsBreakdown';
 
 export class TestPlayer extends Player {
+  public victoryPointsBreakdown = new VictoryPointsBreakdown();
   constructor(color: Color) {
     super('player-' + color, color, false, 0, 'p-' + color + '-id');
   }
@@ -52,19 +54,24 @@ export class TestPlayer extends Player {
     };
   }
 
-  public override getStandardProjectOption() {
+  public getVictoryPoints(): VictoryPointsBreakdown {
+    this.victoryPointsBreakdown = super.getVictoryPoints();
+    return this.victoryPointsBreakdown;
+  }
+
+  public getStandardProjectOption() {
     return super.getStandardProjectOption();
   }
 
   public tagsForTest: Partial<TagsForTest> | undefined = undefined;
 
-  public override getRawTagCount(tag: Tags, includeEventsTags:boolean = false): number {
+  public getRawTagCount(tag: Tags, includeEventsTags:boolean = false): number {
     return this.tagsForTest !== undefined ?
       this.tagsForTest[tag] ?? 0 :
       super.getRawTagCount(tag, includeEventsTags);
   }
 
-  public override runInput(input: ReadonlyArray<ReadonlyArray<string>>, pi: PlayerInput): void {
+  public runInput(input: ReadonlyArray<ReadonlyArray<string>>, pi: PlayerInput): void {
     super.runInput(input, pi);
   }
 

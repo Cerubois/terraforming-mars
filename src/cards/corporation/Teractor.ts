@@ -1,10 +1,10 @@
 import {Card} from '../Card';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CorporationCard} from './CorporationCard';
 import {Player} from '../../Player';
 import {IProjectCard} from '../IProjectCard';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {played} from '../Options';
 

@@ -1,12 +1,10 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {CardRenderer} from '../render/CardRenderer';
-import {ICard} from '../ICard';
-import {ResourceType} from '../../common/ResourceType';
 
 export class TopsoilContract extends Card implements IProjectCard {
   constructor() {
@@ -32,11 +30,5 @@ export class TopsoilContract extends Card implements IProjectCard {
   public play(player: Player) {
     player.plants += 3;
     return undefined;
-  }
-
-  public onResourceAdded(player: Player, card: ICard, count: number) {
-    if (card.resourceType === ResourceType.MICROBE) {
-      player.megaCredits += count;
-    }
   }
 }

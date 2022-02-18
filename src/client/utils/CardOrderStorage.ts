@@ -1,5 +1,5 @@
 
-import {CardModel} from '@/common/models/CardModel';
+import {CardModel} from '@/models/CardModel';
 
 const STORAGE_PREFIX = 'cardOrder';
 

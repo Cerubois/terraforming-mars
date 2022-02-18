@@ -1,6 +1,6 @@
 import {Database} from './Database';
-import {Game} from '../Game';
-import {PlayerId, GameId, SpectatorId} from '../common/Types';
+import {Game, GameId, SpectatorId} from '../Game';
+import {PlayerId} from '../Player';
 import {once} from 'events';
 import {EventEmitter} from 'events';
 

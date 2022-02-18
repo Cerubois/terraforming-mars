@@ -1,9 +1,8 @@
 import {Player} from '../Player';
-import {Resources} from '../common/Resources';
+import {Resources} from '../Resources';
 import {OrOptions} from '../inputs/OrOptions';
 import {SelectOption} from '../inputs/SelectOption';
 import {DeferredAction, Priority} from './DeferredAction';
-import {CardName} from '../common/cards/CardName';
 
 export class RemoveAnyPlants implements DeferredAction {
   public priority = Priority.ATTACK_OPPONENT;
@@ -20,20 +19,14 @@ export class RemoveAnyPlants implements DeferredAction {
       return undefined;
     }
 
-    const candidates = this.player.game.getPlayersInGenerationOrder().filter((p) => p.id !== this.player.id && !p.plantsAreProtected() && p.plants > 0);
+    const candidates = this.player.game.getPlayers().filter((p) => p.id !== this.player.id && !p.plantsAreProtected() && p.plants > 0);
 
     if (candidates.length === 0) {
       return undefined;
     }
 
     const removalOptions = candidates.map((candidate) => {
-      let qtyToRemove = Math.min(candidate.plants, this.count);
-
-      // Botanical Experience hook.
-      if (candidate.cardIsInEffect(CardName.BOTANICAL_EXPERIENCE)) {
-        qtyToRemove = Math.ceil(qtyToRemove / 2);
-      }
-
+      const qtyToRemove = Math.min(candidate.plants, this.count);
       return new SelectOption('Remove ' + qtyToRemove + ' plants from ' + candidate.name, 'Remove plants', () => {
         candidate.deductResource(Resources.PLANTS, qtyToRemove, {log: true, from: this.player});
         return undefined;

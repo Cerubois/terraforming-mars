@@ -1,13 +1,14 @@
 import {IGlobalEvent, GlobalEvent} from './IGlobalEvent';
-import {GlobalEventName} from '../../common/turmoil/globalEvents/GlobalEventName';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {GlobalEventName} from './GlobalEventName';
+import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 import {CardRenderer} from '../../cards/render/CardRenderer';
 
 const RENDER_DATA = CardRenderer.builder((b) => {
-  b.production((pb) => pb.megacredits(1)).slash().colonies(1).nbsp.titanium(1).slash().influence();
+  b.production((pb) => pb.megacredits(1)).slash().colonies(1).br;
+  b.titanium(1).slash().influence();
 });
 
 export class JovianTaxRights extends GlobalEvent implements IGlobalEvent {
@@ -21,7 +22,7 @@ export class JovianTaxRights extends GlobalEvent implements IGlobalEvent {
     });
   }
   public resolve(game: Game, turmoil: Turmoil) {
-    game.getPlayersInGenerationOrder().forEach((player) => {
+    game.getPlayers().forEach((player) => {
       let coloniesCount: number = 0;
       game.colonies.forEach((colony) => {
         coloniesCount += colony.colonies.filter((owner) => owner === player.id).length;

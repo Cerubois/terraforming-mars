@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {LANGUAGES} from '@/common/constants';
+import {LANGUAGES} from '@/constants';
 import {PreferencesManager} from '@/client/utils/PreferencesManager';
 
 export default Vue.extend({

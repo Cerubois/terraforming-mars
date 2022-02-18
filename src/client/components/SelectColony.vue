@@ -14,7 +14,7 @@
 import Vue from 'vue';
 import Colony from '@/client/components/Colony.vue';
 import Button from '@/client/components/common/Button.vue';
-import {PlayerInputModel} from '@/common/models/PlayerInputModel';
+import {PlayerInputModel} from '@/models/PlayerInputModel';
 
 export default Vue.extend({
   name: 'SelectColony',

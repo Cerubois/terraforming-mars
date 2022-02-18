@@ -1,11 +1,11 @@
 
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
-import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../CardType';
+import {Tags} from '../Tags';
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {Size} from '../render/Size';
 import {CardRenderer} from '../render/CardRenderer';
 import {all} from '../Options';
@@ -29,7 +29,7 @@ export class EnergySaving extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    player.addProduction(Resources.ENERGY, player.game.getCitiesCount(), {log: true});
+    player.addProduction(Resources.ENERGY, player.game.getCitiesInPlay(), {log: true});
     return undefined;
   }
 }

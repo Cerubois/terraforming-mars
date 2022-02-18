@@ -17,7 +17,7 @@ import {Scientist} from './awards/Scientist';
 import {SpaceBaron} from './awards/SpaceBaron';
 import {Thermalist} from './awards/Thermalist';
 import {Venuphile} from './awards/Venuphile';
-import {BoardName} from './common/boards/BoardName';
+import {BoardName} from './boards/BoardName';
 import {GameOptions} from './Game';
 import {IDrawnMilestonesAndAwards} from './IDrawnMilestonesAndAwards';
 import {Builder} from './milestones/Builder';
@@ -42,7 +42,7 @@ import {FullMoon} from './moon/FullMoon';
 import {Lunarchitect} from './moon/Lunarchitect';
 import {LunarMagnate} from './moon/LunarMagnate';
 import {OneGiantStep} from './moon/OneGiantStep';
-import {RandomMAOptionType} from './common/ma/RandomMAOptionType';
+import {RandomMAOptionType} from './RandomMAOptionType';
 
 export namespace MilestoneAwardSelector {
   // This map uses keys of the format "X|Y" where X and Y are MA names. Entries are stored as "X|Y"
@@ -63,7 +63,7 @@ export namespace MilestoneAwardSelector {
     public get(a: string, b: string) {
       return this.map.get(a + '|' + b) || 0;
     }
-  }
+  };
 
   class Synergies {
     public static map: SynergyMap = Synergies.makeMap();
@@ -264,7 +264,7 @@ export namespace MilestoneAwardSelector {
       if (gameOptions.aresExtension) {
         drawnMilestonesAndAwards.milestones.push(...ARES_MILESTONES);
         drawnMilestonesAndAwards.awards.push(...ARES_AWARDS);
-      }
+      };
       if (gameOptions.moonExpansion) {
         // One MA will reward moon tags, the other will reward moon tiles.
         if (Math.random() > 0.5) {
@@ -274,7 +274,7 @@ export namespace MilestoneAwardSelector {
           drawnMilestonesAndAwards.milestones.push(new Lunarchitect());
           drawnMilestonesAndAwards.awards.push(new FullMoon());
         }
-      }
+      };
       break;
 
     case RandomMAOptionType.LIMITED:
@@ -286,7 +286,7 @@ export namespace MilestoneAwardSelector {
     }
 
     return drawnMilestonesAndAwards;
-  }
+  };
 
   // Selects |numberMARequested| milestones and |numberMARequested| awards from all available awards and milestones (optionally including
   // Venusian.) It does this by following these rules:

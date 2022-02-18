@@ -1,15 +1,15 @@
-import * as constants from './common/constants';
+import * as constants from './constants';
 import {BeginnerCorporation} from './cards/corporation/BeginnerCorporation';
 import {Board} from './boards/Board';
-import {BoardName} from './common/boards/BoardName';
+import {BoardName} from './boards/BoardName';
 import {CardFinder} from './CardFinder';
-import {CardName} from './common/cards/CardName';
-import {CardType} from './common/cards/CardType';
+import {CardName} from './CardName';
+import {CardType} from './cards/CardType';
 import {ClaimedMilestone, serializeClaimedMilestones, deserializeClaimedMilestones} from './milestones/ClaimedMilestone';
-import {Colony, serializeColonies} from './colonies/Colony';
+import {Colony} from './colonies/Colony';
 import {ColonyDealer, loadColoniesFromJSON} from './colonies/ColonyDealer';
-import {ColonyName} from './common/colonies/ColonyName';
-import {Color} from './common/Color';
+import {ColonyName} from './colonies/ColonyName';
+import {Color} from './Color';
 import {CorporationCard} from './cards/corporation/CorporationCard';
 import {Database} from './database/Database';
 import {Dealer} from './Dealer';
@@ -20,21 +20,20 @@ import {IAward} from './awards/IAward';
 import {ISerializable} from './ISerializable';
 import {IMilestone} from './milestones/IMilestone';
 import {IProjectCard} from './cards/IProjectCard';
-import {ISpace} from './boards/ISpace';
+import {ISpace, SpaceId} from './boards/ISpace';
 import {ITile} from './ITile';
 import {LogBuilder} from './LogBuilder';
 import {LogHelper} from './LogHelper';
-import {LogMessage} from './common/logs/LogMessage';
+import {LogMessage} from './LogMessage';
 import {ALL_MILESTONES} from './milestones/Milestones';
 import {ALL_AWARDS} from './awards/Awards';
 import {OriginalBoard} from './boards/OriginalBoard';
 import {PartyHooks} from './turmoil/parties/PartyHooks';
-import {Phase} from './common/Phase';
-import {Player} from './Player';
-import {PlayerId, GameId, SpectatorId, SpaceId} from './common/Types';
+import {Phase} from './Phase';
+import {Player, PlayerId} from './Player';
 import {PlayerInput} from './PlayerInput';
-import {ResourceType} from './common/ResourceType';
-import {Resources} from './common/Resources';
+import {ResourceType} from './ResourceType';
+import {Resources} from './Resources';
 import {DeferredAction, Priority} from './deferredActions/DeferredAction';
 import {DeferredActionsQueue} from './deferredActions/DeferredActionsQueue';
 import {SelectHowToPayDeferred} from './deferredActions/SelectHowToPayDeferred';
@@ -44,19 +43,19 @@ import {RemoveColonyFromGame} from './deferredActions/RemoveColonyFromGame';
 import {GainResources} from './deferredActions/GainResources';
 import {SerializedGame} from './SerializedGame';
 import {SerializedPlayer} from './SerializedPlayer';
-import {SpaceBonus} from './common/boards/SpaceBonus';
+import {SpaceBonus} from './SpaceBonus';
 import {SpaceName} from './SpaceName';
-import {SpaceType} from './common/boards/SpaceType';
-import {Tags} from './common/cards/Tags';
-import {TileType} from './common/TileType';
+import {SpaceType} from './SpaceType';
+import {Tags} from './cards/Tags';
+import {TileType} from './TileType';
 import {Turmoil} from './turmoil/Turmoil';
-import {RandomMAOptionType} from './common/ma/RandomMAOptionType';
+import {RandomMAOptionType} from './RandomMAOptionType';
 import {AresHandler} from './ares/AresHandler';
-import {IAresData} from './common/ares/IAresData';
-import {AgendaStyle} from './common/turmoil/Types';
+import {IAresData} from './ares/IAresData';
+import {AgendaStyle} from './turmoil/PoliticalAgendas';
 import {GameSetup} from './GameSetup';
 import {CardLoader} from './CardLoader';
-import {GlobalParameter} from './common/GlobalParameter';
+import {GlobalParameter} from './GlobalParameter';
 import {AresSetup} from './ares/AresSetup';
 import {IMoonData} from './moon/IMoonData';
 import {MoonExpansion} from './moon/MoonExpansion';
@@ -71,6 +70,9 @@ import {IPathfindersData} from './pathfinders/IPathfindersData';
 import {ArabiaTerraBoard} from './boards/ArabiaTerraBoard';
 import {AddResourcesToCard} from './deferredActions/AddResourcesToCard';
 import {isProduction} from './utils/server';
+
+export type GameId = string;
+export type SpectatorId = string;
 
 export interface Score {
   corporation: String;
@@ -350,7 +352,7 @@ export class Game implements ISerializable<SerializedGame> {
     // Initialize each player:
     // Give them their corporation cards, other cards, starting production,
     // handicaps.
-    for (const player of game.getPlayersInGenerationOrder()) {
+    for (const player of game.getPlayers()) {
       player.setTerraformRating(player.getTerraformRating() + player.handicap);
       if (!gameOptions.corporateEra) {
         GameSetup.setStartingProductions(player);
@@ -422,7 +424,7 @@ export class Game implements ISerializable<SerializedGame> {
       awards: this.awards.map((a) => a.name),
       board: this.board.serialize(),
       claimedMilestones: serializeClaimedMilestones(this.claimedMilestones),
-      colonies: serializeColonies(this.colonies),
+      colonies: this.colonies,
       colonyDealer: this.colonyDealer,
       dealer: this.dealer.serialize(),
       deferredActions: [],
@@ -504,10 +506,14 @@ export class Game implements ISerializable<SerializedGame> {
     );
   }
 
+  public noOceansAvailable(): boolean {
+    return this.board.getOceansOnBoard() >= constants.MAX_OCEAN_TILES;
+  }
+
   public marsIsTerraformed(): boolean {
     const oxygenMaxed = this.oxygenLevel >= constants.MAX_OXYGEN_LEVEL;
     const temperatureMaxed = this.temperature >= constants.MAX_TEMPERATURE;
-    const oceansMaxed = !this.canAddOcean();
+    const oceansMaxed = this.board.getOceansOnBoard() === constants.MAX_OCEAN_TILES;
     let globalParametersMaxed = oxygenMaxed && temperatureMaxed && oceansMaxed;
     const venusMaxed = this.getVenusScaleLevel() === constants.MAX_VENUS_SCALE;
 
@@ -610,7 +616,7 @@ export class Game implements ISerializable<SerializedGame> {
     player.pickedCorporationCard = corporationCard;
     // if all players picked corporationCard
     if (this.players.every((p) => p.pickedCorporationCard !== undefined)) {
-      for (const somePlayer of this.getPlayersInGenerationOrder()) {
+      for (const somePlayer of this.getPlayers()) {
         this.playCorporationCard(somePlayer, somePlayer.pickedCorporationCard!);
       }
     }
@@ -633,7 +639,7 @@ export class Game implements ISerializable<SerializedGame> {
     this.log('${0} played ${1}', (b) => b.player(player).card(corporationCard));
 
     // trigger other corp's effect, e.g. SaturnSystems,PharmacyUnion,Splice
-    for (const somePlayer of this.getPlayersInGenerationOrder()) {
+    for (const somePlayer of this.getPlayers()) {
       if (somePlayer !== player && somePlayer.corporationCard !== undefined && somePlayer.corporationCard.onCorpCardPlayed !== undefined) {
         this.defer(new DeferredAction(
           player,
@@ -1004,6 +1010,7 @@ export class Game implements ISerializable<SerializedGame> {
 
 
   public playerIsFinishedTakingActions(): void {
+    // Deferred actions hook
     if (this.deferredActions.length > 0) {
       this.deferredActions.runAll(() => this.playerIsFinishedTakingActions());
       return;
@@ -1039,7 +1046,7 @@ export class Game implements ISerializable<SerializedGame> {
       this.log('This game id was ' + this.id);
     }
 
-    Database.getInstance().cleanSaves(this.id);
+    Database.getInstance().cleanSaves(this.id, this.lastSaveId);
     const scores: Array<Score> = [];
     this.players.forEach((player) => {
       let corponame: string = '';
@@ -1073,7 +1080,7 @@ export class Game implements ISerializable<SerializedGame> {
 
   public /* for testing */ gotoFinalGreeneryPlacement(): void {
     // this.getPlayers returns in turn order -- a necessary rule for final greenery placement.
-    for (const player of this.getPlayersInGenerationOrder()) {
+    for (const player of this.getPlayers()) {
       if (this.donePlayers.has(player.id)) {
         continue;
       }
@@ -1085,7 +1092,7 @@ export class Game implements ISerializable<SerializedGame> {
       } else {
         this.donePlayers.add(player.id);
       }
-    }
+    };
     this.gotoEndGame();
   }
 
@@ -1251,27 +1258,20 @@ export class Game implements ISerializable<SerializedGame> {
     return player;
   }
 
-  public getCitiesOnMarsCount(): number {
+  public getCitiesInPlayOnMars(): number {
     return this.board.spaces.filter(
       (space) => Board.isCitySpace(space) && space.spaceType !== SpaceType.COLONY).length;
   }
-
-  public getCitiesCount(player?: Player): number {
-    let cities = this.board.spaces.filter((space) => Board.isCitySpace(space));
-    if (player !== undefined) cities = cities.filter(Board.ownedBy(player));
-    return cities.length;
+  public getCitiesInPlay(): number {
+    return this.board.spaces.filter((space) => Board.isCitySpace(space)).length;
   }
-
-  public getGreeneriesCount(player?: Player): number {
-    let greeneries = this.board.spaces.filter((space) => Board.isGreenerySpace(space));
-    if (player !== undefined) greeneries = greeneries.filter(Board.ownedBy(player));
-    return greeneries.length;
-  }
-
   public getSpaceCount(tileType: TileType, player: Player): number {
-    return this.board.spaces.filter(Board.ownedBy(player))
-      .filter((space) => space.tile?.tileType === tileType)
-      .length;
+    return this.board.spaces.filter(
+      (space) => space.tile !== undefined &&
+                  space.tile.tileType === tileType &&
+                  space.player !== undefined &&
+                  space.player === player,
+    ).length;
   }
 
   // addTile applies to the Mars board, but not the Moon board, see MoonExpansion.addTile for placing
@@ -1318,7 +1318,7 @@ export class Game implements ISerializable<SerializedGame> {
 
     // Hellas special requirements ocean tile
     if (space.id === SpaceName.HELLAS_OCEAN_TILE &&
-        this.canAddOcean() &&
+        this.board.getOceansOnBoard() < constants.MAX_OCEAN_TILES &&
         this.gameOptions.boardName === BoardName.HELLAS) {
       if (player.color !== Color.NEUTRAL) {
         this.defer(new PlaceOceanTile(player, 'Select space for ocean from placement bonus'));
@@ -1444,14 +1444,11 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   public canAddOcean(): boolean {
-    return this.board.getOceanCount() < constants.MAX_OCEAN_TILES;
+    if (this.board.getOceansOnBoard() === constants.MAX_OCEAN_TILES) {
+      return false;
+    }
+    return true;
   }
-
-  public canRemoveOcean(): boolean {
-    const count = this.board.getOceanCount();
-    return count > 0 && count < constants.MAX_OCEAN_TILES;
-  }
-
   public addOceanTile(
     player: Player, spaceId: SpaceId,
     spaceType: SpaceType = SpaceType.OCEAN): void {
@@ -1475,8 +1472,7 @@ export class Game implements ISerializable<SerializedGame> {
     space.player = undefined;
   }
 
-  // Players returned in play order starting with first player this generation.
-  public getPlayersInGenerationOrder(): Array<Player> {
+  public getPlayers(): Array<Player> {
     // We always return them in turn order
     const ret: Array<Player> = [];
     let insertIdx: number = 0;
@@ -1526,15 +1522,9 @@ export class Game implements ISerializable<SerializedGame> {
     this.gameAge++;
   }
 
-  public someoneCanHaveProductionReduced(resource: Resources, minQuantity: number = 1): boolean {
+  public someoneHasResourceProduction(resource: Resources, minQuantity: number = 1): boolean {
     // in soloMode you don't have to decrease resources
-    if (this.isSoloMode()) return true;
-    return this.getPlayersInGenerationOrder().some((p) => {
-      if (p.getProduction(resource) < minQuantity) return false;
-      // The pathfindersExpansion test is just an optimization for non-Pathfinders games.
-      if (this.gameOptions.pathfindersExpansion && p.cardIsInEffect(CardName.PRIVATE_SECURITY)) return false;
-      return true;
-    });
+    return this.getPlayers().some((p) => p.getProduction(resource) >= minQuantity) || this.isSoloMode();
   }
 
   public discardForCost(toPlace: TileType) {

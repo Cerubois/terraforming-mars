@@ -1,11 +1,11 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
-import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../CardType';
+import {Tags} from '../Tags';
 import {MoonExpansion} from '../../moon/MoonExpansion';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
 
 export class IronExtractionCenter extends MoonCard {

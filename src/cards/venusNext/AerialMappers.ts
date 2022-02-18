@@ -1,12 +1,12 @@
 import {IActionCard, ICard, IResourceCard} from '../ICard';
-import {Tags} from '../../common/cards/Tags';
-import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../Tags';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../common/ResourceType';
+import {ResourceType} from '../../ResourceType';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {SelectCard} from '../../inputs/SelectCard';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {LogHelper} from '../../LogHelper';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
@@ -35,8 +35,8 @@ export class AerialMappers extends Card implements IActionCard, IResourceCard {
         }),
       },
     });
-  }
-  public override resourceCount: number = 0;
+  };
+  public resourceCount: number = 0;
 
   public play() {
     return undefined;

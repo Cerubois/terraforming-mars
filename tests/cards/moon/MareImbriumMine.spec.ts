@@ -6,9 +6,9 @@ import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 import {MareImbriumMine} from '../../../src/cards/moon/MareImbriumMine';
 import {expect} from 'chai';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {MoonSpaces} from '../../../src/moon/MoonSpaces';
-import {TileType} from '../../../src/common/TileType';
+import {TileType} from '../../../src/TileType';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 

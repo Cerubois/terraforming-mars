@@ -61,9 +61,6 @@ export default Vue.extend({
         }
       } else if (type === CardRenderSymbolType.SLASH) {
         classes.push('card-slash');
-        if (size === Size.SMALL) {
-          classes.push('card-slash--small');
-        }
       } else if (type === CardRenderSymbolType.EQUALS) {
         classes.push('card-equals');
       }

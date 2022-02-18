@@ -1,11 +1,11 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CardRenderer} from '../render/CardRenderer';
 import {MoonExpansion} from '../../moon/MoonExpansion';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {Card} from '../Card';
 import {CardRequirements} from '../CardRequirements';
 
@@ -28,7 +28,7 @@ export class RoverDriversUnion extends Card implements IProjectCard {
         }),
       },
     });
-  }
+  };
 
   public play(player: Player) {
     MoonExpansion.ifMoon(player.game, (moonData) => {

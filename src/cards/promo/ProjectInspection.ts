@@ -1,8 +1,8 @@
 import {IProjectCard} from '../IProjectCard';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Playwrights} from '../community/Playwrights';
 import {ICard, isIActionCard} from '../ICard';
 import {SelectCard} from '../../inputs/SelectCard';
@@ -43,7 +43,7 @@ export class ProjectInspection extends Card implements IProjectCard {
     return result;
   }
 
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     return this.getActionCards(player).length > 0;
   }
 

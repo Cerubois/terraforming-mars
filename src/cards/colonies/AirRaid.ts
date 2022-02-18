@@ -1,9 +1,9 @@
 import {IProjectCard} from '../IProjectCard';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
-import {Resources} from '../../common/Resources';
-import {ResourceType} from '../../common/ResourceType';
+import {CardName} from '../../CardName';
+import {ResourceType} from '../../ResourceType';
+import {Resources} from '../../Resources';
 import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
 import {StealResources} from '../../deferredActions/StealResources';
 import {Card} from '../Card';
@@ -29,7 +29,7 @@ export class AirRaid extends Card implements IProjectCard {
     });
   }
 
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     return player.getResourceCount(ResourceType.FLOATER) > 0;
   }
 

@@ -1,14 +1,14 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../Tags';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {Resources} from '../../Resources';
+import {PartyName} from '../../turmoil/parties/PartyName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 
 export class SponsoredMohole extends Card implements IProjectCard {
   constructor() {

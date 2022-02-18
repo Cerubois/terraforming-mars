@@ -1,8 +1,8 @@
 import {Player} from '../Player';
 import {SelectCard} from '../inputs/SelectCard';
-import {ResourceType} from '../common/ResourceType';
+import {ResourceType} from '../ResourceType';
 import {ICard} from '../cards/ICard';
-import {Tags} from '../common/cards/Tags';
+import {Tags} from '../cards/Tags';
 import {DeferredAction, Priority} from './DeferredAction';
 import {LogBuilder} from '../LogBuilder';
 

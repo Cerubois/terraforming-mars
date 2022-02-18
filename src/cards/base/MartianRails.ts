@@ -1,11 +1,11 @@
 import {IActionCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
-import {Resources} from '../../common/Resources';
+import {CardName} from '../../CardName';
+import {Resources} from '../../Resources';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {all} from '../Options';
@@ -38,7 +38,7 @@ export class MartianRails extends Card implements IActionCard, IProjectCard {
   }
   public action(player: Player) {
     player.deductResource(Resources.ENERGY, 1);
-    player.addResource(Resources.MEGACREDITS, player.game.getCitiesOnMarsCount(), {log: true});
+    player.addResource(Resources.MEGACREDITS, player.game.getCitiesInPlayOnMars(), {log: true});
     return undefined;
   }
 }

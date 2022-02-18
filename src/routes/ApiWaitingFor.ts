@@ -1,11 +1,11 @@
 import * as http from 'http';
 import {Handler} from './Handler';
 import {IContext} from './IHandler';
-import {Phase} from '../common/Phase';
+import {Phase} from '../Phase';
 import {Player} from '../Player';
-import {WaitingForModel} from '../common/models/WaitingForModel';
-import {Game} from '../Game';
-import {isPlayerId, isSpectatorId} from '../common/utils/utils';
+import {WaitingForModel} from '../models/WaitingForModel';
+import {Game} from '@/Game';
+import {isPlayerId, isSpectatorId} from '../utils/utils';
 
 export class ApiWaitingFor extends Handler {
   public static readonly INSTANCE = new ApiWaitingFor();

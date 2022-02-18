@@ -1,9 +1,9 @@
-import {CardModel} from '../common/models/CardModel';
-import {ColonyModel} from '../common/models/ColonyModel';
-import {Color} from '../common/Color';
+import {CardModel} from './CardModel';
+import {ColonyModel} from './ColonyModel';
+import {Color} from '../Color';
 import {Game, GameOptions} from '../Game';
-import {SimpleGameModel} from '../common/models/SimpleGameModel';
-import {GameOptionsModel} from '../common/models/GameOptionsModel';
+import {SimpleGameModel} from './SimpleGameModel';
+import {GameOptionsModel} from './GameOptionsModel';
 import {ICard} from '../cards/ICard';
 import {IProjectCard} from '../cards/IProjectCard';
 import {isICloneTagCard} from '../cards/pathfinders/ICloneTagCard';
@@ -11,39 +11,39 @@ import {Board} from '../boards/Board';
 import {ISpace} from '../boards/ISpace';
 import {Player} from '../Player';
 import {PlayerInput} from '../PlayerInput';
-import {PlayerInputModel} from '../common/models/PlayerInputModel';
-import {PlayerInputTypes} from '../common/input/PlayerInputTypes';
-import {PlayerViewModel, PublicPlayerModel} from '../common/models/PlayerModel';
+import {PlayerInputModel} from './PlayerInputModel';
+import {PlayerInputTypes} from '../PlayerInputTypes';
+import {PlayerViewModel, PublicPlayerModel} from './PlayerModel';
 import {SelectAmount} from '../inputs/SelectAmount';
 import {SelectCard} from '../inputs/SelectCard';
 import {SelectHowToPay} from '../inputs/SelectHowToPay';
 import {SelectHowToPayForProjectCard} from '../inputs/SelectHowToPayForProjectCard';
 import {SelectPlayer} from '../inputs/SelectPlayer';
 import {SelectSpace} from '../inputs/SelectSpace';
-import {SpaceHighlight, SpaceModel} from '../common/models/SpaceModel';
-import {TileType} from '../common/TileType';
-import {Phase} from '../common/Phase';
-import {Resources} from '../common/Resources';
-import {CardType} from '../common/cards/CardType';
+import {SpaceHighlight, SpaceModel} from './SpaceModel';
+import {TileType} from '../TileType';
+import {Phase} from '../Phase';
+import {Resources} from '../Resources';
+import {CardType} from '../cards/CardType';
 import {
   ClaimedMilestoneModel,
   IMilestoneScore,
-} from '../common/models/ClaimedMilestoneModel';
-import {FundedAwardModel, IAwardScore} from '../common/models/FundedAwardModel';
-import {getTurmoilModel} from '../models/TurmoilModel';
+} from './ClaimedMilestoneModel';
+import {FundedAwardModel, IAwardScore} from './FundedAwardModel';
+import {
+  getTurmoilModel,
+} from './TurmoilModel';
 import {SelectDelegate} from '../inputs/SelectDelegate';
 import {SelectColony} from '../inputs/SelectColony';
 import {SelectProductionToLose} from '../inputs/SelectProductionToLose';
 import {ShiftAresGlobalParameters} from '../inputs/ShiftAresGlobalParameters';
-import {SpectatorModel} from '../common/models/SpectatorModel';
-import {Units} from '../common/Units';
+import {SpectatorModel} from './SpectatorModel';
+import {MoonModel} from './MoonModel';
+import {Units} from '../Units';
 import {SelectPartyToSendDelegate} from '../inputs/SelectPartyToSendDelegate';
-import {GameModel} from '../common/models/GameModel';
+import {GameModel} from './GameModel';
 import {Turmoil} from '../turmoil/Turmoil';
-import {createPathfindersModel} from './PathfindersModel';
-import {MoonExpansion} from '../moon/MoonExpansion';
-import {MoonModel} from '../common/models/MoonModel';
-import {Colony} from '../colonies/Colony';
+import {PathfindersModel} from './PathfindersModel';
 
 export class Server {
   public static getSimpleGameModel(game: Game): SimpleGameModel {
@@ -51,7 +51,7 @@ export class Server {
       activePlayer: game.getPlayerById(game.activePlayer).color,
       id: game.id,
       phase: game.phase,
-      players: game.getPlayersInGenerationOrder().map((player) => ({
+      players: game.getPlayers().map((player) => ({
         color: player.color,
         id: player.id,
         name: player.name,
@@ -76,11 +76,11 @@ export class Server {
       isSoloModeWin: game.isSoloModeWin(),
       lastSoloGeneration: game.lastSoloGeneration(),
       milestones: this.getMilestones(game),
-      moon: this.getMoonModel(game),
-      oceans: game.board.getOceanCount(),
+      moon: MoonModel.serialize(game),
+      oceans: game.board.getOceansOnBoard(),
       oxygenLevel: game.getOxygenLevel(),
       passedPlayers: game.getPassedPlayers(),
-      pathfinders: createPathfindersModel(game),
+      pathfinders: PathfindersModel.serialize(game),
       phase: game.phase,
       spaces: this.getSpaces(game.board),
       spectatorId: game.spectatorId,
@@ -96,7 +96,7 @@ export class Server {
   public static getPlayerModel(player: Player): PlayerViewModel {
     const game = player.game;
 
-    const players: Array<PublicPlayerModel> = game.getPlayersInGenerationOrder().map(this.getPlayer);
+    const players: Array<PublicPlayerModel> = game.getPlayers().map(this.getPlayer);
     const thisPlayerIndex: number = players.findIndex((p) => p.color === player.color);
     const thisPlayer: PublicPlayerModel = players[thisPlayerIndex];
 
@@ -121,7 +121,7 @@ export class Server {
       color: Color.NEUTRAL,
       id: game.spectatorId ?? '',
       game: this.getGameModel(game),
-      players: game.getPlayersInGenerationOrder().map(this.getPlayer),
+      players: game.getPlayers().map(this.getPlayer),
       thisPlayer: undefined,
     };
   }
@@ -149,7 +149,7 @@ export class Server {
       );
       const scores: Array<IMilestoneScore> = [];
       if (claimed === undefined && claimedMilestones.length < 3) {
-        game.getPlayersInGenerationOrder().forEach((player) => {
+        game.getPlayers().forEach((player) => {
           scores.push({
             playerColor: player.color,
             playerScore: milestone.getScore(player),
@@ -160,8 +160,7 @@ export class Server {
       milestoneModels.push({
         player_name: claimed === undefined ? '' : claimed.player.name,
         player_color: claimed === undefined ? '' : claimed.player.color,
-        name: milestone.name,
-        description: milestone.description,
+        milestone,
         scores,
       });
     }
@@ -180,7 +179,7 @@ export class Server {
       );
       const scores: Array<IAwardScore> = [];
       if (fundedAwards.length < 3 || funded !== undefined) {
-        game.getPlayersInGenerationOrder().forEach((player) => {
+        game.getPlayers().forEach((player) => {
           scores.push({
             playerColor: player.color,
             playerScore: award.getScore(player),
@@ -191,8 +190,7 @@ export class Server {
       awardModels.push({
         player_name: funded === undefined ? '' : funded.player.name,
         player_color: funded === undefined ? '' : funded.player.color,
-        name: award.name,
-        description: award.description,
+        award,
         scores: scores,
       });
     }
@@ -202,14 +200,13 @@ export class Server {
 
   public static getCorporationCard(player: Player): CardModel | undefined {
     if (player.corporationCard === undefined) return undefined;
-    const card = player.corporationCard;
     return {
-      name: card.name,
-      resources: card.resourceCount,
+      name: player.corporationCard.name,
+      resources: player.getResourcesOnCard(player.corporationCard),
       cardType: CardType.CORPORATION,
-      isDisabled: card.isDisabled,
-      warning: card.warning,
-      discount: card.cardDiscount === undefined ? undefined : (Array.isArray(card.cardDiscount) ? card.cardDiscount : [card.cardDiscount]),
+      isDisabled: player.corporationCard.isDisabled,
+      warning: player.corporationCard.warning,
+      discount: player.corporationCard.cardDiscount,
     } as CardModel;
   }
 
@@ -290,7 +287,7 @@ export class Server {
       }
       break;
     case PlayerInputTypes.SELECT_COLONY:
-      playerInputModel.coloniesModel = this.getColonyModel(player.game, (waitingFor as SelectColony).colonies);
+      playerInputModel.coloniesModel = ColonyModel.getColonyModel(player.game, (waitingFor as SelectColony).colonies);
       break;
     case PlayerInputTypes.SELECT_HOW_TO_PAY:
       playerInputModel.amount = (waitingFor as SelectHowToPay).amount;
@@ -349,7 +346,7 @@ export class Server {
     case PlayerInputTypes.SHIFT_ARES_GLOBAL_PARAMETERS:
       playerInputModel.aresData = (waitingFor as ShiftAresGlobalParameters).aresData;
       break;
-    }
+    };
     return playerInputModel;
   }
 
@@ -364,7 +361,7 @@ export class Server {
   } = {},
   ): Array<CardModel> {
     return cards.map((card, index) => ({
-      resources: options.showResources ? card.resourceCount : undefined,
+      resources: options.showResources ? player.getResourcesOnCard(card) : undefined,
       resourceType: card.resourceType,
       name: card.name,
       calculatedCost: options.showNewCost ? (card.cost === undefined ? undefined : player.getCardCost(card as IProjectCard)) : card.cost,
@@ -373,7 +370,7 @@ export class Server {
       warning: card.warning,
       reserveUnits: options.reserveUnits ? options.reserveUnits[index] : Units.EMPTY,
       bonusResource: (card as IProjectCard).bonusResource,
-      discount: card.cardDiscount === undefined ? undefined : (Array.isArray(card.cardDiscount) ? card.cardDiscount : [card.cardDiscount]),
+      discount: card.cardDiscount,
       cloneTag: isICloneTagCard(card) ? card.cloneTag : undefined,
     }));
   }
@@ -388,7 +385,7 @@ export class Server {
       cardCost: player.cardCost,
       cardDiscount: player.cardDiscount,
       cardsInHandNbr: player.cardsInHand.length,
-      citiesCount: player.game.getCitiesCount(player),
+      citiesCount: player.getCitiesCount(),
       coloniesCount: player.getColoniesCount(),
       color: player.color,
       corporationCard: Server.getCorporationCard(player),
@@ -445,7 +442,7 @@ export class Server {
 
   // Oceans can't be owned so they shouldn't have a color associated with them
   // Land claim can have a color on a space without a tile
-  private static getColor(space: ISpace): Color | undefined {
+  public static getColor(space: ISpace): Color | undefined {
     if (
       (space.tile === undefined || space.tile.tileType !== TileType.OCEAN) &&
     space.player !== undefined
@@ -458,7 +455,7 @@ export class Server {
     return undefined;
   }
 
-  private static getSpaces(board: Board): Array<SpaceModel> {
+  public static getSpaces(board: Board): Array<SpaceModel> {
     const volcanicSpaceIds = board.getVolcanicSpaceIds();
     const noctisCitySpaceIds = board.getNoctisCitySpaceIds();
 
@@ -517,32 +514,5 @@ export class Server {
       venusNextExtension: options.venusNextExtension,
       undoOption: options.undoOption,
     };
-  }
-
-  private static getColonyModel(game: Game, colonies: Array<Colony>) : Array<ColonyModel> {
-    return colonies.map(
-      (colony): ColonyModel => ({
-        colonies: colony.colonies.map(
-          (playerId): Color => game.getPlayerById(playerId).color,
-        ),
-        isActive: colony.isActive,
-        name: colony.name,
-        trackPosition: colony.trackPosition,
-        visitor:
-                colony.visitor === undefined ?
-                  undefined :
-                  game.getPlayerById(colony.visitor).color,
-      }),
-    );
-  }
-  private static getMoonModel(game: Game): MoonModel | undefined {
-    return MoonExpansion.ifElseMoon(game, (moonData) => {
-      return {
-        logisticsRate: moonData.logisticRate,
-        miningRate: moonData.miningRate,
-        colonyRate: moonData.colonyRate,
-        spaces: this.getSpaces(moonData.moon),
-      };
-    }, () => undefined);
   }
 }

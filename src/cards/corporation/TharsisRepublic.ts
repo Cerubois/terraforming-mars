@@ -1,17 +1,17 @@
 import {Card} from '../Card';
 import {CorporationCard} from './CorporationCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {SelectSpace} from '../../inputs/SelectSpace';
-import {SpaceType} from '../../common/boards/SpaceType';
+import {SpaceType} from '../../SpaceType';
 import {ISpace} from '../../boards/ISpace';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {Priority} from '../../deferredActions/DeferredAction';
 import {GainResources} from '../../deferredActions/GainResources';
 import {GainProduction} from '../../deferredActions/GainProduction';
 import {Board} from '../../boards/Board';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {all} from '../Options';
@@ -67,7 +67,7 @@ export class TharsisRepublic extends Card implements CorporationCard {
   }
 
   public play(player: Player) {
-    if (player.game.getPlayersInGenerationOrder().length === 1) {
+    if (player.game.getPlayers().length === 1) {
       // Get bonus for 2 neutral cities
       player.addProduction(Resources.MEGACREDITS, 2);
     }

@@ -1,5 +1,5 @@
 import {Player} from '../Player';
-import {Resources} from '../common/Resources';
+import {Resources} from '../Resources';
 import {SelectPlayer} from '../inputs/SelectPlayer';
 import {DeferredAction, Priority} from './DeferredAction';
 
@@ -24,7 +24,7 @@ export class DecreaseAnyProduction implements DeferredAction {
   public execute() {
     if (this.player.game.isSoloMode()) return undefined;
 
-    let candidates: Array<Player> = this.player.game.getPlayersInGenerationOrder().filter((p) => !p.productionIsProtected());
+    let candidates: Array<Player> = this.player.game.getPlayers().filter((p) => !p.productionIsProtected());
 
     if (this.resource === Resources.MEGACREDITS) {
       candidates = candidates.filter((p) => p.getProduction(this.resource) >= this.options.count - 5);

@@ -75,9 +75,9 @@
 <script lang="ts">
 
 import Vue from 'vue';
-import {MoonModel} from '@/common/models/MoonModel';
-import {SpaceModel} from '@/common/models/SpaceModel';
-import {SpaceType} from '@/common/boards/SpaceType';
+import {MoonModel} from '@/models/MoonModel';
+import {SpaceModel} from '@/models/SpaceModel';
+import {SpaceType} from '@/SpaceType';
 import MoonSpace from '@/client/components/moon/MoonSpace.vue';
 
 class MoonParamLevel {
@@ -117,7 +117,7 @@ export default Vue.extend({
           return space;
         }
       }
-      throw new Error('Board space not found by id \'' + spaceId + '\'');
+      throw 'Board space not found by id \'' + spaceId + '\'';
     },
     getValuesForParameter(targetParameter: string): Array<MoonParamLevel> {
       let curValue: number;
@@ -133,7 +133,7 @@ export default Vue.extend({
         curValue = this.model.colonyRate;
         break;
       default:
-        throw new Error('Wrong parameter to get values from: ' + targetParameter);
+        throw 'Wrong parameter to get values from';
       }
 
       const values: Array<MoonParamLevel> = [];

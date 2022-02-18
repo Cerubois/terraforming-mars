@@ -1,15 +1,15 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {LavaFlows} from '../base/LavaFlows';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
-import {BoardName} from '../../common/boards/BoardName';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
+import {BoardName} from '../../boards/BoardName';
 import {PlaceCityTile} from '../../deferredActions/PlaceCityTile';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 
 export class LavaTubeSettlement extends Card implements IProjectCard {
   constructor() {
@@ -43,7 +43,7 @@ export class LavaTubeSettlement extends Card implements IProjectCard {
     return LavaFlows.getVolcanicSpaces(player);
   }
 
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     return this.getSpacesForCity(player).length > 0 && player.getProduction(Resources.ENERGY) >= 1;
   }
 

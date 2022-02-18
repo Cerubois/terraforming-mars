@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {AICentral} from '../../../src/cards/base/AICentral';
 import {TestPlayer} from '../../TestPlayer';
 import {Game} from '../../../src/Game';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('AICentral', function() {
@@ -30,7 +30,8 @@ describe('AICentral', function() {
 
     card.play(player);
     expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(card.getVictoryPoints()).to.eq(1);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
   });
 
   it('Should take action', function() {

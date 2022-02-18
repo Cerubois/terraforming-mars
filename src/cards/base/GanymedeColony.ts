@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {SpaceName} from '../../SpaceName';
-import {SpaceType} from '../../common/boards/SpaceType';
-import {CardName} from '../../common/cards/CardName';
+import {SpaceType} from '../../SpaceType';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 
 export class GanymedeColony extends Card implements IProjectCard {

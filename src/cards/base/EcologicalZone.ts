@@ -1,22 +1,21 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../common/ResourceType';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
+import {ResourceType} from '../../ResourceType';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {IResourceCard} from '../ICard';
 import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 import {ICardMetadata} from '../ICardMetadata';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
-import {Phase} from '../../common/Phase';
+import {Phase} from '../../Phase';
 import {played} from '../Options';
-import {Board} from '../../boards/Board';
 
 export class EcologicalZone extends Card implements IProjectCard, IResourceCard {
   constructor(
@@ -30,7 +29,7 @@ export class EcologicalZone extends Card implements IProjectCard, IResourceCard 
       },
       cardNumber: '128',
       renderData: CardRenderer.builder((b) => {
-        b.effect('When you play an animal or plant tag INCLUDING THESE, add an animal to this card.', (eb) => {
+        b.effect('When you play an animal or plant tag /including these/, add an animal to this card.', (eb) => {
           eb.animals(1, {played}).slash().plants(1, {played}).startEffect.animals(1);
         }).br;
         b.vpText('1 VP per 2 Animals on this card.').tile(TileType.ECOLOGICAL_ZONE, true).asterix();
@@ -51,13 +50,18 @@ export class EcologicalZone extends Card implements IProjectCard, IResourceCard 
     });
   }
 
-  public override resourceCount: number = 0;
+  public resourceCount: number = 0;
 
   private getAvailableSpaces(player: Player): Array<ISpace> {
     return player.game.board.getAvailableSpacesOnLand(player)
-      .filter((space) => player.game.board.getAdjacentSpaces(space).filter(Board.isGreenerySpace).length > 0);
+      .filter(
+        (space) => player.game.board.getAdjacentSpaces(space).filter(
+          (adjacentSpace) => adjacentSpace.tile !== undefined &&
+              adjacentSpace.tile.tileType === TileType.GREENERY,
+        ).length > 0,
+      );
   }
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     return this.getAvailableSpaces(player).length > 0;
   }
   public onCardPlayed(player: Player, card: IProjectCard): void {

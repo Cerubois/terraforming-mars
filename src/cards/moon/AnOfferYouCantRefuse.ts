@@ -1,11 +1,10 @@
-import {CardName} from '../../common/cards/CardName';
-import {Player} from '../../Player';
-import {PlayerId} from '../../common/Types';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {Player, PlayerId} from '../../Player';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {ProjectCard} from '../ProjectCard';
 import {NeutralPlayer, Turmoil} from '../../turmoil/Turmoil';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {PartyName} from '../../turmoil/parties/PartyName';
 import {SelectOption} from '../../inputs/SelectOption';
 import {OrOptions} from '../../inputs/OrOptions';
 import {Game} from '../../Game';
@@ -27,7 +26,7 @@ export class AnOfferYouCantRefuse extends ProjectCard {
         }),
       },
     });
-  }
+  };
 
   private isReplaceableDelegate(delegate: PlayerId | NeutralPlayer, player: Player, party: IParty) {
     return delegate !== player.id && delegate !== 'NEUTRAL' && delegate !== party.partyLeader;

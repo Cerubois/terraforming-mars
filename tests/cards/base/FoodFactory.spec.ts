@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {FoodFactory} from '../../../src/cards/base/FoodFactory';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('FoodFactory', function() {
@@ -24,6 +24,7 @@ describe('FoodFactory', function() {
     expect(player.getProduction(Resources.PLANTS)).to.eq(0);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
 
-    expect(card.getVictoryPoints()).to.eq(1);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
   });
 });

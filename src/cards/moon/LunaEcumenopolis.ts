@@ -1,12 +1,12 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
-import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../CardType';
+import {Tags} from '../Tags';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 import {AltSecondaryTag} from '../render/CardRenderItem';
 import {MoonCard} from './MoonCard';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {MoonExpansion} from '../../moon/MoonExpansion';
 import {PlaceMoonColonyTile} from '../../moon/PlaceMoonColonyTile';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
@@ -35,7 +35,7 @@ export class LunaEcumenopolis extends MoonCard {
     }, {
       tilesBuilt: [TileType.MOON_COLONY],
     });
-  }
+  };
 
   private canAffordTRBump(player: Player) {
     // Note for someone paying close attention:

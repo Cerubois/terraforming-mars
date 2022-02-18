@@ -1,13 +1,13 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
-import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../CardType';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CardRequirements} from '../CardRequirements';
-import {PartyName} from '../../common/turmoil/PartyName';
-import {Resources} from '../../common/Resources';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {Resources} from '../../Resources';
 
 export class SoilDetoxification extends Card implements IProjectCard {
   constructor() {

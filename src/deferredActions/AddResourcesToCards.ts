@@ -1,7 +1,7 @@
 import {DeferredAction, Priority} from './DeferredAction';
 import {Player} from '../Player';
-import {ResourceType} from '../common/ResourceType';
-import {CardName} from '../common/cards/CardName';
+import {ResourceType} from '../ResourceType';
+import {CardName} from '../CardName';
 import {SelectAmount} from '../inputs/SelectAmount';
 import {AndOptions} from '../inputs/AndOptions';
 

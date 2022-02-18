@@ -1,10 +1,10 @@
 import {IProjectCard} from '../IProjectCard';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {SelectAmount} from '../../inputs/SelectAmount';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {multiplier} from '../Options';
 
@@ -27,7 +27,7 @@ export class Insulation extends Card implements IProjectCard {
     });
   }
 
-  public override canPlay(player: Player) {
+  public canPlay(player: Player) {
     return player.getProduction(Resources.HEAT) >= 1;
   }
 

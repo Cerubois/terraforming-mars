@@ -6,7 +6,7 @@ import {FloaterUrbanism} from '../../../src/cards/pathfinders/FloaterUrbanism';
 import {Game} from '../../../src/Game';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {Player} from '../../../src/Player';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('CorroderSuits', function() {
@@ -29,7 +29,7 @@ describe('CorroderSuits', function() {
     player.playedCards.push(card2);
 
     card.play(player);
-    expect(card2.resourceCount).to.eq(1);
+    expect(player.getResourcesOnCard(card2)).to.eq(1);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
   });
 
@@ -42,7 +42,7 @@ describe('CorroderSuits', function() {
     expect(action).instanceOf(SelectCard);
 
         action!.cb([card2]);
-        expect(card2.resourceCount).to.eq(1);
+        expect(player.getResourcesOnCard(card2)).to.eq(1);
         expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
   });
 
@@ -51,7 +51,7 @@ describe('CorroderSuits', function() {
     player.playedCards.push(card2);
 
     card.play(player);
-    expect(card2.resourceCount).to.eq(1);
+    expect(player.getResourcesOnCard(card2)).to.eq(1);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
   });
 });

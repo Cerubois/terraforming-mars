@@ -1,10 +1,10 @@
 import {GlobalEvent, IGlobalEvent} from './IGlobalEvent';
-import {GlobalEventName} from '../../common/turmoil/globalEvents/GlobalEventName';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {GlobalEventName} from './GlobalEventName';
+import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
 import {Turmoil} from '../Turmoil';
-import {Tags} from '../../common/cards/Tags';
-import {Resources} from '../../common/Resources';
+import {Tags} from '../../cards/Tags';
+import {Resources} from '../../Resources';
 import {CardRenderer} from '../../cards/render/CardRenderer';
 import {Size} from '../../cards/render/Size';
 
@@ -16,7 +16,7 @@ export class BalancedDevelopment extends GlobalEvent implements IGlobalEvent {
   constructor() {
     super({
       name: GlobalEventName.BALANCED_DEVELOPMENT,
-      description: 'Gain 2M€ for each Mars tag you have (max 5) and influence.',
+      description: 'Gain 2MC for each Mars tag you have (max 5) and influence.',
       revealedDelegate: PartyName.UNITY,
       currentDelegate: PartyName.MARS,
       renderData: RENDER_DATA,
@@ -24,7 +24,7 @@ export class BalancedDevelopment extends GlobalEvent implements IGlobalEvent {
   }
 
   public resolve(game: Game, turmoil: Turmoil) {
-    game.getPlayersInGenerationOrder().forEach((player) => {
+    game.getPlayers().forEach((player) => {
       const tags = player.getTagCount(Tags.MARS, 'raw');
       const total = Math.min(tags, 5) + turmoil.getPlayerInfluence(player);
       player.addResource(Resources.MEGACREDITS, 2 * total, {log: true, from: this.name});

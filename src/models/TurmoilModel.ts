@@ -1,10 +1,58 @@
-import {Color} from '../common/Color';
-import {PartyName} from '../common/turmoil/PartyName';
+import {Color} from '../Color';
+import {PartyName} from '../turmoil/parties/PartyName';
+import {GlobalEventName} from '../turmoil/globalEvents/GlobalEventName';
 import {Game} from '../Game';
-import {PoliticalAgendas} from '../turmoil/PoliticalAgendas';
+import {Agenda, PoliticalAgendas} from '../turmoil/PoliticalAgendas';
 import {IGlobalEvent} from '../turmoil/globalEvents/IGlobalEvent';
 import {Turmoil} from '../turmoil/Turmoil';
-import {DelegatesModel, GlobalEventModel, PartyModel, PolicyUser, PoliticalAgendasModel, TurmoilModel} from '../common/models/TurmoilModel';
+
+export interface TurmoilModel {
+  dominant: PartyName | undefined;
+  ruling: PartyName | undefined;
+  chairman: Color | undefined;
+  parties: Array<PartyModel>;
+  lobby: Array<Color>;
+  reserve: Array<DelegatesModel>;
+  distant: GlobalEventModel | undefined;
+  coming: GlobalEventModel | undefined;
+  current: GlobalEventModel | undefined;
+  politicalAgendas: PoliticalAgendasModel | undefined;
+  policyActionUsers: Array<PolicyUser>;
+}
+
+export interface PolicyUser {
+  color: Color;
+  turmoilPolicyActionUsed: boolean;
+  politicalAgendasActionUsedCount: number;
+}
+
+export interface PartyModel {
+  name: PartyName;
+  description: string;
+  partyLeader: Color | undefined;
+  delegates: Array<DelegatesModel>;
+}
+
+export interface DelegatesModel {
+  color: Color;
+  number: number;
+}
+
+export interface GlobalEventModel {
+  name: GlobalEventName;
+  description: string;
+  revealed: PartyName;
+  current: PartyName;
+}
+
+export interface PoliticalAgendasModel {
+  marsFirst: Agenda;
+  scientists: Agenda;
+  unity: Agenda;
+  greens: Agenda;
+  reds: Agenda;
+  kelvinists: Agenda;
+}
 
 export function getTurmoilModel(game: Game): TurmoilModel | undefined {
   return Turmoil.ifTurmoilElse(game, (turmoil) => {
@@ -56,7 +104,7 @@ export function getTurmoilModel(game: Game): TurmoilModel | undefined {
     };
 
     const policyActionUsers = Array.from(
-      game.getPlayersInGenerationOrder(),
+      game.getPlayers(),
       (player) => {
         return {
           color: player.color,

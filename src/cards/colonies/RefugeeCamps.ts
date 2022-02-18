@@ -1,10 +1,10 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
-import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../Tags';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
-import {Resources} from '../../common/Resources';
-import {ResourceType} from '../../common/ResourceType';
+import {CardName} from '../../CardName';
+import {ResourceType} from '../../ResourceType';
+import {Resources} from '../../Resources';
 import {IResourceCard} from '../ICard';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
@@ -33,7 +33,7 @@ export class RefugeeCamps extends Card implements IProjectCard, IResourceCard {
     });
   }
 
-  public override resourceCount: number = 0;
+  public resourceCount: number = 0;
 
   public canAct(player: Player): boolean {
     return player.getProduction(Resources.MEGACREDITS) >= -4;

@@ -2,13 +2,13 @@ import {IProjectCard} from '../IProjectCard';
 
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
-import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../CardType';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {ResourceType} from '../../common/ResourceType';
-import {Tags} from '../../common/cards/Tags';
+import {ResourceType} from '../../ResourceType';
+import {Tags} from '../Tags';
 import {CardRequirements} from '../CardRequirements';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 
 export class ControlledBloom extends Card implements IProjectCard {

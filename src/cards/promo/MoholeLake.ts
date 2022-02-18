@@ -1,11 +1,11 @@
-import {IActionCard, ICard} from '../ICard';
-import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {IActionCard, ICard} from './../ICard';
+import {IProjectCard} from './../IProjectCard';
+import {Tags} from './../Tags';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from './../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
-import {ResourceType} from '../../common/ResourceType';
+import {CardName} from '../../CardName';
+import {ResourceType} from '../../ResourceType';
 import {SelectCard} from '../../inputs/SelectCard';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {CardRenderer} from '../render/CardRenderer';

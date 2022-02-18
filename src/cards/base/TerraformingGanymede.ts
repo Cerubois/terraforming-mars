@@ -1,9 +1,9 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {played} from '../Options';
 
@@ -25,7 +25,7 @@ export class TerraformingGanymede extends Card implements IProjectCard {
       },
     });
   }
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     const steps = 1 + player.getTagCount(Tags.JOVIAN);
     return player.canAfford(player.getCardCost(this), {titanium: true, tr: {tr: steps}});
   }

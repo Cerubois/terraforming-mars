@@ -1,14 +1,14 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
-import {Resources} from '../../common/Resources';
+import {Tags} from '../Tags';
+import {Resources} from '../../Resources';
 import {CardRenderer} from '../render/CardRenderer';
 import {PlaceMoonMineTile} from '../../moon/PlaceMoonMineTile';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 
 export class LunarIndustryComplex extends MoonCard implements IProjectCard {
   constructor() {
@@ -33,7 +33,7 @@ export class LunarIndustryComplex extends MoonCard implements IProjectCard {
     }, {
       tilesBuilt: [TileType.MOON_MINE],
     });
-  }
+  };
 
   public override play(player: Player) {
     player.deductUnits(this.reserveUnits);

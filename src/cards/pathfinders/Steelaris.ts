@@ -1,19 +1,19 @@
 import {Card} from '../Card';
 import {CorporationCard} from '../corporation/CorporationCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {all} from '../Options';
 import {ISpace} from '../../boards/ISpace';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {GainResources} from '../../deferredActions/GainResources';
 import {Priority} from '../../deferredActions/DeferredAction';
 import {Size} from '../render/Size';
 import {BoardType} from '../../boards/BoardType';
-import {SpaceType} from '../../common/boards/SpaceType';
+import {SpaceType} from '../../SpaceType';
 
 export class Steelaris extends Card implements CorporationCard {
   constructor() {

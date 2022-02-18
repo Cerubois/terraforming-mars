@@ -1,10 +1,10 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {MoonExpansion} from '../../moon/MoonExpansion';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {CardRenderer} from '../render/CardRenderer';
 import {CardRequirements} from '../CardRequirements';
 import {Card} from '../Card';
@@ -28,11 +28,11 @@ export class CosmicRadiation extends Card implements IProjectCard {
         }),
       },
     });
-  }
+  };
 
   public play(player: Player) {
-    const mines = MoonExpansion.spaces(player.game, TileType.MOON_MINE);
-    player.game.getPlayersInGenerationOrder().forEach((mineTileOwner) => {
+    const mines = MoonExpansion.tiles(player.game, TileType.MOON_MINE);
+    player.game.getPlayers().forEach((mineTileOwner) => {
       const owned = mines.filter((mine) => mine.player?.id === mineTileOwner.id).length;
       if (owned > 0) {
         const owes = owned * 4;

@@ -1,17 +1,17 @@
 import {CorporationCard} from '../corporation/CorporationCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {ISpace} from '../../boards/ISpace';
-import {Resources} from '../../common/Resources';
+import {TileType} from '../../TileType';
+import {Resources} from '../../Resources';
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Priority} from '../../deferredActions/DeferredAction';
 import {GainProduction} from '../../deferredActions/GainProduction';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {all} from '../Options';
-import {Board} from '../../boards/Board';
 
 export class LakefrontResorts extends Card implements CorporationCard {
   constructor() {
@@ -46,7 +46,7 @@ export class LakefrontResorts extends Card implements CorporationCard {
   }
 
   public onTilePlaced(cardOwner: Player, activePlayer: Player, space: ISpace) {
-    if (Board.isUncoveredOceanSpace(space)) {
+    if (space.tile?.tileType === TileType.OCEAN) {
       cardOwner.game.defer(
         new GainProduction(cardOwner, Resources.MEGACREDITS),
         cardOwner.id !== activePlayer.id ? Priority.OPPONENT_TRIGGER : undefined,

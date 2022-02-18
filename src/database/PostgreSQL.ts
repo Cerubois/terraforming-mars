@@ -1,7 +1,6 @@
 import {DbLoadCallback, IDatabase} from './IDatabase';
-import {Game, GameOptions, Score} from '../Game';
-import {GameId} from '../common/Types';
-import {IGameData} from '../common/game/IGameData';
+import {Game, GameId, GameOptions, Score} from '../Game';
+import {IGameData} from './IDatabase';
 import {SerializedGame} from '../SerializedGame';
 
 import {Pool, ClientConfig, QueryResult} from 'pg';
@@ -161,37 +160,22 @@ export class PostgreSQL implements IDatabase {
     });
   }
 
-  getMaxSaveId(game_id: GameId, cb: DbLoadCallback<number>): void {
-    this.client.query('SELECT MAX(save_id) as save_id FROM games WHERE game_id = $1', [game_id], (err: Error | null, res: QueryResult<any>) => {
+  cleanSaves(game_id: GameId, save_id: number): void {
+    // DELETE all saves except initial and last one
+    this.client.query('DELETE FROM games WHERE game_id = $1 AND save_id < $2 AND save_id > 0', [game_id, save_id], (err) => {
       if (err) {
-        return cb(err ?? undefined, undefined);
+        console.error('PostgreSQL:cleanSaves', err);
+        throw err;
       }
-      cb(undefined, res.rows[0].save_id);
-    });
-  }
-
-  throwIf(err: any, condition: string) {
-    if (err) {
-      console.error('PostgreSQL', condition, err);
-      throw err;
-    }
-  }
-
-  cleanSaves(game_id: GameId): void {
-    this.getMaxSaveId(game_id, ((err, save_id) => {
-      this.throwIf(err, 'cleanSaves0');
-      if (save_id === undefined) throw new Error('saveId is undefined for ' + game_id);
-      // DELETE all saves except initial and last one
-      this.client.query('DELETE FROM games WHERE game_id = $1 AND save_id < $2 AND save_id > 0', [game_id, save_id], (err) => {
-        this.throwIf(err, 'cleanSaves1');
-        // Flag game as finished
-        this.client.query('UPDATE games SET status = \'finished\' WHERE game_id = $1', [game_id], (err2) => {
-          this.throwIf(err2, 'cleanSaves2');
-          // Purge after setting the status as finished so it does not delete the game.
-          this.purgeUnfinishedGames();
-        });
+      // Flag game as finished
+      this.client.query('UPDATE games SET status = \'finished\' WHERE game_id = $1', [game_id], (err2) => {
+        if (err2) {
+          console.error('PostgreSQL:cleanSaves2', err2);
+          throw err2;
+        }
       });
-    }));
+    });
+    this.purgeUnfinishedGames();
   }
 
   // Purge unfinished games older than MAX_GAME_DAYS days. If this environment variable is absent, it uses the default of 10 days.
@@ -237,7 +221,7 @@ export class PostgreSQL implements IDatabase {
     const gameJSON = game.toJSON();
     this.client.query(
       'INSERT INTO games (game_id, save_id, game, players) VALUES ($1, $2, $3, $4) ON CONFLICT (game_id, save_id) DO UPDATE SET game = $3',
-      [game.id, game.lastSaveId, gameJSON, game.getPlayersInGenerationOrder().length], (err) => {
+      [game.id, game.lastSaveId, gameJSON, game.getPlayers().length], (err) => {
         if (err) {
           console.error('PostgreSQL:saveGame', err);
           return;

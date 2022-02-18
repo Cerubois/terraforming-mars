@@ -1,5 +1,5 @@
-import {CardName} from '@/common/cards/CardName';
-import {CardModel} from '@/common/models/CardModel';
+import {CardName} from '@/CardName';
+import {CardModel} from '@/models/CardModel';
 
 export function sortActiveCards(inCards: Array<CardModel>): Array<CardModel> {
   const firstCardIndex = -1;

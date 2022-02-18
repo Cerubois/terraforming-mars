@@ -1,6 +1,6 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {MoonExpansion} from '../../moon/MoonExpansion';
@@ -28,7 +28,7 @@ export class LunarSecurityStations extends Card implements IProjectCard {
         }),
       },
     });
-  }
+  };
 
   public play(player: Player) {
     MoonExpansion.raiseLogisticRate(player);

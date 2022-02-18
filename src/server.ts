@@ -60,7 +60,6 @@ const handlers: Map<string, IHandler> = new Map(
     ['/solo', ServeApp.INSTANCE],
     ['/spectator', ServeApp.INSTANCE],
     ['/styles.css', ServeAsset.INSTANCE],
-    ['/sw.js', ServeAsset.INSTANCE],
     ['/the-end', ServeApp.INSTANCE],
   ],
 );
@@ -129,11 +128,10 @@ Database.getInstance().initialize()
   .then(() => {
     Database.getInstance().purgeUnfinishedGames();
 
-    const port = process.env.port || 8080;
-    console.log('Starting server on port ' + port);
+    console.log('Starting server on port ' + (process.env.PORT || 8080));
     console.log('version 0.X');
 
-    server.listen(port);
+    server.listen(process.env.PORT || 8080);
 
     console.log();
     console.log(

@@ -254,18 +254,18 @@ import Colony from '@/client/components/Colony.vue';
 import LogPanel from '@/client/components/LogPanel.vue';
 import {PlayerMixin} from '@/client/mixins/PlayerMixin';
 import Turmoil from '@/client/components/Turmoil.vue';
-import {playerColorClass} from '@/common/utils/utils';
+import {playerColorClass} from '@/utils/utils';
 import PlanetaryTracks from '@/client/components/pathfinders/PlanetaryTracks.vue';
 import DynamicTitle from '@/client/components/common/DynamicTitle.vue';
 import SortableCards from '@/client/components/SortableCards.vue';
 import TopBar from '@/client/components/TopBar.vue';
 import {PreferencesManager} from '@/client/utils/PreferencesManager';
-import {KeyboardNavigation} from '@/client/components/KeyboardNavigation';
+import {KeyboardNavigation} from '@/KeyboardNavigation';
 import MoonBoard from '@/client/components/moon/MoonBoard.vue';
-import {Phase} from '@/common/Phase';
+import {Phase} from '@/Phase';
 import StackedCards from '@/client/components/StackedCards.vue';
-import {GameModel} from '@/common/models/GameModel';
-import {PlayerViewModel, PublicPlayerModel} from '@/common/models/PlayerModel';
+import {GameModel} from '@/models/GameModel';
+import {PlayerViewModel, PublicPlayerModel} from '@/models/PlayerModel';
 
 import * as raw_settings from '@/genfiles/settings.json';
 
@@ -448,7 +448,7 @@ export default Vue.extend({
       alert('Mars is Terraformed!');
       // Avoids repeated calls.
       TerraformedAlertDialog.shouldAlert = false;
-    }
+    };
   },
 });
 

@@ -7,11 +7,11 @@ import {Cartel} from '../../../src/cards/base/Cartel';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {getTestPlayer, newTestGame} from '../../TestGame';
-import {CardName} from '../../../src/common/cards/CardName';
+import {CardName} from '../../../src/CardName';
 import {TestingUtils} from '../../TestingUtils';
 import {CardRequirements} from '../../../src/cards/CardRequirements';
-import {Tags} from '../../../src/common/cards/Tags';
-import {Resources} from '../../../src/common/Resources';
+import {Tags} from '../../../src/cards/Tags';
+import {Resources} from '../../../src/Resources';
 import {Businessperson} from '../../../src/milestones/Businessperson';
 import {Scientist} from '../../../src/awards/Scientist';
 

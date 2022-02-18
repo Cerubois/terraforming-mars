@@ -1,8 +1,8 @@
 import {Player} from '../../Player';
 import {PreludeCard} from '../prelude/PreludeCard';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 
 export class VenusFirst extends PreludeCard {
   constructor() {

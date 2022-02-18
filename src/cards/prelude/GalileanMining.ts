@@ -1,8 +1,8 @@
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {CardRenderer} from '../../cards/render/CardRenderer';
 
@@ -26,7 +26,7 @@ export class GalileanMining extends PreludeCard {
       },
     });
   }
-  public override canPlay(player: Player) {
+  public canPlay(player: Player) {
     return player.canAfford(5);
   }
   public play(player: Player) {

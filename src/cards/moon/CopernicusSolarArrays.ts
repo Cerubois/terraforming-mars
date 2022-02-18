@@ -1,10 +1,10 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
-import {Tags} from '../../common/cards/Tags';
-import {Resources} from '../../common/Resources';
+import {CardType} from '../CardType';
+import {Tags} from '../Tags';
+import {Resources} from '../../Resources';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
 
 export class CopernicusSolarArrays extends MoonCard {
@@ -28,7 +28,7 @@ export class CopernicusSolarArrays extends MoonCard {
         }),
       },
     });
-  }
+  };
 
   public override play(player: Player) {
     super.play(player);

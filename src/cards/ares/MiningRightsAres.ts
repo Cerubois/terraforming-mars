@@ -1,6 +1,6 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {MiningRights} from '../base/MiningRights';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {CardRenderer} from '../render/CardRenderer';
 
 export class MiningRightsAres extends MiningRights {

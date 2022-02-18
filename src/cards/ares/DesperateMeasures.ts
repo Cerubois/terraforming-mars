@@ -1,12 +1,12 @@
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Game} from '../../Game';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {AresHandler} from '../../ares/AresHandler';
 import {CardRenderer} from '../render/CardRenderer';
 

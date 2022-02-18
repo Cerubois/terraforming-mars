@@ -1,6 +1,6 @@
 import {Database} from './Database';
-import {Game} from '../Game';
-import {PlayerId, GameId, SpectatorId} from '../common/Types';
+import {Game, GameId, SpectatorId} from '../Game';
+import {PlayerId} from '../Player';
 import {IGameLoader} from './IGameLoader';
 import {GameIds} from './GameIds';
 import {MultiMap} from 'mnemonist';
@@ -39,7 +39,7 @@ export class GameLoader implements IGameLoader {
       if (game.spectatorId !== undefined) {
         d.participantIds.set(game.spectatorId, game.id);
       }
-      for (const player of game.getPlayersInGenerationOrder()) {
+      for (const player of game.getPlayers()) {
         d.participantIds.set(player.id, game.id);
       }
     });

@@ -1,12 +1,12 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {SendDelegateToArea} from '../../deferredActions/SendDelegateToArea';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {CorporationCard} from '../corporation/CorporationCard';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Turmoil} from '../../turmoil/Turmoil';
 
 export class TempestConsultancy extends Card implements CorporationCard {
@@ -60,5 +60,5 @@ export class TempestConsultancy extends Card implements CorporationCard {
         {count: count, source: 'reserve'}));
     }
     return undefined;
-  }
+  };
 }

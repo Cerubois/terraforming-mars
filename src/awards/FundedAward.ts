@@ -1,6 +1,6 @@
 import {IAward} from './IAward';
-import {Player} from '../Player';
-import {PlayerId} from '../common/Types';
+import {Player, PlayerId} from '../Player';
+
 export interface FundedAward {
   award: IAward;
   player: Player;

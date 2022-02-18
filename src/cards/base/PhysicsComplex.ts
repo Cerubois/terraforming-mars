@@ -1,12 +1,12 @@
 import {IActionCard, IResourceCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../common/ResourceType';
-import {CardName} from '../../common/cards/CardName';
+import {ResourceType} from '../../ResourceType';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {digit} from '../Options';
 
@@ -33,17 +33,17 @@ export class PhysicsComplex extends Card implements IActionCard, IProjectCard, I
     });
   }
 
-  public override resourceCount: number = 0;
+    public resourceCount: number = 0;
 
-  public play() {
-    return undefined;
-  }
-  public canAct(player: Player): boolean {
-    return player.energy >= 6;
-  }
-  public action(player: Player) {
-    player.energy -= 6;
-    player.addResourceTo(this, 1);
-    return undefined;
-  }
+    public play() {
+      return undefined;
+    }
+    public canAct(player: Player): boolean {
+      return player.energy >= 6;
+    }
+    public action(player: Player) {
+      player.energy -= 6;
+      player.addResourceTo(this, 1);
+      return undefined;
+    }
 }

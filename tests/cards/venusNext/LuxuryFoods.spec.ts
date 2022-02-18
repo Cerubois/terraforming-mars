@@ -31,6 +31,7 @@ describe('LuxuryFoods', function() {
 
     const action = card.play();
     expect(action).is.undefined;
-    expect(card.getVictoryPoints()).to.eq(2);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
   });
 });

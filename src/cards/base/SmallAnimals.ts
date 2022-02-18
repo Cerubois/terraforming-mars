@@ -1,13 +1,13 @@
 import {IActionCard, IResourceCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
-import {ResourceType} from '../../common/ResourceType';
-import {CardName} from '../../common/cards/CardName';
+import {ResourceType} from '../../ResourceType';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {DecreaseAnyProduction} from '../../deferredActions/DecreaseAnyProduction';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -41,20 +41,20 @@ export class SmallAnimals extends Card implements IActionCard, IProjectCard, IRe
       },
     });
   }
-  public override resourceCount = 0;
-  public override canPlay(player: Player): boolean {
-    return player.game.someoneCanHaveProductionReduced(Resources.PLANTS, 1);
-  }
-  public play(player: Player) {
-    player.game.defer(
-      new DecreaseAnyProduction(player, Resources.PLANTS, {count: 1}));
-    return undefined;
-  }
-  public canAct(): boolean {
-    return true;
-  }
-  public action(player: Player) {
-    player.addResourceTo(this);
-    return undefined;
-  }
+    public resourceCount = 0;
+    public canPlay(player: Player): boolean {
+      return player.game.someoneHasResourceProduction(Resources.PLANTS, 1);
+    }
+    public play(player: Player) {
+      player.game.defer(
+        new DecreaseAnyProduction(player, Resources.PLANTS, {count: 1}));
+      return undefined;
+    }
+    public canAct(): boolean {
+      return true;
+    }
+    public action(player: Player) {
+      player.addResourceTo(this);
+      return undefined;
+    }
 }

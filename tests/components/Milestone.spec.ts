@@ -4,12 +4,16 @@ import {getLocalVue} from './getLocalVue';
 
 import {expect} from 'chai';
 import Milestone from '@/client/components/Milestone.vue';
-import {ClaimedMilestoneModel} from '@/common/models/ClaimedMilestoneModel';
+import {ClaimedMilestoneModel} from '@/models/ClaimedMilestoneModel';
 
 describe('Milestone', function() {
   const mockMilestone: ClaimedMilestoneModel = {
-    name: 'test',
-    description: 'a test',
+    milestone: {
+      name: 'test',
+      description: 'a test',
+      canClaim: () => true,
+      getScore: () => 0,
+    },
     player_name: 'foo',
     player_color: 'blue',
     scores: [],

@@ -1,8 +1,8 @@
 import {CorporationCard} from '../corporation/CorporationCard';
 import {Player} from '../../Player';
-import {Tags} from '../../common/cards/Tags';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../Tags';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
 import {SelectCard} from '../../inputs/SelectCard';
 import {ICard} from '../ICard';
@@ -12,7 +12,7 @@ import {Card} from '../Card';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {AltSecondaryTag} from '../render/CardRenderItem';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {digit} from '../Options';
 
 export class ProjectWorkshop extends Card implements CorporationCard {

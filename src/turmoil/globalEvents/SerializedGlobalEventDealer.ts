@@ -1,4 +1,4 @@
-import {GlobalEventName} from '../../common/turmoil/globalEvents/GlobalEventName';
+import {GlobalEventName} from './GlobalEventName';
 
 export interface SerializedGlobalEventDealer {
   deck: Array<GlobalEventName>;

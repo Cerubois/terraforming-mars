@@ -4,7 +4,8 @@ import {Player} from '../Player';
 import {PlayerInput} from '../PlayerInput';
 import {DeferredAction, Priority} from './DeferredAction';
 import {IParty} from '../turmoil/parties/IParty';
-import {BonusId, PolicyId} from '../common/turmoil/Types';
+import {BonusId} from '../turmoil/Bonus';
+import {PolicyId} from '../turmoil/Policy';
 
 export class ChoosePoliticalAgenda implements DeferredAction {
   public priority = Priority.DEFAULT;
@@ -16,7 +17,7 @@ export class ChoosePoliticalAgenda implements DeferredAction {
   ) {}
 
   public execute(): PlayerInput {
-    const players = this.player.game.getPlayersInGenerationOrder();
+    const players = this.player.game.getPlayers();
     const bonuses: Array<SelectOption> = this.party.bonuses.map((bonus) => {
       const description = bonus.description + ' (' + players.map((player) => player.name + ': ' + bonus.getScore(player)).join(' / ') + ')';
 

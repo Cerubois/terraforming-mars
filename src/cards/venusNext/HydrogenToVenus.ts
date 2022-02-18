@@ -1,10 +1,10 @@
 import {ICard} from '../ICard';
-import {Tags} from '../../common/cards/Tags';
-import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../Tags';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../common/ResourceType';
+import {ResourceType} from '../../ResourceType';
 import {SelectCard} from '../../inputs/SelectCard';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {played} from '../Options';
@@ -27,7 +27,7 @@ export class HydrogenToVenus extends Card {
         description: 'Raise Venus 1 step. Add 1 Floater to A Venus CARD for each Jovian tag you have.',
       },
     });
-  }
+  };
 
   public play(player: Player) {
     const jovianTags: number = player.getTagCount(Tags.JOVIAN);
