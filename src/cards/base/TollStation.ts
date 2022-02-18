@@ -23,7 +23,7 @@ export class TollStation extends Card implements IProjectCard {
             pb.megacredits(1).slash().space({played, all}).asterix();
           });
         }),
-        description: 'Increase your M€ production 1 step for each space tag an OPPONENT has. (Will always target the highest)',
+        description: 'Increase your M€ production 1 step for each space tag an OPPONENT has. Will always target the highest.',
       },
     });
   }
