@@ -4,11 +4,11 @@ import {TestPlayers} from '../../TestPlayers';
 import {TestPlayer} from '../../TestPlayer';
 import {AlgaeBioreactors} from '../../../src/cards/moon/AlgaeBioreactors';
 import {expect} from 'chai';
-import {Resources} from '../../../src/Resources';
+import {Resources} from '../../../src/common/Resources';
 import {IMoonData} from '../../../src/moon/IMoonData';
 import {MoonExpansion} from '../../../src/moon/MoonExpansion';
-import {Phase} from '../../../src/Phase';
-import {MAX_OXYGEN_LEVEL} from '../../../src/constants';
+import {Phase} from '../../../src/common/Phase';
+import {MAX_OXYGEN_LEVEL} from '../../../src/common/constants';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 

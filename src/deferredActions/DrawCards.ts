@@ -1,10 +1,10 @@
 import {Player} from '../Player';
-import {Tags} from '../cards/Tags';
+import {Tags} from '../common/cards/Tags';
 import {IProjectCard} from '../cards/IProjectCard';
 import {DeferredAction, Priority} from './DeferredAction';
 import {SelectCard} from '../inputs/SelectCard';
-import {ResourceType} from '../ResourceType';
-import {CardType} from '../cards/CardType';
+import {ResourceType} from '../common/ResourceType';
+import {CardType} from '../common/cards/CardType';
 import {SelectHowToPayDeferred} from './SelectHowToPayDeferred';
 import {LogHelper} from '../LogHelper';
 
@@ -42,7 +42,7 @@ export class DrawCards<T extends undefined | SelectCard<IProjectCard>> implement
     });
 
     return this.cb(cards);
-  };
+  }
 
   public static keepAll(player: Player, count: number = 1, options?: DrawCards.DrawOptions): DrawCards<undefined> {
     return new DrawCards(player, count, options, (cards) =>

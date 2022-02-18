@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {Capital} from '../../../src/cards/base/Capital';
 import {MedicalLab} from '../../../src/cards/base/MedicalLab';
 import {Game} from '../../../src/Game';
-import {Resources} from '../../../src/Resources';
+import {Resources} from '../../../src/common/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('MedicalLab', function() {
@@ -16,7 +16,6 @@ describe('MedicalLab', function() {
     player.playedCards.push(new Capital());
     card.play(player);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
-    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(card.getVictoryPoints()).to.eq(1);
   });
 });

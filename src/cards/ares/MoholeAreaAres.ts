@@ -1,7 +1,7 @@
-import {CardName} from '../../CardName';
-import {SpaceBonus} from '../../SpaceBonus';
+import {CardName} from '../../common/cards/CardName';
+import {SpaceBonus} from '../../common/boards/SpaceBonus';
 import {MoholeArea} from '../base/MoholeArea';
-import {TileType} from '../../TileType';
+import {TileType} from '../../common/TileType';
 import {CardRenderer} from '../render/CardRenderer';
 import {digit} from '../Options';
 

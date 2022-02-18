@@ -4,7 +4,7 @@ import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 import {AncientShipyards} from '../../../src/cards/moon/AncientShipyards';
 import {expect} from 'chai';
-import {Resources} from '../../../src/Resources';
+import {Resources} from '../../../src/common/Resources';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
@@ -73,13 +73,11 @@ describe('AncientShipyards', () => {
   it('victory points', () => {
     expect(card.getVictoryPoints()).eq(0);
     card.resourceCount = 1;
-    expect(card.getVictoryPoints()).eq(0);
+    expect(card.getVictoryPoints()).eq(-1);
     card.resourceCount = 2;
-    expect(card.getVictoryPoints()).eq(-1);
-    card.resourceCount = 3;
-    expect(card.getVictoryPoints()).eq(-1);
-    card.resourceCount = 4;
     expect(card.getVictoryPoints()).eq(-2);
+    card.resourceCount = 3;
+    expect(card.getVictoryPoints()).eq(-3);
   });
 });
 

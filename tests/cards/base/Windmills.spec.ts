@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {Windmills} from '../../../src/cards/base/Windmills';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/Resources';
+import {Resources} from '../../../src/common/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('Windmills', function() {
@@ -25,7 +25,6 @@ describe('Windmills', function() {
 
     card.play(player);
     expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(card.getVictoryPoints()).to.eq(1);
   });
 });

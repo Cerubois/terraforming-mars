@@ -4,10 +4,10 @@ import {LandSpecialist} from '../../src/milestones/LandSpecialist';
 import {TestingUtils} from '../TestingUtils';
 import {TestPlayers} from '../TestPlayers';
 import {TestPlayer} from '../TestPlayer';
-import {BoardName} from '../../src/boards/BoardName';
+import {BoardName} from '../../src/common/boards/BoardName';
 import {Board} from '../../src/boards/Board';
 import {ISpace} from '../../src/boards/ISpace';
-import {TileType} from '../../src/TileType';
+import {TileType} from '../../src/common/TileType';
 import {MoonExpansion} from '../../src/moon/MoonExpansion';
 
 describe('LandSpecialist', function() {

@@ -1,12 +1,12 @@
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {Player} from '../../Player';
-import {CardType} from '../CardType';
-import {Tags} from '../Tags';
+import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../../common/cards/Tags';
 import {CorporationCard} from '../corporation/CorporationCard';
 import {CardRenderer} from '../render/CardRenderer';
 import {IProjectCard} from '../IProjectCard';
 import {ICard} from '../ICard';
-import {ResourceType} from '../../ResourceType';
+import {ResourceType} from '../../common/ResourceType';
 import {PlaceMoonColonyTile} from '../../moon/PlaceMoonColonyTile';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
@@ -49,7 +49,7 @@ export class IntragenSanctuaryHeadquarters extends Card implements CorporationCa
     // Gains the initial resource from its own tag.
     this.resourceCount = 1;
     return undefined;
-  };
+  }
 
   public onCorpCardPlayed(player: Player, card: CorporationCard) {
     return this.onCardPlayed(player, card as ICard as IProjectCard);

@@ -1,13 +1,13 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
-import {CardName} from '../../CardName';
+import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Tags} from '../Tags';
-import {SpaceType} from '../../SpaceType';
-import {TileType} from '../../TileType';
-import {Resources} from '../../Resources';
+import {Tags} from '../../common/cards/Tags';
+import {SpaceType} from '../../common/boards/SpaceType';
+import {Resources} from '../../common/Resources';
+import {TileType} from '../../common/TileType';
 import {all} from '../Options';
 
 export class InterplanetaryTransport extends Card implements IProjectCard {

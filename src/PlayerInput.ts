@@ -1,6 +1,6 @@
 import {ICard} from './cards/ICard';
-import {Message} from './Message';
-import {PlayerInputTypes} from './PlayerInputTypes';
+import {Message} from './common/logs/Message';
+import {PlayerInputTypes} from './common/input/PlayerInputTypes';
 
 export interface PlayerInput {
     inputType: PlayerInputTypes;

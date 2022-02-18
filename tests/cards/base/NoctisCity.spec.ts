@@ -2,12 +2,12 @@ import {expect} from 'chai';
 import {NoctisCity} from '../../../src/cards/base/NoctisCity';
 import {Game} from '../../../src/Game';
 import {Player} from '../../../src/Player';
-import {Resources} from '../../../src/Resources';
+import {Resources} from '../../../src/common/Resources';
 import {SpaceName} from '../../../src/SpaceName';
-import {TileType} from '../../../src/TileType';
+import {TileType} from '../../../src/common/TileType';
 import {TestPlayers} from '../../TestPlayers';
 import {newTestGame} from '../../TestGame';
-import {BoardName} from '../../../src/boards/BoardName';
+import {BoardName} from '../../../src/common/boards/BoardName';
 
 describe('NoctisCity', function() {
   let card : NoctisCity; let player : Player; let game : Game;
@@ -26,7 +26,7 @@ describe('NoctisCity', function() {
   it('All land spaces are available on Hellas', function() {
     // With two players, there's no solo setup, so all spaces will be available.
     const game = newTestGame(2, {boardName: BoardName.HELLAS});
-    const player = game.getPlayers()[0];
+    const player = game.getPlayersInGenerationOrder()[0];
 
     const action = card.play(player);
     expect(action!.availableSpaces).deep.eq(game.board.getAvailableSpacesForCity(player));

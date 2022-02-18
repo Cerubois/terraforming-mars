@@ -1,15 +1,15 @@
 import {Card} from '../Card';
 import {CorporationCard} from '../corporation/CorporationCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
-import {CardType} from '../CardType';
+import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../../common/cards/CardType';
 import {CardRenderer} from '../render/CardRenderer';
-import {ResourceType} from '../../ResourceType';
+import {ResourceType} from '../../common/ResourceType';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {played} from '../Options';
 import {IProjectCard} from '../IProjectCard';
-import {MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE} from '../../constants';
+import {MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE} from '../../common/constants';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 
@@ -41,7 +41,8 @@ export class RobinHaulings extends Card implements CorporationCard {
 
   public override resourceCount = 0;
 
-  public play() {
+  public play(player: Player) {
+    player.addResourceTo(this, 1);
     return undefined;
   }
 
@@ -76,7 +77,7 @@ export class RobinHaulings extends Card implements CorporationCard {
             this.resourceCount -= 3;
             return undefined;
           }));
-    };
+    }
     if (this.canRaiseOxygen(player)) {
       options.options.push(
         new SelectOption(
@@ -87,7 +88,7 @@ export class RobinHaulings extends Card implements CorporationCard {
             this.resourceCount -= 3;
             return undefined;
           }));
-    };
+    }
 
     if (options.options.length === 0) {
       return undefined;

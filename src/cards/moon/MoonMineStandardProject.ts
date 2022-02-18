@@ -1,13 +1,13 @@
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {StandardProjectCard} from '../StandardProjectCard';
 import {MoonExpansion} from '../../moon/MoonExpansion';
 import {PlaceMoonMineTile} from '../../moon/PlaceMoonMineTile';
-import {Units} from '../../Units';
-import {Resources} from '../../Resources';
+import {Units} from '../../common/Units';
+import {Resources} from '../../common/Resources';
 import {IMoonCard} from './IMoonCard';
-import {TileType} from '../../TileType';
+import {TileType} from '../../common/TileType';
 import {AltSecondaryTag} from '../render/CardRenderItem';
 
 export class MoonMineStandardProject extends StandardProjectCard implements IMoonCard {

@@ -1,6 +1,7 @@
 import {DbLoadCallback, IDatabase} from './IDatabase';
-import {Game, GameId, GameOptions, Score} from '../Game';
-import {IGameData} from './IDatabase';
+import {Game, GameOptions, Score} from '../Game';
+import {GameId} from '../common/Types';
+import {IGameData} from '../common/game/IGameData';
 import {SerializedGame} from '../SerializedGame';
 import {Dirent} from 'fs';
 
@@ -116,7 +117,7 @@ export class Localfilesystem implements IDatabase {
     // Not implemented
   }
 
-  cleanSaves(_gameId: GameId, _save_id: number): void {
+  cleanSaves(_gameId: GameId): void {
     // Not implemented here.
   }
 

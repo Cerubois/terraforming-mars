@@ -1,8 +1,8 @@
-import {LogMessageDataType} from '@/LogMessageDataType';
-import {Message} from '@/Message';
+import {LogMessageDataType} from '@/common/logs/LogMessageDataType';
+import {Message} from '@/common/logs/Message';
 import {PreferencesManager} from '@/client/utils/PreferencesManager';
-import {LogMessageData} from '@/LogMessageData';
-import {Log} from '@/Log';
+import {LogMessageData} from '@/common/logs/LogMessageData';
+import {Log} from '@/common/logs/Log';
 
 export function translateMessage(message: Message): string {
   message.message = translateText(message.message);

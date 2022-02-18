@@ -19,15 +19,15 @@ import Vue from 'vue';
 
 import Button from '@/client/components/common/Button.vue';
 import {getCard} from '@/client/cards/ClientCardManifest';
-import {CardName} from '@/CardName';
-import * as constants from '@/constants';
+import {CardName} from '@/common/cards/CardName';
+import * as constants from '@/common/constants';
 import {CorporationCard} from '@/cards/corporation/CorporationCard';
-import {PlayerInputModel} from '@/models/PlayerInputModel';
-import {PlayerViewModel} from '@/models/PlayerModel';
+import {PlayerInputModel} from '@/common/models/PlayerInputModel';
+import {PlayerViewModel} from '@/common/models/PlayerModel';
 import SelectCard from '@/client/components/SelectCard.vue';
 import ConfirmDialog from '@/client/components/common/ConfirmDialog.vue';
 import {PreferencesManager} from '@/client/utils/PreferencesManager';
-import {Tags} from '@/cards/Tags';
+import {Tags} from '@/common/cards/Tags';
 import {PreludeCard} from '@/cards/prelude/PreludeCard';
 
 export default Vue.extend({
