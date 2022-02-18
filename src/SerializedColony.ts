@@ -1,14 +1,11 @@
 
-import {ColonyName} from './colonies/ColonyName';
-import {PlayerId} from './Player';
-import {ResourceType} from './ResourceType';
+import {ColonyName} from './common/colonies/ColonyName';
+import {PlayerId} from './common/Types';
 
 export interface SerializedColony {
-    colonies: Array<PlayerId>;
-    description: string;
     name: ColonyName;
+    colonies: Array<PlayerId>;
     isActive: boolean;
-    resourceType?: ResourceType;
     trackPosition: number;
     visitor: undefined | PlayerId;
 }

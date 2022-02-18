@@ -1,8 +1,8 @@
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {StandardProjectCard} from '../StandardProjectCard';
-import * as constants from '../../constants';
+import * as constants from '../../common/constants';
 
 export class AirScrappingStandardProject extends StandardProjectCard {
   constructor(properties = {
@@ -21,7 +21,7 @@ export class AirScrappingStandardProject extends StandardProjectCard {
     super(properties);
   }
 
-  public canAct(player: Player): boolean {
+  public override canAct(player: Player): boolean {
     if (player.game.getVenusScaleLevel() >= constants.MAX_VENUS_SCALE) return false;
     return super.canAct(player);
   }

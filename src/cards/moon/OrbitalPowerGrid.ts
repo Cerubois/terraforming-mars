@@ -1,10 +1,10 @@
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {Player} from '../../Player';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../Resources';
+import {Resources} from '../../common/Resources';
 import {Card} from '../Card';
 import {all} from '../Options';
 
@@ -25,10 +25,10 @@ export class OrbitalPowerGrid extends Card implements IProjectCard {
         }),
       },
     });
-  };
+  }
 
   public play(player: Player) {
-    const amount = player.game.getCitiesInPlay() - player.game.getCitiesInPlayOnMars();
+    const amount = player.game.getCitiesCount() - player.game.getCitiesOnMarsCount();
     player.addProduction(Resources.ENERGY, amount, {log: true});
     return undefined;
   }

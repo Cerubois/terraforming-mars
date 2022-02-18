@@ -2,16 +2,12 @@ import {AltSecondaryTag, CardRenderItem, ItemOptions} from './CardRenderItem';
 import {CardRenderSymbol} from './CardRenderSymbol';
 import {Size} from './Size';
 import {CardRenderItemType} from './CardRenderItemType';
-import {TileType} from '../../TileType';
+import {TileType} from '../../common/TileType';
 
 export type ItemType = CardRenderItem | CardRenderProductionBox | CardRenderSymbol | CardRenderEffect | CardRenderTile | string | undefined;
 
 export class CardRenderer {
-  constructor(protected _rows: Array<Array<ItemType>> = [[]]) {}
-
-  public get rows() {
-    return this._rows;
-  }
+  constructor(public rows: Array<Array<ItemType>> = [[]]) {}
 
   public static builder(f: (builder: Builder) => void): CardRenderer {
     const builder = new Builder();
@@ -21,11 +17,11 @@ export class CardRenderer {
 }
 
 export class CardRenderProductionBox extends CardRenderer {
-  constructor(rows: Array<Array<CardRenderItem | CardRenderSymbol>>) {
+  constructor(rows: Array<Array<ItemType>>) {
     super(rows);
   }
 
-  public static builder(f: (builder: ProductionBoxBuilder) => void): CardRenderProductionBox {
+  public static override builder(f: (builder: ProductionBoxBuilder) => void): CardRenderProductionBox {
     const builder = new ProductionBoxBuilder();
     f(builder);
     return builder.build();
@@ -33,15 +29,15 @@ export class CardRenderProductionBox extends CardRenderer {
 }
 
 export class CardRenderTile {
-  constructor(public tile: TileType, public hasSymbol: boolean, public isAres: boolean) { };
+  constructor(public tile: TileType, public hasSymbol: boolean, public isAres: boolean) { }
 }
 
 export class CardRenderEffect extends CardRenderer {
-  constructor(rows: Array<Array<CardRenderItem | CardRenderSymbol | CardRenderProductionBox | CardRenderTile | string>>) {
+  constructor(rows: Array<Array<ItemType>>) {
     super(rows);
   }
 
-  public static builder(f: (builder: EffectBuilder) => void): CardRenderEffect {
+  public static override builder(f: (builder: EffectBuilder) => void): CardRenderEffect {
     const builder = new EffectBuilder();
     f(builder);
     return builder.build();
@@ -91,11 +87,11 @@ export class CardRenderEffect extends CardRenderer {
 }
 
 export class CardRenderCorpBoxEffect extends CardRenderer {
-  constructor(rows: Array<Array<CardRenderEffect | CardRenderItem | string>>) {
+  constructor(rows: Array<Array<ItemType>>) {
     super(rows);
   }
 
-  public static builder(f: (builder: CorpEffectBuilderEffect) => void): CardRenderCorpBoxEffect {
+  public static override builder(f: (builder: CorpEffectBuilderEffect) => void): CardRenderCorpBoxEffect {
     const builder = new CorpEffectBuilderEffect();
     f(builder);
     return builder.build();
@@ -103,11 +99,11 @@ export class CardRenderCorpBoxEffect extends CardRenderer {
 }
 
 export class CardRenderCorpBoxAction extends CardRenderer {
-  constructor(rows: Array<Array<CardRenderEffect | CardRenderItem | string>>) {
+  constructor(rows: Array<Array<ItemType>>) {
     super(rows);
   }
 
-  public static builder(f: (builder: CorpEffectBuilderAction) => void): CardRenderCorpBoxAction {
+  public static override builder(f: (builder: CorpEffectBuilderAction) => void): CardRenderCorpBoxAction {
     const builder = new CorpEffectBuilderAction();
     f(builder);
     return builder.build();
@@ -230,8 +226,8 @@ class Builder {
     return this._appendToRow(new CardRenderItem(CardRenderItemType.SCIENCE, amount, options));
   }
 
-  public trade(): Builder {
-    return this._appendToRow(new CardRenderItem(CardRenderItemType.TRADE));
+  public trade(options?: ItemOptions): Builder {
+    return this._appendToRow(new CardRenderItem(CardRenderItemType.TRADE, -1, options));
   }
   public tradeFleet(): Builder {
     return this._appendToRow(new CardRenderItem(CardRenderItemType.TRADE_FLEET));
@@ -412,6 +408,11 @@ class Builder {
     return this;
   }
 
+  public orbital(): Builder {
+    this._appendToRow(new CardRenderItem(CardRenderItemType.ORBITAL, 1));
+    return this;
+  }
+
   public specialTile(options?: ItemOptions) {
     this._appendToRow(new CardRenderItem(CardRenderItemType.EMPTY_TILE_SPECIAL, 1, options));
     return this;
@@ -575,33 +576,25 @@ class Builder {
 }
 
 class ProductionBoxBuilder extends Builder {
-  protected _data: Array<Array<CardRenderItem | CardRenderSymbol>> = [[]];
-
-  public build(): CardRenderProductionBox {
+  public override build(): CardRenderProductionBox {
     return new CardRenderProductionBox(this._data);
   }
 }
 
 class EffectBuilder extends Builder {
-  protected _data: Array<Array<CardRenderItem | CardRenderSymbol | CardRenderProductionBox>> = [[]];
-
-  public build(): CardRenderEffect {
+  public override build(): CardRenderEffect {
     return new CardRenderEffect(this._data);
   }
 }
 
 class CorpEffectBuilderEffect extends Builder {
-  protected _data: Array<Array<CardRenderEffect | CardRenderItem>> = [[]];
-
-  public build(): CardRenderCorpBoxAction {
+  public override build(): CardRenderCorpBoxAction {
     return new CardRenderCorpBoxEffect(this._data);
   }
 }
 
 class CorpEffectBuilderAction extends Builder {
-  protected _data: Array<Array<CardRenderEffect | CardRenderItem>> = [[]];
-
-  public build(): CardRenderCorpBoxEffect {
+  public override build(): CardRenderCorpBoxEffect {
     return new CardRenderCorpBoxAction(this._data);
   }
 }

@@ -1,7 +1,6 @@
 import {IGameLoader} from '../../src/database/IGameLoader';
-import {Game, GameId, SpectatorId} from '../../src/Game';
-import {PlayerId} from '../../src/Player';
-
+import {Game} from '../../src/Game';
+import {PlayerId, GameId, SpectatorId} from '../../src/common/Types';
 
 export class FakeGameLoader implements IGameLoader {
   private games: Map<string, Game> = new Map();
@@ -19,7 +18,7 @@ export class FakeGameLoader implements IGameLoader {
   }
   getByPlayerId(playerId: string, cb: (game: Game | undefined) => void): void {
     for (const game of Array.from(this.games.values())) {
-      for (const player of game.getPlayers()) {
+      for (const player of game.getPlayersInGenerationOrder()) {
         if (player.id === playerId) {
           cb(game);
           return;

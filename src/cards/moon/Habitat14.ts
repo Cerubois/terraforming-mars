@@ -1,11 +1,11 @@
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {Player} from '../../Player';
-import {CardType} from '../CardType';
-import {Tags} from '../Tags';
+import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../../common/cards/Tags';
 import {PlaceMoonColonyTile} from '../../moon/PlaceMoonColonyTile';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../Units';
-import {TileType} from '../../TileType';
+import {Units} from '../../common/Units';
+import {TileType} from '../../common/TileType';
 import {MoonCard} from './MoonCard';
 
 

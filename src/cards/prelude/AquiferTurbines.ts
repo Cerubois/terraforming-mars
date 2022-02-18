@@ -1,11 +1,11 @@
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../Units';
+import {Units} from '../../common/Units';
 
 export class AquiferTurbines extends PreludeCard {
   constructor() {
@@ -26,7 +26,7 @@ export class AquiferTurbines extends PreludeCard {
       },
     });
   }
-  public canPlay(player: Player) {
+  public override canPlay(player: Player) {
     return player.canAfford(3);
   }
   public play(player: Player) {

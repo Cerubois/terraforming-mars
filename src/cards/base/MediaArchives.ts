@@ -1,10 +1,10 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
+import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../common/Resources';
 import {CardRenderer} from '../render/CardRenderer';
 import {all, played} from '../Options';
 
@@ -27,7 +27,7 @@ export class MediaArchives extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    const allPlayedEvents: number = player.game.getPlayers().map((player) => player.getPlayedEventsCount()).reduce((a, c) => a + c, 0);
+    const allPlayedEvents: number = player.game.getPlayersInGenerationOrder().map((player) => player.getPlayedEventsCount()).reduce((a, c) => a + c, 0);
     player.addResource(Resources.MEGACREDITS, allPlayedEvents, {log: true});
     return undefined;
   }

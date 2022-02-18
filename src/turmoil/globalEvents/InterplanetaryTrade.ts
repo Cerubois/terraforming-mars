@@ -1,9 +1,9 @@
 import {IGlobalEvent, GlobalEvent} from './IGlobalEvent';
-import {GlobalEventName} from './GlobalEventName';
-import {PartyName} from '../parties/PartyName';
+import {GlobalEventName} from '../../common/turmoil/globalEvents/GlobalEventName';
+import {PartyName} from '../../common/turmoil/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
-import {Tags} from '../../cards/Tags';
+import {Resources} from '../../common/Resources';
+import {Tags} from '../../common/cards/Tags';
 import {Turmoil} from '../Turmoil';
 import {CardRenderer} from '../../cards/render/CardRenderer';
 import {Size} from '../../cards/render/Size';
@@ -24,7 +24,7 @@ export class InterplanetaryTrade extends GlobalEvent implements IGlobalEvent {
     });
   }
   public resolve(game: Game, turmoil: Turmoil) {
-    game.getPlayers().forEach((player) => {
+    game.getPlayersInGenerationOrder().forEach((player) => {
       player.addResource(Resources.MEGACREDITS, 2 * (Math.min(5, player.getTagCount(Tags.SPACE, 'raw')) + turmoil.getPlayerInfluence(player)), {log: true, from: this.name});
     });
   }

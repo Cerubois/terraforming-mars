@@ -21,7 +21,7 @@
 import Vue from 'vue';
 
 import {ICard} from '@/cards/ICard';
-import {CardModel} from '@/models/CardModel';
+import {CardModel} from '@/common/models/CardModel';
 import CardTitle from './CardTitle.vue';
 import CardNumber from './CardNumber.vue';
 import CardResourceCounter from './CardResourceCounter.vue';
@@ -29,13 +29,13 @@ import CardCost from './CardCost.vue';
 import CardExtraContent from './CardExtraContent.vue';
 import CardExpansion from './CardExpansion.vue';
 import CardTags from './CardTags.vue';
-import {CardType} from '@/cards/CardType';
+import {CardType} from '@/common/cards/CardType';
 import CardContent from './CardContent.vue';
 import {ICardMetadata} from '@/cards/ICardMetadata';
-import {Tags} from '@/cards/Tags';
+import {Tags} from '@/common/cards/Tags';
 import {CardRequirements} from '@/cards/CardRequirements';
 import {PreferencesManager} from '@/client/utils/PreferencesManager';
-import {ResourceType} from '@/ResourceType';
+import {ResourceType} from '@/common/ResourceType';
 import {getCard} from '@/client/cards/ClientCardManifest';
 
 export default Vue.extend({

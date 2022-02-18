@@ -1,7 +1,7 @@
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {Priority} from '../../deferredActions/DeferredAction';
 import {DiscardCards} from '../../deferredActions/DiscardCards';
 import {CardRenderer} from '../render/CardRenderer';
@@ -28,7 +28,7 @@ export class SponsoredAcademies extends Card {
         description: 'Discard 1 card from your hand and THEN draw 3 cards. All OPPONENTS draw 1 card.',
       },
     });
-  };
+  }
   public override canPlay(player: Player): boolean {
     return player.cardsInHand.length > 1; // this card and at least another
   }
@@ -36,7 +36,7 @@ export class SponsoredAcademies extends Card {
   public play(player: Player) {
     player.game.defer(new DiscardCards(player), Priority.DISCARD_BEFORE_DRAW);
     player.game.defer(DrawCards.keepAll(player, 3));
-    const otherPlayers = player.game.getPlayers().filter((p) => p.id !== player.id);
+    const otherPlayers = player.game.getPlayersInGenerationOrder().filter((p) => p.id !== player.id);
     for (const p of otherPlayers) {
       player.game.defer(DrawCards.keepAll(p));
     }

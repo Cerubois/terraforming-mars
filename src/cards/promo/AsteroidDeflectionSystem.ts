@@ -2,15 +2,15 @@ import {IProjectCard} from '../IProjectCard';
 import {IActionCard, IResourceCard} from '../ICard';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardName} from '../../CardName';
-import {CardType} from '../CardType';
-import {ResourceType} from '../../ResourceType';
-import {Tags} from '../Tags';
+import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../../common/cards/CardType';
+import {ResourceType} from '../../common/ResourceType';
+import {Tags} from '../../common/cards/Tags';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
+import {Resources} from '../../common/Resources';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
-import {Units} from '../../Units';
+import {Units} from '../../common/Units';
 import {played} from '../Options';
 
 export class AsteroidDeflectionSystem extends Card implements IActionCard, IProjectCard, IResourceCard {
@@ -40,9 +40,9 @@ export class AsteroidDeflectionSystem extends Card implements IActionCard, IProj
       },
     });
   }
-  public resourceCount = 0;
+  public override resourceCount = 0;
 
-  public canPlay(player: Player): boolean {
+  public override canPlay(player: Player): boolean {
     return player.getProduction(Resources.ENERGY) >= 1;
   }
 

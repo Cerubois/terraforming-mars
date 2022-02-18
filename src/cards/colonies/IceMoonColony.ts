@@ -1,8 +1,8 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {BuildColony} from '../../deferredActions/BuildColony';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {Card} from '../Card';
@@ -25,7 +25,7 @@ export class IceMoonColony extends Card implements IProjectCard {
     });
   }
 
-  public canPlay(player: Player): boolean {
+  public override canPlay(player: Player): boolean {
     return player.hasAvailableColonyTileToBuildOn();
   }
 

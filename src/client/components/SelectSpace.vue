@@ -15,7 +15,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import ConfirmDialog from '@/client/components/common/ConfirmDialog.vue';
-import {PlayerInputModel} from '@/models/PlayerInputModel';
+import {PlayerInputModel} from '@/common/models/PlayerInputModel';
 import {PreferencesManager} from '@/client/utils/PreferencesManager';
 
 export default Vue.extend({
@@ -140,7 +140,7 @@ export default Vue.extend({
       const spaceId = tile.getAttribute('data_space_id');
       if (spaceId === null || this.availableSpaces.has(spaceId) === false) {
         continue;
-      };
+      }
 
       tile.onclick = () => this.onTileSelected(tile);
     }

@@ -1,10 +1,10 @@
 import {mount, Wrapper} from '@vue/test-utils';
 import {getLocalVue} from './getLocalVue';
 import {expect} from 'chai';
-import {Color} from '@/Color';
+import {Color} from '@/common/Color';
 import SelectPlayer from '@/client/components/SelectPlayer.vue';
-import {PlayerInputModel} from '@/models/PlayerInputModel';
-import {PublicPlayerModel} from '@/models/PlayerModel';
+import {PlayerInputModel} from '@/common/models/PlayerInputModel';
+import {PublicPlayerModel} from '@/common/models/PlayerModel';
 
 describe('SelectPlayer', () => {
   let wrapper: Wrapper<any>;

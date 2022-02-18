@@ -1,10 +1,10 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
-import {CardName} from '../../CardName';
+import {Resources} from '../../common/Resources';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {all, played} from '../Options';
 
@@ -28,7 +28,7 @@ export class TollStation extends Card implements IProjectCard {
     });
   }
   public play(player: Player) {
-    const amount = player.game.getPlayers()
+    const amount = player.game.getPlayersInGenerationOrder()
       .filter((aPlayer) => aPlayer !== player)
       .map((opponent) => opponent.getTagCount(Tags.SPACE, 'raw'))
       .reduce((most, opp) => (most || 0) > opp ? most : opp, 0); // Balance change: Total Space tags from all opponents -> Highest amount of Space tags from opponents.

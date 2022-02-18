@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {GeneRepair} from '../../../src/cards/base/GeneRepair';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/Resources';
+import {Resources} from '../../../src/common/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('GeneRepair', function() {
@@ -25,7 +25,6 @@ describe('GeneRepair', function() {
     card.play(player);
 
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
-    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
+    expect(card.getVictoryPoints()).to.eq(2);
   });
 });

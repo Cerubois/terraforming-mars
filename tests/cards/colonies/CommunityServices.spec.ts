@@ -5,7 +5,7 @@ import {EccentricSponsor} from '../../../src/cards/prelude/EccentricSponsor';
 import {ResearchCoordination} from '../../../src/cards/prelude/ResearchCoordination';
 import {SeptumTribus} from '../../../src/cards/turmoil/SeptumTribus';
 import {Game} from '../../../src/Game';
-import {Resources} from '../../../src/Resources';
+import {Resources} from '../../../src/common/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('CommunityServices', function() {
@@ -20,8 +20,7 @@ describe('CommunityServices', function() {
     player.corporationCard = corpo;
     const action = card.play(player);
     expect(action).is.undefined;
-    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(card.getVictoryPoints()).to.eq(1);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
   });
   it('Wild Tags', function() {
@@ -35,8 +34,7 @@ describe('CommunityServices', function() {
     player.corporationCard = corpo;
     const action = card.play(player);
     expect(action).is.undefined;
-    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(card.getVictoryPoints()).to.eq(1);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
   });
 });

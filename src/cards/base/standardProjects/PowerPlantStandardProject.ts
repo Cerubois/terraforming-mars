@@ -1,8 +1,8 @@
 import {Player} from '../../../Player';
-import {CardName} from '../../../CardName';
+import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../../render/CardRenderer';
 import {StandardProjectCard} from '../../StandardProjectCard';
-import {Resources} from '../../../Resources';
+import {Resources} from '../../../common/Resources';
 
 export class PowerPlantStandardProject extends StandardProjectCard {
   constructor() {
@@ -22,12 +22,12 @@ export class PowerPlantStandardProject extends StandardProjectCard {
     });
   }
 
-  protected discount(player: Player): number {
+  protected override discount(player: Player): number {
     let discount = 0;
     if (player.isCorporation(CardName.THORGATE)) {
       discount += 3;
     }
-    if (player.playedCards.some((card) => card.name === CardName.HIGH_TEMP_SUPERCONDUCTORS)) {
+    if (player.cardIsInEffect(CardName.HIGH_TEMP_SUPERCONDUCTORS)) {
       discount += 3;
     }
     return discount;

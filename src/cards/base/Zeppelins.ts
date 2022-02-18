@@ -1,9 +1,9 @@
 import {IProjectCard} from '../IProjectCard';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
-import {CardName} from '../../CardName';
+import {Resources} from '../../common/Resources';
+import {CardName} from '../../common/cards/CardName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
@@ -31,7 +31,7 @@ export class Zeppelins extends Card implements IProjectCard {
     });
   }
   public play(player: Player) {
-    player.addProduction(Resources.MEGACREDITS, player.game.getCitiesInPlayOnMars(), {log: true});
+    player.addProduction(Resources.MEGACREDITS, player.game.getCitiesOnMarsCount(), {log: true});
     return undefined;
   }
 }

@@ -7,7 +7,8 @@
     </div>
     <div v-else class="card-container">
       <div class="card-content-wrapper" v-i18n>
-        <div class="card-content" style="width: 320px;">
+        <div class="card-content global-event-card-content">
+          <div class="card-title"><span :class="eventNameStyle">{{globalEvent.name}}</span></div>
           <CardParty class="card-party--revealed" :party="globalEvent.revealed" />
           <CardParty class="card-party--current" :party="globalEvent.current" />
           <CardRenderData v-if="renderData !== undefined" :renderData="renderData" />
@@ -22,14 +23,14 @@
 <script lang="ts">
 
 import Vue from 'vue';
-import {GlobalEventModel} from '@/models/TurmoilModel';
+import {GlobalEventModel} from '@/common/models/TurmoilModel';
 import CardRenderData from '@/client/components/card/CardRenderData.vue';
 import CardParty from '@/client/components/card/CardParty.vue';
 import {IGlobalEvent} from '@/turmoil/globalEvents/IGlobalEvent';
 import {CardRenderer} from '@/cards/render/CardRenderer';
 import {getGlobalEventByName} from '@/turmoil/globalEvents/GlobalEventDealer';
 import CardDescription from '@/client/components/card/CardDescription.vue';
-import {PreferencesManager} from '../utils/PreferencesManager';
+import {PreferencesManager} from '@/client/utils/PreferencesManager';
 
 export default Vue.extend({
   name: 'global-event',
@@ -79,6 +80,14 @@ export default Vue.extend({
     },
     showIcons(): boolean {
       return PreferencesManager.loadBoolean('experimental_ui');
+    },
+  },
+  computed: {
+    eventNameStyle(): string {
+      if (this.globalEvent.name.length > 24) {
+        return 'global-event-name--narrow';
+      }
+      return '';
     },
   },
 });

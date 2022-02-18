@@ -1,10 +1,10 @@
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {Player} from '../../Player';
-import {CardType} from '../CardType';
-import {Tags} from '../Tags';
+import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../../common/cards/Tags';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {ResourceType} from '../../ResourceType';
+import {ResourceType} from '../../common/ResourceType';
 import {IActionCard, IResourceCard} from '../ICard';
 import {played} from '../Options';
 
@@ -28,7 +28,7 @@ export class LunaArchives extends Card implements IResourceCard, IActionCard {
         }),
       },
     });
-  };
+  }
 
   public override resourceCount = 0;
 

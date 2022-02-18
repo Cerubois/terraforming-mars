@@ -4,8 +4,8 @@ import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {TestPlayers} from '../../TestPlayers';
 import {TestingUtils} from '../../TestingUtils';
-import {TileType} from '../../../src/TileType';
-import {Units} from '../../../src/Units';
+import {TileType} from '../../../src/common/TileType';
+import {Units} from '../../../src/common/Units';
 
 describe('MuseumofEarlyColonisation', function() {
   let card: MuseumofEarlyColonisation;

@@ -1,17 +1,17 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
-import {TileType} from '../../TileType';
+import {Tags} from '../../common/cards/Tags';
+import {TileType} from '../../common/TileType';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
 import {ISpace} from '../../boards/ISpace';
 import {SelectSpace} from '../../inputs/SelectSpace';
-import {Resources} from '../../Resources';
-import {CardName} from '../../CardName';
+import {Resources} from '../../common/Resources';
+import {CardName} from '../../common/cards/CardName';
 import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../Units';
+import {Units} from '../../common/Units';
 import {nextToNoOtherTileFn} from '../../boards/Board';
 import {max} from '../Options';
 
@@ -42,7 +42,7 @@ export class NaturalPreserve extends Card implements IProjectCard {
     return player.game.board.getAvailableSpacesOnLand(player)
       .filter(nextToNoOtherTileFn(player.game.board));
   }
-  public canPlay(player: Player): boolean {
+  public override canPlay(player: Player): boolean {
     return this.getAvailableSpaces(player).length > 0;
   }
   public play(player: Player) {

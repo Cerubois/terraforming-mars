@@ -1,10 +1,10 @@
 import {Player} from '../../Player';
 import {PreludeCard} from '../prelude/PreludeCard';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {SendDelegateToArea} from '../../deferredActions/SendDelegateToArea';
-import {Tags} from '../Tags';
-import {Resources} from '../../Resources';
+import {Tags} from '../../common/cards/Tags';
+import {Resources} from '../../common/Resources';
 
 export class ExperiencedMartians extends PreludeCard {
   constructor() {

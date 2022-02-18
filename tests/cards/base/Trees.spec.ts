@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {Trees} from '../../../src/cards/base/Trees';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/Resources';
+import {Resources} from '../../../src/common/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('Trees', function() {
@@ -27,7 +27,6 @@ describe('Trees', function() {
     expect(player.getProduction(Resources.PLANTS)).to.eq(3);
     expect(player.plants).to.eq(1);
 
-    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(card.getVictoryPoints()).to.eq(1);
   });
 });

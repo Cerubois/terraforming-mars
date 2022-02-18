@@ -1,9 +1,9 @@
-import {GlobalEventName} from './globalEvents/GlobalEventName';
-import {PartyName} from './parties/PartyName';
+import {GlobalEventName} from '../common/turmoil/globalEvents/GlobalEventName';
+import {PartyName} from '../common/turmoil/PartyName';
 import {SerializedGlobalEventDealer} from './globalEvents/SerializedGlobalEventDealer';
 import {SerializedPoliticalAgendasData} from './PoliticalAgendas';
 import {NeutralPlayer} from './Turmoil';
-import {PlayerId} from '../Player';
+import {PlayerId} from '../common/Types';
 
 export interface SerializedParty {
     name: PartyName;

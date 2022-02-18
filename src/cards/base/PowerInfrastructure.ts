@@ -1,12 +1,12 @@
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {IActionCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Player} from '../../Player';
 import {SelectAmount} from '../../inputs/SelectAmount';
-import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
+import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../common/Resources';
 import {CardRenderer} from '../render/CardRenderer';
 import {multiplier} from '../Options';
 

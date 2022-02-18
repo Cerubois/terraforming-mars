@@ -1,13 +1,13 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
-import {CardName} from '../../CardName';
+import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../Resources';
-import {Tags} from '../Tags';
+import {Resources} from '../../common/Resources';
+import {Tags} from '../../common/cards/Tags';
 import {CardRequirements} from '../CardRequirements';
-import {PartyName} from '../../turmoil/parties/PartyName';
+import {PartyName} from '../../common/turmoil/PartyName';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {all} from '../Options';
@@ -36,7 +36,7 @@ export class PublicSponsoredGrant extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    player.game.getPlayers().forEach((p) => p.deductResource(Resources.MEGACREDITS, Math.min(p.megaCredits, 2), {log: true}));
+    player.game.getPlayersInGenerationOrder().forEach((p) => p.deductResource(Resources.MEGACREDITS, Math.min(p.megaCredits, 2), {log: true}));
 
     // TODO(kberg): Add a test that fails when a new tag is added.
     const tags = [

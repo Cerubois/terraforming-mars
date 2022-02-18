@@ -1,9 +1,9 @@
 import {CorporationCard} from '../corporation/CorporationCard';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
+import {Resources} from '../../common/Resources';
 import {Card} from '../Card';
-import {CardName} from '../../CardName';
-import {CardType} from '../CardType';
+import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../../common/cards/CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {all} from '../Options';
@@ -36,7 +36,7 @@ export class MonsInsurance extends Card implements CorporationCard {
 
   public play(player: Player) {
     player.addProduction(Resources.MEGACREDITS, 6);
-    for (const p of player.game.getPlayers()) {
+    for (const p of player.game.getPlayersInGenerationOrder()) {
       p.addProduction(Resources.MEGACREDITS, -2, {log: true});
     }
     player.game.monsInsuranceOwner = player.id;

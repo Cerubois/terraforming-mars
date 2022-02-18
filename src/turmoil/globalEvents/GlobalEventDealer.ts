@@ -1,4 +1,4 @@
-import {GlobalEventName} from './GlobalEventName';
+import {GlobalEventName} from '../../common/turmoil/globalEvents/GlobalEventName';
 import {IGlobalEvent} from './IGlobalEvent';
 import {GlobalDustStorm} from './GlobalDustStorm';
 import {SponsoredProjects} from './SponsoredProjects';
@@ -162,7 +162,7 @@ export class GlobalEventDealer implements ISerializable<SerializedGlobalEventDea
 
       if (game.gameOptions.venusNextExtension && game.gameOptions.coloniesExtension) {
         events.push(...Array.from(VENUS_COLONY_NEGATIVE_GLOBAL_EVENTS));
-      };
+      }
     }
 
     if (game.gameOptions.venusNextExtension) events.push(...Array.from(VENUS_POSITIVE_GLOBAL_EVENTS));
@@ -184,7 +184,7 @@ export class GlobalEventDealer implements ISerializable<SerializedGlobalEventDea
 
     const globalEventsDeck = this.shuffle(events.map((cf) => new cf[1]));
     return new GlobalEventDealer(globalEventsDeck, []);
-  };
+  }
 
   private static shuffle(cards: Array<IGlobalEvent>): Array<IGlobalEvent> {
     const deck: Array<IGlobalEvent> = [];

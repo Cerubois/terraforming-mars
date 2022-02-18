@@ -1,8 +1,8 @@
-import {Tags} from '../Tags';
-import {CardName} from '../../CardName';
+import {Tags} from '../../common/cards/Tags';
+import {CardName} from '../../common/cards/CardName';
 import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
-import {Resources} from '../../Resources';
+import {Resources} from '../../common/Resources';
 import {PlayProjectCard} from '../../deferredActions/PlayProjectCard';
 import {CardRenderer} from '../render/CardRenderer';
 
