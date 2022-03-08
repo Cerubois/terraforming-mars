@@ -544,7 +544,7 @@ export default Vue.extend({
       prelude: true,
       draftVariant: true,
       initialDraft: true,
-      randomMA: RandomMAOptionType.NONE,
+      randomMA: RandomMAOptionType.LIMITED,
       randomFirstPlayer: true,
       showOtherPlayersVP: true,
       beginnerOption: false,
