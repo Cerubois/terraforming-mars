@@ -3,9 +3,9 @@ import {InterplanetaryTransport} from '../../../src/cards/pathfinders/Interplane
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {getTestPlayer, newTestGame} from '../../TestGame';
-import {TileType} from '../../../src/common/TileType';
+import {TileType} from '../../../src/TileType';
 import {SpaceName} from '../../../src/SpaceName';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 
 describe('InterplanetaryTransport', function() {
   let card: InterplanetaryTransport;

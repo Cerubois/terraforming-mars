@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import {GlobalEventName} from '../../common/turmoil/globalEvents/GlobalEventName';
 import {PartyName} from '../../common/turmoil/PartyName';
 import {ICardRenderRoot} from '../../common/cards/render/Types';
+=======
+import {GlobalEventName} from './GlobalEventName';
+import {PartyName} from '../parties/PartyName';
+>>>>>>> main
 import {Game} from '../../Game';
 import {Turmoil} from '../Turmoil';
 

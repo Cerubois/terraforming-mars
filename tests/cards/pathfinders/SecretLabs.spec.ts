@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {SecretLabs} from '../../../src/cards/pathfinders/SecretLabs';
 import {Game} from '../../../src/Game';
-import {Units} from '../../../src/common/Units';
+import {Units} from '../../../src/Units';
 import {TestPlayer} from '../../TestPlayer';
 import {TestPlayers} from '../../TestPlayers';
 import {TestingUtils} from '../../TestingUtils';
@@ -10,7 +10,7 @@ import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {JovianLanterns} from '../../../src/cards/colonies/JovianLanterns';
 import {GHGProducingBacteria} from '../../../src/cards/base/GHGProducingBacteria';
 import {SelectSpace} from '../../../src/inputs/SelectSpace';
-import {TileType} from '../../../src/common/TileType';
+import {TileType} from '../../../src/TileType';
 
 describe('SecretLabs', function() {
   let card: SecretLabs;

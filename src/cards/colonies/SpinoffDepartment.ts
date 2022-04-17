@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
-import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../Tags';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
-import {Resources} from '../../common/Resources';
+import {CardName} from '../../CardName';
+import {Resources} from '../../Resources';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 
 export class SpinoffDepartment extends Card implements IProjectCard {
   constructor() {

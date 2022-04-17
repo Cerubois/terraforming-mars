@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {ArtificialPhotosynthesis} from '../../../src/cards/base/ArtificialPhotosynthesis';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 import {TestingUtils} from '../../TestingUtils';
 

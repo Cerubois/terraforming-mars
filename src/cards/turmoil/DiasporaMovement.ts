@@ -1,11 +1,11 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {Resources} from '../../Resources';
+import {PartyName} from '../../turmoil/parties/PartyName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {all, played} from '../Options';

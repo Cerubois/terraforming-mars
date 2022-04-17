@@ -1,10 +1,10 @@
-import {Tags} from '../../common/cards/Tags';
-import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../Tags';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {played} from '../Options';
@@ -29,7 +29,7 @@ export class Gyropolis extends Card {
         description: 'Decrease your energy production 2 steps. Increase your M€ production 1 step for each Venus and Earth tag you have. Place a City tile.',
       },
     });
-  }
+  };
   public override canPlay(player: Player): boolean {
     if (player.game.board.getAvailableSpacesForCity(player).length === 0) return false;
     return player.getProduction(Resources.ENERGY) >= 2;

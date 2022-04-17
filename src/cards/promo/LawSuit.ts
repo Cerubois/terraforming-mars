@@ -1,11 +1,11 @@
 import {Player} from '../../Player';
 import {IProjectCard} from '../IProjectCard';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
-import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../CardType';
+import {Tags} from '../Tags';
 import {SelectPlayer} from '../../inputs/SelectPlayer';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../../common/cards/render/Size';
 import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
@@ -35,7 +35,7 @@ export class LawSuit extends Card implements IProjectCard {
     return player.game.getPlayersById(player.removingPlayers);
   }
 
-  public override canPlay(player: Player) {
+  public canPlay(player: Player) {
     return this.targets(player).length > 0;
   }
 
@@ -48,7 +48,7 @@ export class LawSuit extends Card implements IProjectCard {
       return undefined;
     });
   }
-  public override getVictoryPoints() {
+  public getVictoryPoints() {
     return -1;
   }
 

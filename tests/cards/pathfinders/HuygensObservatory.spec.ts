@@ -4,12 +4,17 @@ import {HuygensObservatory} from '../../../src/cards/pathfinders/HuygensObservat
 import {SelectColony} from '../../../src/inputs/SelectColony';
 import {SelectOption} from '../../../src/inputs/SelectOption';
 import {OrOptions} from '../../../src/inputs/OrOptions';
-import {ColonyName} from '../../../src/common/colonies/ColonyName';
+import {ColonyName} from '../../../src/colonies/ColonyName';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {TestingUtils} from '../../TestingUtils';
+<<<<<<< HEAD
 import {Units} from '../../../src/common/Units';
 import {IColony} from '../../../src/colonies/IColony';
+=======
+import {Units} from '../../../src/Units';
+import {Colony} from '../../../src/colonies/Colony';
+>>>>>>> main
 
 describe('HuygensObservatory', function() {
   let card: HuygensObservatory;

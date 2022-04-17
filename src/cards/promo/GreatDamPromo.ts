@@ -1,17 +1,17 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../CardType';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {SelectSpace} from '../../inputs/SelectSpace';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {ISpace} from '../../boards/ISpace';
 import {Board} from '../../boards/Board';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 
 export class GreatDamPromo extends Card implements IProjectCard {
   constructor() {
@@ -34,7 +34,7 @@ export class GreatDamPromo extends Card implements IProjectCard {
     });
   }
 
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     return this.getAvailableSpaces(player).length > 0;
   }
 

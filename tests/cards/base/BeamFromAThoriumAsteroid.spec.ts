@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {BeamFromAThoriumAsteroid} from '../../../src/cards/base/BeamFromAThoriumAsteroid';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('BeamFromAThoriumAsteroid', function() {
@@ -24,6 +24,7 @@ describe('BeamFromAThoriumAsteroid', function() {
     expect(player.getProduction(Resources.HEAT)).to.eq(3);
     expect(player.getProduction(Resources.ENERGY)).to.eq(3);
 
-    expect(card.getVictoryPoints()).to.eq(1);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
   });
 });

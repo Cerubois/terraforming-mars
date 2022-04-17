@@ -1,8 +1,8 @@
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 
 export class ResearchCoordination extends Card implements IProjectCard {
   constructor() {

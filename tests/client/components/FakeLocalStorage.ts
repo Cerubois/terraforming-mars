@@ -40,9 +40,13 @@ export class FakeLocalStorage implements Storage {
 
   public removeItem(key: string): void {
     delete this.data[key];
+<<<<<<< HEAD:tests/client/components/FakeLocalStorage.ts
   }
 
   public hasItem(key: string): boolean {
     return typeof this.data[key] !== 'undefined';
   }
+=======
+  };
+>>>>>>> main:tests/components/FakeLocalStorage.ts
 }

@@ -1,11 +1,11 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {CardRequirements} from '../CardRequirements';
 
 export class Harvest extends Card implements IProjectCard {

@@ -1,9 +1,9 @@
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
-import {CardName} from '../../common/cards/CardName';
+import {Tags} from '../Tags';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 
 export class LagrangeObservatory extends Card implements IProjectCard {

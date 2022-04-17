@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../CardType';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 
 export class MagneticFieldDome extends Card implements IProjectCard {
   constructor() {
@@ -32,7 +32,7 @@ export class MagneticFieldDome extends Card implements IProjectCard {
     });
   }
 
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     return player.getProduction(Resources.ENERGY) >= 2;
   }
 

@@ -3,8 +3,8 @@ import {getLocalVue} from './getLocalVue';
 import {expect} from 'chai';
 import Board from '@/client/components/Board.vue';
 import BoardSpace from '@/client/components/BoardSpace.vue';
-import {SpaceModel} from '@/common/models/SpaceModel';
-import {SpaceType} from '@/common/boards/SpaceType';
+import {SpaceModel} from '@/models/SpaceModel';
+import {SpaceType} from '@/SpaceType';
 
 const spaces: SpaceModel[] = [
   {

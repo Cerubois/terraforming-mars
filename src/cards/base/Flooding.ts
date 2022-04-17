@@ -1,14 +1,15 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {SelectPlayer} from '../../inputs/SelectPlayer';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
-import {CardName} from '../../common/cards/CardName';
-import {Resources} from '../../common/Resources';
+import {CardName} from '../../CardName';
+import {Resources} from '../../Resources';
+import {MAX_OCEAN_TILES} from '../../constants';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {CardRenderer} from '../render/CardRenderer';
 import {all} from '../Options';
@@ -38,7 +39,8 @@ export class Flooding extends Card implements IProjectCard {
       return undefined;
     }
 
-    if (!player.game.canAddOcean()) return undefined;
+    const oceansMaxedBeforePlacement = player.game.board.getOceansOnBoard() === MAX_OCEAN_TILES;
+    if (oceansMaxedBeforePlacement === true) return undefined;
 
     return new SelectSpace(
       'Select space for ocean tile',

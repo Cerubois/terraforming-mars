@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {SearchForLife} from '../../../src/cards/base/SearchForLife';
 import {TectonicStressPower} from '../../../src/cards/base/TectonicStressPower';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('TectonicStressPower', function() {
@@ -23,6 +23,7 @@ describe('TectonicStressPower', function() {
     card.play(player);
 
     expect(player.getProduction(Resources.ENERGY)).to.eq(3);
-    expect(card.getVictoryPoints()).to.eq(1);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
   });
 });

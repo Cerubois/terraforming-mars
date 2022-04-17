@@ -6,7 +6,7 @@ import {RevoltingColonists} from '../../../src/cards/moon/RevoltingColonists';
 import {expect} from 'chai';
 import {MoonExpansion} from '../../../src/moon/MoonExpansion';
 import {IMoonData} from '../../../src/moon/IMoonData';
-import {TileType} from '../../../src/common/TileType';
+import {TileType} from '../../../src/TileType';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 

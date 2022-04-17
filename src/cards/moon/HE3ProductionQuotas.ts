@@ -1,13 +1,13 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CardRenderer} from '../render/CardRenderer';
 import {CardRequirements} from '../CardRequirements';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {PartyName} from '../../turmoil/parties/PartyName';
 import {MoonExpansion} from '../../moon/MoonExpansion';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {Card} from '../Card';
 import {Size} from '../../common/cards/render/Size';
 import {all} from '../Options';
@@ -33,10 +33,10 @@ export class HE3ProductionQuotas extends Card implements IProjectCard {
         }),
       },
     });
-  }
+  };
 
   public override canPlay(player: Player): boolean {
-    const moonTiles = MoonExpansion.spaces(player.game, TileType.MOON_MINE, {surfaceOnly: true});
+    const moonTiles = MoonExpansion.tiles(player.game, TileType.MOON_MINE, {surfaceOnly: true});
     if (player.steel < moonTiles.length) {
       return false;
     }
@@ -44,7 +44,7 @@ export class HE3ProductionQuotas extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    const moonTiles = MoonExpansion.spaces(player.game, TileType.MOON_MINE, {surfaceOnly: true});
+    const moonTiles = MoonExpansion.tiles(player.game, TileType.MOON_MINE, {surfaceOnly: true});
     player.steel -= moonTiles.length;
     player.heat += (4 * moonTiles.length);
     MoonExpansion.raiseMiningRate(player);

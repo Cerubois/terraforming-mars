@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 
 export class NuclearPower extends Card implements IProjectCard {
   constructor() {
@@ -30,10 +30,13 @@ export class NuclearPower extends Card implements IProjectCard {
     });
   }
 
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     return player.getProduction(Resources.MEGACREDITS) >= -3;
   }
   public play(player: Player) {
+    if (player.getProduction(Resources.MEGACREDITS) < -3) {
+      throw 'Not enough M€ production';
+    }
     player.addProduction(Resources.MEGACREDITS, -2);
     player.addProduction(Resources.ENERGY, 3);
     return undefined;

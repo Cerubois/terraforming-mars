@@ -1,5 +1,5 @@
-import {Game} from '../Game';
-import {PlayerId, GameId, SpectatorId} from '../common/Types';
+import {Game, GameId, SpectatorId} from '../Game';
+import {PlayerId} from '../Player';
 
 type LoadCallback = (game: Game | undefined) => void;
 type ListLoadCallback = (list: Array<{id: GameId, participants: Array<SpectatorId | PlayerId>}> | undefined) => void;

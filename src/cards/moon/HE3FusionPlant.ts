@@ -1,11 +1,11 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {MoonExpansion} from '../../moon/MoonExpansion';
-import {Resources} from '../../common/Resources';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
+import {Resources} from '../../Resources';
 import {CardRenderer} from '../render/CardRenderer';
 import {CardRequirements} from '../CardRequirements';
 import {Card} from '../Card';
@@ -28,10 +28,10 @@ export class HE3FusionPlant extends Card implements IProjectCard {
         }),
       },
     });
-  }
+  };
 
   public play(player: Player) {
-    const count = MoonExpansion.spaces(player.game, TileType.MOON_MINE, {surfaceOnly: true}).length;
+    const count = MoonExpansion.tiles(player.game, TileType.MOON_MINE, {surfaceOnly: true}).length;
     player.addProduction(Resources.ENERGY, count, {log: true});
     return undefined;
   }

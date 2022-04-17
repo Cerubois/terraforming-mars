@@ -1,20 +1,24 @@
 import {IParty} from './IParty';
 import {Party} from './Party';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {PartyName} from './PartyName';
 import {Game} from '../../Game';
-import {Tags} from '../../common/cards/Tags';
-import {Resources} from '../../common/Resources';
+import {Tags} from '../../cards/Tags';
+import {Resources} from '../../Resources';
 import {Bonus} from '../Bonus';
 import {Policy} from '../Policy';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {Player} from '../../Player';
-import {POLITICAL_AGENDAS_MAX_ACTION_USES} from '../../common/constants';
+import {POLITICAL_AGENDAS_MAX_ACTION_USES} from '../../constants';
 import {ICard} from '../../cards/ICard';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectCard} from '../../inputs/SelectCard';
 import {SelectOption} from '../../inputs/SelectOption';
+<<<<<<< HEAD
 import {CardResource} from '../../common/CardResource';
+=======
+import {ResourceType} from '../../ResourceType';
+>>>>>>> main
 
 export class Unity extends Party implements IParty {
   name = PartyName.UNITY;
@@ -34,7 +38,7 @@ class UnityBonus01 implements Bonus {
   }
 
   grant(game: Game) {
-    game.getPlayersInGenerationOrder().forEach((player) => {
+    game.getPlayers().forEach((player) => {
       player.addResource(Resources.MEGACREDITS, this.getScore(player));
     });
   }
@@ -50,7 +54,7 @@ class UnityBonus02 implements Bonus {
   }
 
   grant(game: Game) {
-    game.getPlayersInGenerationOrder().forEach((player) => {
+    game.getPlayers().forEach((player) => {
       player.addResource(Resources.MEGACREDITS, this.getScore(player));
     });
   }

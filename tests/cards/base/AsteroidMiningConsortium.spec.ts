@@ -3,7 +3,7 @@ import {AsteroidMiningConsortium} from '../../../src/cards/base/AsteroidMiningCo
 import {Game} from '../../../src/Game';
 import {SelectPlayer} from '../../../src/inputs/SelectPlayer';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 import {TestingUtils} from '../../TestingUtils';
 
@@ -47,6 +47,7 @@ describe('AsteroidMiningConsortium', function() {
   });
 
   it('Gives victory points', function() {
-    expect(card.getVictoryPoints()).to.eq(1);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
   });
 });

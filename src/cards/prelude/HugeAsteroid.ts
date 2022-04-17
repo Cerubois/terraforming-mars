@@ -1,6 +1,6 @@
 import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {CardRenderer} from '../render/CardRenderer';
 
@@ -21,7 +21,7 @@ export class HugeAsteroid extends PreludeCard {
       },
     });
   }
-  public override canPlay(player: Player) {
+  public canPlay(player: Player) {
     return player.canAfford(5);
   }
   public play(player: Player) {

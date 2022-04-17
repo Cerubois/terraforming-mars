@@ -1,5 +1,5 @@
-import {CardName} from '../../common/cards/CardName';
-import {GameModule} from '../../common/cards/GameModule';
+import {CardName} from '../../CardName';
+import {GameModule} from '../../GameModule';
 import {CardManifest} from '../CardManifest';
 import {BioengineeringEnclosure} from './BioengineeringEnclosure';
 import {BiofertilizerFacility} from './BiofertilizerFacility';

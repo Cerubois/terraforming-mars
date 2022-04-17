@@ -1,11 +1,10 @@
 import {Player} from '../../Player';
 import {PreludeCard} from '../prelude/PreludeCard';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../common/Resources';
-import {Tags} from '../../common/cards/Tags';
-import {CardType} from '../../common/cards/CardType';
-import {played} from '../Options';
+import {Resources} from '../../Resources';
+import {Tags} from '../Tags';
+import {CardType} from '../CardType';
 
 export class DeepSpaceOperations extends PreludeCard {
   constructor() {
@@ -17,7 +16,7 @@ export class DeepSpaceOperations extends PreludeCard {
         renderData: CardRenderer.builder((b) => {
           b.titanium(4).br;
           // TODO(kberg): allow more than one secondary tag.
-          b.cards(2, {secondaryTag: Tags.EVENT}).text('(').space({played}).text(')');
+          b.cards(2, {secondaryTag: Tags.EVENT}).asterix();
         }),
         description: 'Gain 4 titanium. Draw 2 event cards with a space tag.',
       },

@@ -1,8 +1,8 @@
-import {PartyName} from '../../common/turmoil/PartyName';
+import {PartyName} from './PartyName';
 import {Game} from '../../Game';
 import {Bonus} from '../Bonus';
 import {Policy} from '../Policy';
-import {PlayerId} from '../../common/Types';
+import {PlayerId} from '../../Player';
 import {NeutralPlayer} from '../Turmoil';
 
 export interface IParty {

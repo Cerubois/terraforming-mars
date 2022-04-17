@@ -1,18 +1,18 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {ISpace} from '../../boards/ISpace';
 import {SelectSpace} from '../../inputs/SelectSpace';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {Priority} from '../../deferredActions/DeferredAction';
 import {GainProduction} from '../../deferredActions/GainProduction';
 import {LoseProduction} from '../../deferredActions/LoseProduction';
 import {Board} from '../../boards/Board';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 import {all} from '../Options';
 
 export class ImmigrantCity extends Card implements IProjectCard {
@@ -37,7 +37,7 @@ export class ImmigrantCity extends Card implements IProjectCard {
     });
   }
 
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     const hasEnergyProduction = player.getProduction(Resources.ENERGY) >= 1;
     const canPlaceCityOnMars = player.game.board.getAvailableSpacesForCity(player).length > 0;
     const canDecreaseMcProduction = player.getProduction(Resources.MEGACREDITS) >= -4 || player.isCorporation(CardName.THARSIS_REPUBLIC);

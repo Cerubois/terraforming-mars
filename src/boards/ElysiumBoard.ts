@@ -1,4 +1,4 @@
-import {SpaceBonus} from '../common/boards/SpaceBonus';
+import {SpaceBonus} from '../SpaceBonus';
 import {SpaceName} from '../SpaceName';
 import {Board} from './Board';
 import {BoardBuilder} from './BoardBuilder';

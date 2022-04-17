@@ -1,7 +1,7 @@
 
 import {expect} from 'chai';
 import {SolarPower} from '../../../src/cards/base/SolarPower';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('SolarPower', function() {
@@ -11,6 +11,7 @@ describe('SolarPower', function() {
     const action = card.play(player);
     expect(action).is.undefined;
     expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(card.getVictoryPoints()).to.eq(1);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
   });
 });

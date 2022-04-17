@@ -1,14 +1,14 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
-import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../CardType';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 
 export class SmallOpenPitMine extends Card implements IProjectCard {
   constructor() {

@@ -9,11 +9,11 @@ import {ARES_CARD_MANIFEST} from './cards/ares/AresCardManifest';
 import {MOON_CARD_MANIFEST} from './cards/moon/MoonCardManifest';
 import {PATHFINDERS_CARD_MANIFEST} from './cards/pathfinders/PathfindersCardManifest';
 import {CardManifest} from './cards/CardManifest';
-import {CardName} from './common/cards/CardName';
+import {CardName} from './CardName';
 import {ICard} from './cards/ICard';
 import {ICardFactory} from './cards/ICardFactory';
 import {Deck} from './Deck';
-import {GameModule} from './common/cards/GameModule';
+import {GameModule} from './GameModule';
 import {GameOptions} from './Game';
 
 export class CardLoader {

@@ -1,12 +1,12 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
-import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../CardType';
+import {Tags} from '../Tags';
 import {CardRenderer} from '../render/CardRenderer';
 import {MoonSpaces} from '../../moon/MoonSpaces';
 import {MoonExpansion} from '../../moon/MoonExpansion';
-import {Units} from '../../common/Units';
-import {TileType} from '../../common/TileType';
+import {Units} from '../../Units';
+import {TileType} from '../../TileType';
 import {MoonCard} from './MoonCard';
 import {AltSecondaryTag} from '../../common/cards/render/AltSecondaryTag';
 

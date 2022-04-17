@@ -1,18 +1,22 @@
 import {mount} from '@vue/test-utils';
 import {getLocalVue} from './getLocalVue';
 import {expect} from 'chai';
-import {CardName} from '@/common/cards/CardName';
-import {CardType} from '@/common/cards/CardType';
+import {CardName} from '@/CardName';
+import {CardType} from '@/cards/CardType';
 import SelectHowToPayForProjectCard from '@/client/components/SelectHowToPayForProjectCard.vue';
-import {PlayerInputModel} from '@/common/models/PlayerInputModel';
-import {PlayerViewModel, PublicPlayerModel} from '@/common/models/PlayerModel';
-import {Units} from '@/common/Units';
+import {PlayerInputModel} from '@/models/PlayerInputModel';
+import {PlayerViewModel, PublicPlayerModel} from '@/models/PlayerModel';
+import {Units} from '@/Units';
 import {FakeLocalStorage} from './FakeLocalStorage';
 import {PaymentTester} from './PaymentTester';
+<<<<<<< HEAD:tests/client/components/SelectHowToPayForProjectCard.spec.ts
 import {HowToPay} from '@/common/inputs/HowToPay';
 import {CardResource} from '@/common/CardResource';
 import {CardModel} from '@/common/models/CardModel';
 import {PreferencesManager} from '@/client/utils/PreferencesManager';
+=======
+import {HowToPay} from '@/inputs/HowToPay';
+>>>>>>> main:tests/components/SelectHowToPayForProjectCard.spec.ts
 
 describe('SelectHowToPayForProjectCard', () => {
   let localStorage: FakeLocalStorage;
@@ -178,6 +182,7 @@ describe('SelectHowToPayForProjectCard', () => {
     expect(saveResponse).deep.eq(howToPay({floaters: 2, megaCredits: 6}));
   });
 
+<<<<<<< HEAD:tests/client/components/SelectHowToPayForProjectCard.spec.ts
   it('Paying for Stratospheric Birds with Dirigibles while another card has floaters (#4052)', async () => {
     const playedCards: Array<Partial<CardModel>> = [
       {name: CardName.DIRIGIBLES, resourceType: CardResource.FLOATER, resources: 3},
@@ -202,6 +207,8 @@ describe('SelectHowToPayForProjectCard', () => {
     expect(saveResponse).deep.eq(howToPay({floaters: 3, megaCredits: 3}));
   });
 
+=======
+>>>>>>> main:tests/components/SelectHowToPayForProjectCard.spec.ts
   it('Paying for other card with Dirigibles uses all floaters', async () => {
     const wrapper = setupCardForPurchase(
       CardName.FORCED_PRECIPITATION, 12, {
@@ -502,7 +509,6 @@ describe('SelectHowToPayForProjectCard', () => {
       titanium: 0,
       steelValue: 2,
       titaniumValue: 3,
-      playedCards: [],
     }, playerFields);
 
     const playerView: Partial<PlayerViewModel>= {

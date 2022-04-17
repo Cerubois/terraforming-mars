@@ -5,6 +5,7 @@ import {ALL_CARD_MANIFESTS} from '../cards/AllCards';
 import {CardManifest} from '../cards/CardManifest';
 import {ICard} from '../cards/ICard';
 import {Deck} from '../Deck';
+<<<<<<< HEAD
 import {GameModule} from '../common/cards/GameModule';
 import {IGlobalEvent} from '../turmoil/globalEvents/IGlobalEvent';
 import {ALL_EVENTS} from '../turmoil/globalEvents/GlobalEventDealer';
@@ -15,6 +16,9 @@ import {ICorporationCard} from '../cards/corporation/ICorporationCard';
 import {PreludeCard} from '../cards/prelude/PreludeCard';
 import {IColonyMetadata} from '../common/colonies/IColonyMetadata';
 import {ALL_COLONIES_TILES} from '../colonies/ColonyManifest';
+=======
+import {GameModule} from '../GameModule';
+>>>>>>> main
 
 class ProjectCardProcessor {
   public static json: Array<IClientCard> = [];

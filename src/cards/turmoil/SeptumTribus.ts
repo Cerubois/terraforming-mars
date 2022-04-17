@@ -1,12 +1,12 @@
 import {IActionCard} from '../ICard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {ICorporationCard} from '../corporation/ICorporationCard';
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {Turmoil} from '../../turmoil/Turmoil';
 
 export class SeptumTribus extends Card implements IActionCard, ICorporationCard {

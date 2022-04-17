@@ -1,16 +1,16 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {Resources} from '../../Resources';
+import {PartyName} from '../../turmoil/parties/PartyName';
 import {PlaceCityTile} from '../../deferredActions/PlaceCityTile';
 import {SendDelegateToArea} from '../../deferredActions/SendDelegateToArea';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 import {Turmoil} from '../../turmoil/Turmoil';
 
 export class CulturalMetropolis extends Card implements IProjectCard {
@@ -36,7 +36,7 @@ export class CulturalMetropolis extends Card implements IProjectCard {
     });
   }
 
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     if (player.getProduction(Resources.ENERGY) < 1) {
       return false;
     }

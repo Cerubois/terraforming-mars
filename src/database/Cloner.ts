@@ -1,8 +1,6 @@
-import {Game} from '../Game';
-import {GameId} from '../common/Types';
+import {Game, GameId} from '../Game';
 import {GameSetup} from '../GameSetup';
-import {Player} from '../Player';
-import {PlayerId} from '../common/Types';
+import {Player, PlayerId} from '../Player';
 import {SerializedGame} from '../SerializedGame';
 import {SerializedPlayer} from '../SerializedPlayer';
 import {DbLoadCallback} from './IDatabase';

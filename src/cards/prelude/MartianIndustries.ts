@@ -1,11 +1,11 @@
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
 import {IProjectCard} from '../IProjectCard';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 
 export class MartianIndustries extends PreludeCard implements IProjectCard {
   constructor() {

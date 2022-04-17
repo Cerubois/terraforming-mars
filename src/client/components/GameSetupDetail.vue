@@ -73,10 +73,10 @@
 <script lang="ts">
 
 import Vue from 'vue';
-import {GameOptionsModel} from '@/common/models/GameOptionsModel';
-import {BoardName} from '@/common/boards/BoardName';
-import {RandomMAOptionType} from '@/common/ma/RandomMAOptionType';
-import {AgendaStyle} from '@/common/turmoil/Types';
+import {GameOptionsModel} from '@/models/GameOptionsModel';
+import {BoardName} from '@/boards/BoardName';
+import {RandomMAOptionType} from '@/RandomMAOptionType';
+import {AgendaStyle} from '@/turmoil/PoliticalAgendas';
 
 export default Vue.extend({
   name: 'game-setup-detail',

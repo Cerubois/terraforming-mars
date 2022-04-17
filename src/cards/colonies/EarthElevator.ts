@@ -1,9 +1,9 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
-import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../Tags';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
-import {Resources} from '../../common/Resources';
+import {CardName} from '../../CardName';
+import {Resources} from '../../Resources';
 import {Card} from '../Card';
 import {CardRenderer} from '../render/CardRenderer';
 

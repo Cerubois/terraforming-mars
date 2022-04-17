@@ -1,12 +1,12 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {MoonExpansion} from '../../moon/MoonExpansion';
 import {CardRenderer} from '../render/CardRenderer';
-import {TileType} from '../../common/TileType';
-import {Units} from '../../common/Units';
+import {TileType} from '../../TileType';
+import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
 
 export class LunarDustProcessingPlant extends MoonCard implements IProjectCard {
@@ -30,7 +30,7 @@ export class LunarDustProcessingPlant extends MoonCard implements IProjectCard {
         }),
       },
     });
-  }
+  };
 
   public override play(player: Player) {
     super.play(player);

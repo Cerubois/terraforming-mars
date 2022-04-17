@@ -1,13 +1,13 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
 import {MoonExpansion} from '../../moon/MoonExpansion';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../../common/cards/render/Size';
 import {Card} from '../Card';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {all} from '../Options';
 
 export class HeavyDutyRovers extends Card implements IProjectCard {
@@ -33,7 +33,7 @@ export class HeavyDutyRovers extends Card implements IProjectCard {
 
   public play(player: Player) {
     MoonExpansion.ifMoon(player.game, (moonData) => {
-      const mines = MoonExpansion.spaces(player.game, TileType.MOON_MINE);
+      const mines = MoonExpansion.tiles(player.game, TileType.MOON_MINE);
       const minesNextToRoads = mines.filter((mine) => {
         const spacesNextToMine = moonData.moon.getAdjacentSpaces(mine);
         const firstRoad = spacesNextToMine.find((s) => MoonExpansion.spaceHasType(s, TileType.MOON_ROAD));

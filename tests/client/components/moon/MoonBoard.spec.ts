@@ -3,8 +3,8 @@ import {getLocalVue} from '../getLocalVue';
 import {expect} from 'chai';
 import MoonBoard from '@/client/components/moon/MoonBoard.vue';
 import MoonSpace from '@/client/components/moon/MoonSpace.vue';
-import {MoonModel} from '@/common/models/MoonModel';
-import {SpaceType} from '@/common/boards/SpaceType';
+import {MoonModel} from '@/models/MoonModel';
+import {SpaceType} from '@/SpaceType';
 
 const model: MoonModel = {
   colonyRate: 0,

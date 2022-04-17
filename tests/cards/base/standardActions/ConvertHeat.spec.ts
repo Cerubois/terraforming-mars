@@ -1,13 +1,13 @@
 import {expect} from 'chai';
 import {ConvertHeat} from '../../../../src/cards/base/standardActions/ConvertHeat';
-import {Phase} from '../../../../src/common/Phase';
+import {Phase} from '../../../../src/Phase';
 import {Player} from '../../../../src/Player';
 import {TestingUtils} from '../../../TestingUtils';
 import {TestPlayers} from '../../../TestPlayers';
 import {Game} from '../../../../src/Game';
 import {PoliticalAgendas} from '../../../../src/turmoil/PoliticalAgendas';
 import {Reds} from '../../../../src/turmoil/parties/Reds';
-import {MAX_TEMPERATURE} from '../../../../src/common/constants';
+import {MAX_TEMPERATURE} from '../../../../src/constants';
 
 describe('ConvertHeat', function() {
   let card: ConvertHeat; let player: Player;

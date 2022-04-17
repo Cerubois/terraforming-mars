@@ -9,9 +9,9 @@
 <script lang="ts">
 
 import Vue from 'vue';
-import {CardModel} from '@/common/models/CardModel';
-import {CardName} from '@/common/cards/CardName';
-import {Resources} from '@/common/Resources';
+import {CardModel} from '@/models/CardModel';
+import {CardName} from '@/CardName';
+import {Resources} from '@/Resources';
 
 export default Vue.extend({
   name: 'CardExtraContent',
@@ -23,10 +23,10 @@ export default Vue.extend({
   },
   methods: {
     isMiningTileOnSteel() {
-      return this.card.name !== CardName.SPECIALIZED_SETTLEMENT && this.card.bonusResource?.includes(Resources.STEEL);
+      return this.card.bonusResource?.includes(Resources.STEEL);
     },
     isMiningTileOnTitanium() {
-      return this.card.name !== CardName.SPECIALIZED_SETTLEMENT && this.card.bonusResource?.includes(Resources.TITANIUM);
+      return this.card.bonusResource?.includes(Resources.TITANIUM);
     },
     lifeFound() {
       return this.card.name === CardName.SEARCH_FOR_LIFE && this.card.resources !== undefined && this.card.resources > 0;

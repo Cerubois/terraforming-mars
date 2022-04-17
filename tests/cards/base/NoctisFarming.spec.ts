@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {NoctisFarming} from '../../../src/cards/base/NoctisFarming';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('NoctisFarming', function() {
@@ -27,6 +27,7 @@ describe('NoctisFarming', function() {
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
     expect(player.plants).to.eq(2);
 
-    expect(card.getVictoryPoints()).to.eq(1);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
   });
 });

@@ -21,7 +21,8 @@ describe('LargeConvoy', function() {
   it('Should play without animal cards', function() {
     card.play(player);
 
-    expect(card.getVictoryPoints()).to.eq(2);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
     expect(player.cardsInHand).has.lengthOf(2);
     expect(player.plants).to.eq(5);
   });
@@ -33,11 +34,11 @@ describe('LargeConvoy', function() {
     const action = card.play(player);
     player.playedCards.push(card);
     (action as OrOptions).options[1].cb();
-    const vps = player.getVictoryPoints();
+    player.getVictoryPoints();
 
-    expect(vps.victoryPoints).to.eq(4);
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(4);
     expect(player.cardsInHand).has.lengthOf(2);
-    expect(pets.resourceCount).to.eq(4);
+    expect(player.getResourcesOnCard(pets)).to.eq(4);
     expect(player.plants).to.eq(0);
   });
 
@@ -49,12 +50,13 @@ describe('LargeConvoy', function() {
     const action = card.play(player);
     expect(action).is.not.undefined;
 
-    expect(card.getVictoryPoints()).to.eq(2);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
     expect(player.cardsInHand).has.lengthOf(2);
     expect(player.plants).to.eq(0);
 
     (action as OrOptions).options[1].cb([pets]);
-    expect(pets.resourceCount).to.eq(4);
+    expect(player.getResourcesOnCard(pets)).to.eq(4);
   });
 
   it('Should play without oceans', function() {
@@ -67,7 +69,8 @@ describe('LargeConvoy', function() {
     const action = card.play(player);
     expect(action).is.not.undefined;
 
-    expect(card.getVictoryPoints()).to.eq(2);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
     expect(player.cardsInHand).has.lengthOf(cardsInHand + 2);
 
     (action as OrOptions).options[0].cb();

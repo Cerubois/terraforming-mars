@@ -23,6 +23,7 @@ describe('ColonizerTrainingCamp', function() {
     expect(player.canPlayIgnoringCost(card)).is.true;
 
     card.play();
-    expect(card.getVictoryPoints()).to.eq(2);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
   });
 });

@@ -1,4 +1,4 @@
-import {SpaceBonus} from '../common/boards/SpaceBonus';
+import {SpaceBonus} from '../SpaceBonus';
 
 export interface IAdjacencyBonus {
   bonus: Array<SpaceBonus>;

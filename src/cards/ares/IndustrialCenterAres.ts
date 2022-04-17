@@ -1,7 +1,7 @@
-import {CardName} from '../../common/cards/CardName';
-import {SpaceBonus} from '../../common/boards/SpaceBonus';
+import {CardName} from '../../CardName';
+import {SpaceBonus} from '../../SpaceBonus';
 import {IndustrialCenter} from '../base/IndustrialCenter';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {CardRenderer} from '../render/CardRenderer';
 
 export class IndustrialCenterAres extends IndustrialCenter {

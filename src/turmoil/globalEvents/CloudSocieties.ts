@@ -1,16 +1,19 @@
 import {IGlobalEvent, GlobalEvent} from './IGlobalEvent';
-import {GlobalEventName} from '../../common/turmoil/globalEvents/GlobalEventName';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {GlobalEventName} from './GlobalEventName';
+import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
 import {Turmoil} from '../Turmoil';
+<<<<<<< HEAD
 import {CardResource} from '../../common/CardResource';
+=======
+import {ResourceType} from '../../ResourceType';
+>>>>>>> main
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {CardRenderer} from '../../cards/render/CardRenderer';
 import {AltSecondaryTag} from '../../common/cards/render/AltSecondaryTag';
 
 const RENDER_DATA = CardRenderer.builder((b) => {
-  b.br.cards(1, {secondaryTag: AltSecondaryTag.FLOATER}).colon().floaters(1).nbsp;
-  b.floaters(1).slash().influence();
+  b.cards(1, {secondaryTag: AltSecondaryTag.FLOATER}).colon().floaters(1).br.floaters(1).slash().influence();
 });
 
 export class CloudSocieties extends GlobalEvent implements IGlobalEvent {
@@ -25,8 +28,13 @@ export class CloudSocieties extends GlobalEvent implements IGlobalEvent {
   }
 
   public resolve(game: Game, turmoil: Turmoil) {
+<<<<<<< HEAD
     game.getPlayersInGenerationOrder().forEach((player) => {
       const resourceCards = player.getResourceCards(CardResource.FLOATER);
+=======
+    game.getPlayers().forEach((player) => {
+      const resourceCards = player.getResourceCards(ResourceType.FLOATER);
+>>>>>>> main
       resourceCards.forEach((card) => {
         player.addResourceTo(card, 1);
       });

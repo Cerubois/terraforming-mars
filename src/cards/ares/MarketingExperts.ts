@@ -1,10 +1,10 @@
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
-import {CardType} from '../../common/cards/CardType';
+import {Resources} from '../../Resources';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CardRenderer} from '../render/CardRenderer';
 
 export class MarketingExperts extends Card implements IProjectCard {

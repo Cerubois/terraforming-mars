@@ -12,9 +12,9 @@
 
 import Vue from 'vue';
 import Bonus from '@/client/components/Bonus.vue';
-import {SpaceModel} from '@/common/models/SpaceModel';
-import {SpaceType} from '@/common/boards/SpaceType';
-import {TileType} from '@/common/TileType';
+import {SpaceModel} from '@/models/SpaceModel';
+import {SpaceType} from '@/SpaceType';
+import {TileType} from '@/TileType';
 
 const tileTypeToCssClass = new Map<TileType, string>([
   [TileType.COMMERCIAL_DISTRICT, 'commercial_district'],
@@ -43,7 +43,7 @@ const tileTypeToCssClass = new Map<TileType, string>([
   [TileType.EROSION_SEVERE, 'erosion-severe'],
   [TileType.MINING_STEEL_BONUS, 'mining-steel'],
   [TileType.MINING_TITANIUM_BONUS, 'mining-titanium'],
-  [TileType.WETLANDS, 'wetlands'],
+  // [TileType.WETLANDS, 'mining-titanium'],
   [TileType.RED_CITY, 'red-city'],
   [TileType.MARTIAN_NATURE_WONDERS, 'martian-nature-wonders'],
 ]);

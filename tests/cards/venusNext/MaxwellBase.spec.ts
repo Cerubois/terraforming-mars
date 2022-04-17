@@ -7,13 +7,20 @@ import {StratosphericBirds} from '../../../src/cards/venusNext/StratosphericBird
 import {Game} from '../../../src/Game';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {Player} from '../../../src/Player';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
+<<<<<<< HEAD
 import {CardName} from '../../../src/common/cards/CardName';
 import {Tags} from '../../../src/common/cards/Tags';
 import {CardType} from '../../../src/common/cards/CardType';
 import {CardResource} from '../../../src/common/CardResource';
+=======
+import {CardName} from '../../../src/CardName';
+import {Tags} from '../../../src/cards/Tags';
+import {CardType} from '../../../src/cards/CardType';
+import {ResourceType} from '../../../src/ResourceType';
+>>>>>>> main
 import {IProjectCard} from '../../../src/cards/IProjectCard';
 
 describe('MaxwellBase', function() {
@@ -58,7 +65,7 @@ describe('MaxwellBase', function() {
     player.playedCards.push(card3);
     expect(card.canAct(player)).is.true;
     card.action(player);
-    expect(card3.resourceCount).to.eq(1);
+    expect(player.getResourcesOnCard(card3)).to.eq(1);
   });
 
   it('Should act - multiple targets', function() {
@@ -70,7 +77,7 @@ describe('MaxwellBase', function() {
     const action = card.action(player);
     expect(action).instanceOf(SelectCard);
     (action as SelectCard<ICard>).cb([card2]);
-    expect(card2.resourceCount).to.eq(1);
+    expect(player.getResourcesOnCard(card2)).to.eq(1);
   });
 
   // This may seem like a weird test, but it's just verifying that a change

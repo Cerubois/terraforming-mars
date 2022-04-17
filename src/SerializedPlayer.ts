@@ -1,6 +1,6 @@
-import {PlayerId} from './common/Types';
-import {CardName} from './common/cards/CardName';
-import {Color} from './common/Color';
+import {PlayerId} from './Player';
+import {CardName} from './CardName';
+import {Color} from './Color';
 import {SerializedCard} from './SerializedCard';
 import {SerializedTimer} from './common/SerializedTimer';
 

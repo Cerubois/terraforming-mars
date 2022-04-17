@@ -6,7 +6,7 @@ import {VenusianAnimals} from '../../../src/cards/venusNext/VenusianAnimals';
 import {Game} from '../../../src/Game';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {Player} from '../../../src/Player';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('FreyjaBiodomes', function() {
@@ -41,7 +41,7 @@ describe('FreyjaBiodomes', function() {
     card.play(player);
     expect(player.getProduction(Resources.ENERGY)).to.eq(0);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
-    expect(card2.resourceCount).to.eq(2);
+    expect(player.getResourcesOnCard(card2)).to.eq(2);
   });
 
   it('Should play - multiple targets', function() {
@@ -56,6 +56,6 @@ describe('FreyjaBiodomes', function() {
     action.cb([card2]);
     expect(player.getProduction(Resources.ENERGY)).to.eq(0);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
-    expect(card2.resourceCount).to.eq(2);
+    expect(player.getResourcesOnCard(card2)).to.eq(2);
   });
 });

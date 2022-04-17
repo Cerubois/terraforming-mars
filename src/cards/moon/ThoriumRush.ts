@@ -1,8 +1,8 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CardRenderer} from '../render/CardRenderer';
 import {PlaceMoonColonyTile} from '../../moon/PlaceMoonColonyTile';
 import {PlaceMoonRoadTile} from '../../moon/PlaceMoonRoadTile';
@@ -31,7 +31,7 @@ export class ThoriumRush extends Card implements IProjectCard {
         }),
       },
     });
-  }
+  };
 
   public play(player: Player) {
     player.game.defer(new PlaceMoonColonyTile(player));

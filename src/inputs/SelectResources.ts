@@ -1,7 +1,7 @@
 import {Player} from '../Player';
 import {AndOptions} from './AndOptions';
 import {SelectAmount} from './SelectAmount';
-import {Units} from '../common/Units';
+import {Units} from '../Units';
 
 export class SelectResources extends AndOptions {
   private static makeOptions(count: number, units: Units) {
@@ -34,7 +34,7 @@ export class SelectResources extends AndOptions {
   constructor(
     public player: Player,
     public count: number,
-    public override title: string,
+    public title: string,
     private units = Units.of({})) {
     super(
       () => {

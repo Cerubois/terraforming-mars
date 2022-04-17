@@ -6,11 +6,11 @@ import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 import {MoonMineStandardProject} from '../../../src/cards/moon/MoonMineStandardProject';
 import {expect} from 'chai';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {SelectHowToPayDeferred} from '../../../src/deferredActions/SelectHowToPayDeferred';
 import {PlaceMoonMineTile} from '../../../src/moon/PlaceMoonMineTile';
 import {MooncrateBlockFactory} from '../../../src/cards/moon/MooncrateBlockFactory';
-import {Phase} from '../../../src/common/Phase';
+import {Phase} from '../../../src/Phase';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 

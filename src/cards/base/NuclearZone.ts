@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {SelectSpace} from '../../inputs/SelectSpace';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {ISpace} from '../../boards/ISpace';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 import {CardRenderer} from '../render/CardRenderer';
 
@@ -34,7 +34,7 @@ export class NuclearZone extends Card implements IProjectCard {
       tr: {temperature: 2},
     });
   }
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     return player.game.board.getAvailableSpacesOnLand(player).length > 0;
   }
 

@@ -1,10 +1,10 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CardRenderer} from '../render/CardRenderer';
-import {PartyName} from '../../common/turmoil/PartyName';
+import {PartyName} from '../../turmoil/parties/PartyName';
 import {CardRequirements} from '../CardRequirements';
 import {Card} from '../Card';
 import {all} from '../Options';
@@ -29,7 +29,7 @@ export class WeGrowAsOne extends Card implements IProjectCard {
         }),
       },
     });
-  }
+  };
 
   public play(player: Player) {
     player.game.colonies.forEach((colony) => {

@@ -1,6 +1,5 @@
 import {expect} from 'chai';
-import {Game} from '../../src/Game';
-import {GameId} from '../../src/common/Types';
+import {Game, GameId} from '../../src/Game';
 import {TestPlayers} from '../TestPlayers';
 import {IN_MEMORY_SQLITE_PATH, SQLite} from '../../src/database/SQLite';
 import {Database} from '../../src/database/Database';
@@ -17,10 +16,10 @@ class TestSQLite extends SQLite {
     return this.db;
   }
 
-  public override saveGame(game: Game): Promise<void> {
+  public saveGame(game: Game): Promise<void> {
     this.saveGamePromise = super.saveGame(game);
     return this.saveGamePromise;
-  }
+  };
 
   public getSaveIds(gameId: GameId): Promise<Array<number>> {
     return new Promise((resolve, reject) => {
@@ -96,7 +95,7 @@ describe('SQLite', () => {
     // TODO(kberg): make cleanSaves a promise, too. Beacuse right now
     // this timeout doesn't participate in automated testing. But for now I can
     // verify this in the debugger. Next step.
-    db.cleanSaves(game.id);
+    db.cleanSaves(game.id, 3);
     setTimeout(async () => {
       const saveIds = await db.getSaveIds(game.id);
       expect(saveIds).has.members([0, 3]);

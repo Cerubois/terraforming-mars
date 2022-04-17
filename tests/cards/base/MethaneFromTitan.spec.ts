@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {MethaneFromTitan} from '../../../src/cards/base/MethaneFromTitan';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('MethaneFromTitan', function() {
@@ -26,6 +26,7 @@ describe('MethaneFromTitan', function() {
 
     expect(player.getProduction(Resources.HEAT)).to.eq(2);
     expect(player.getProduction(Resources.PLANTS)).to.eq(2);
-    expect(card.getVictoryPoints()).to.eq(2);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
   });
 });

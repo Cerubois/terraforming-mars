@@ -1,11 +1,11 @@
 import {StandardActionCard} from '../../StandardActionCard';
-import {CardName} from '../../../common/cards/CardName';
+import {CardName} from '../../../CardName';
 import {CardRenderer} from '../../render/CardRenderer';
 import {Player} from '../../../Player';
-import {MAX_OXYGEN_LEVEL} from '../../../common/constants';
+import {MAX_OXYGEN_LEVEL} from '../../../constants';
 import {SelectSpace} from '../../../inputs/SelectSpace';
 import {ISpace} from '../../../boards/ISpace';
-import {Units} from '../../../common/Units';
+import {Units} from '../../../Units';
 
 
 export class ConvertPlants extends StandardActionCard {

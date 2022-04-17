@@ -3,8 +3,14 @@ import {ApiPlayer} from '../../src/routes/ApiPlayer';
 import {Game} from '../../src/Game';
 import {TestPlayers} from '../TestPlayers';
 import {MockResponse} from './HttpMocks';
+<<<<<<< HEAD
 import {PlayerViewModel} from '../../src/common/models/PlayerModel';
 import {RouteTestScaffolding} from './RouteTestScaffolding';
+=======
+import {IContext} from '../../src/routes/IHandler';
+import {FakeGameLoader} from './FakeGameLoader';
+import {PlayerViewModel} from '../../src/models/PlayerModel';
+>>>>>>> main
 
 describe('ApiPlayer', function() {
   let scaffolding: RouteTestScaffolding;

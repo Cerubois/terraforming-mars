@@ -2,10 +2,11 @@ import {expect} from 'chai';
 import {getTestPlayer, newTestGame} from '../../TestGame';
 import {CoordinatedRaid} from '../../../src/cards/pathfinders/CoordinatedRaid';
 import {SelectColony} from '../../../src/inputs/SelectColony';
-import {ColonyName} from '../../../src/common/colonies/ColonyName';
+import {ColonyName} from '../../../src/colonies/ColonyName';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {Colony} from '../../../src/colonies/Colony';
+<<<<<<< HEAD
 import {ColonyBenefit} from '../../../src/common/colonies/ColonyBenefit';
 import {Resources} from '../../../src/common/Resources';
 import {TestingUtils} from '../../TestingUtils';
@@ -28,6 +29,25 @@ export class TestColony extends Colony {
       shouldIncreaseTrack: ShouldIncreaseTrack.YES,
     });
   }
+=======
+import {ColonyBenefit} from '../../../src/colonies/ColonyBenefit';
+import {Resources} from '../../../src/Resources';
+import {TestingUtils} from '../../TestingUtils';
+import {Units} from '../../../src/Units';
+
+export class TestColony extends Colony {
+  public name = 'TestColony' as ColonyName;
+  public description = 'Test';
+  public buildType = ColonyBenefit.GAIN_RESOURCES;
+  public buildQuantity = [3, 3, 3];
+  public buildResource = Resources.TITANIUM;
+  public tradeType = ColonyBenefit.GAIN_RESOURCES;
+  public tradeQuantity = [4, 5, 6, 7, 8, 9, 10];
+  public tradeResource = Resources.MEGACREDITS;
+  public colonyBonusType = ColonyBenefit.GAIN_RESOURCES;
+  public colonyBonusQuantity = 7;
+  public colonyBonusResource = Resources.STEEL;
+>>>>>>> main
 }
 
 describe('CoordinatedRaid', function() {

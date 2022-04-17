@@ -5,8 +5,13 @@ import {CommunicationBoom} from '../../src/turmoil/globalEvents/CommunicationBoo
 import {Kelvinists} from '../../src/turmoil/parties/Kelvinists';
 import {Turmoil} from '../../src/turmoil/Turmoil';
 import {TestPlayers} from '../TestPlayers';
+<<<<<<< HEAD
 import {CardName} from '../../src/common/cards/CardName';
 import {CardResource} from '../../src/common/CardResource';
+=======
+import {CardName} from '../../src/CardName';
+import {ResourceType} from '../../src/ResourceType';
+>>>>>>> main
 import {AndOptions} from '../../src/inputs/AndOptions';
 
 describe('CommunicationBoom', function() {

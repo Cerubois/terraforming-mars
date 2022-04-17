@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {Ceres} from '../../src/colonies/Ceres';
 import {Game} from '../../src/Game';
 import {Player} from '../../src/Player';
-import {Resources} from '../../src/common/Resources';
+import {Resources} from '../../src/Resources';
 import {TestPlayers} from '../TestPlayers';
 import {TestingUtils} from '../TestingUtils';
 

@@ -4,10 +4,14 @@ import {Game} from '../../../src/Game';
 import {ICard} from '../../../src/cards/ICard';
 import {TestPlayer} from '../../TestPlayer';
 import {getTestPlayer, newTestGame} from '../../TestGame';
-import {CardName} from '../../../src/common/cards/CardName';
+import {CardName} from '../../../src/CardName';
 import {TestingUtils} from '../../TestingUtils';
 import {SelectCard} from '../../../src/inputs/SelectCard';
+<<<<<<< HEAD
 import {CardResource} from '../../../src/common/CardResource';
+=======
+import {ResourceType} from '../../../src/ResourceType';
+>>>>>>> main
 
 describe('ControlledBloom', function() {
   let card: ControlledBloom;

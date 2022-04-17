@@ -1,10 +1,10 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {CardRequirements} from '../CardRequirements';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
@@ -30,7 +30,7 @@ export class LunaSenate extends Card implements IProjectCard {
         }),
       },
     });
-  }
+  };
 
   public play(player: Player) {
     let count = player.game.getPlayers().map((p) => p.getTagCount(Tags.MOON, 'raw')).reduce((p, v) => p + v, 0);

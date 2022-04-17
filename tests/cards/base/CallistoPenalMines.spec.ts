@@ -1,7 +1,7 @@
 
 import {expect} from 'chai';
 import {CallistoPenalMines} from '../../../src/cards/base/CallistoPenalMines';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('CallistoPenalMines', function() {
@@ -11,6 +11,7 @@ describe('CallistoPenalMines', function() {
     const action = card.play(player);
     expect(action).is.undefined;
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(3);
-    expect(card.getVictoryPoints()).to.eq(2);
+    player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
+    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
   });
 });

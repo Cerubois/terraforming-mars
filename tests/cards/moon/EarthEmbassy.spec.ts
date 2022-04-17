@@ -4,9 +4,17 @@ import {TestPlayers} from '../../TestPlayers';
 import {TestPlayer} from '../../TestPlayer';
 import {EarthEmbassy} from '../../../src/cards/moon/EarthEmbassy';
 import {expect} from 'chai';
+<<<<<<< HEAD
 import {Tags} from '../../../src/common/cards/Tags';
 import {LunaGovernor} from '../../../src/cards/colonies/LunaGovernor';
 import {BusinessNetwork} from '../../../src/cards/base/BusinessNetwork';
+=======
+import {Tags} from '../../../src/cards/Tags';
+import {CardType} from '../../../src/cards/CardType';
+import {CardName} from '../../../src/CardName';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {ICardMetadata} from '../../../src/cards/ICardMetadata';
+>>>>>>> main
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 

@@ -1,13 +1,13 @@
 import {IProjectCard} from '../IProjectCard';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {all} from '../Options';
 import {Board} from '../../boards/Board';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 
 export class OutdoorSports extends Card implements IProjectCard {
   constructor() {
@@ -30,9 +30,9 @@ export class OutdoorSports extends Card implements IProjectCard {
     });
   }
 
-  public override canPlay(player: Player) {
+  public canPlay(player: Player) {
     const board = player.game.board;
-    const oceans = board.getOceanSpaces( );
+    const oceans = board.getOceansTiles(true);
     return oceans.some((ocean) => board.getAdjacentSpaces(ocean).some((space) => Board.isCitySpace(space)));
   }
 

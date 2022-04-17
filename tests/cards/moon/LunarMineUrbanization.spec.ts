@@ -5,10 +5,9 @@ import {LunarMineUrbanization} from '../../../src/cards/moon/LunarMineUrbanizati
 import {expect} from 'chai';
 import {MoonExpansion} from '../../../src/moon/MoonExpansion';
 import {IMoonData} from '../../../src/moon/IMoonData';
-import {TileType} from '../../../src/common/TileType';
+import {TileType} from '../../../src/TileType';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/common/Resources';
-import {VictoryPointsBreakdown} from '../../../src/VictoryPointsBreakdown';
+import {Resources} from '../../../src/Resources';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 
@@ -50,32 +49,32 @@ describe('LunarMineUrbanization', () => {
 
     const action = card.play(player);
 
-    expect(MoonExpansion.spaces(player.game, TileType.MOON_MINE)).eql([space]);
-    expect(MoonExpansion.spaces(player.game, TileType.MOON_COLONY)).eql([]);
+    expect(MoonExpansion.tiles(player.game, TileType.MOON_MINE)).eql([space]);
+    expect(MoonExpansion.tiles(player.game, TileType.MOON_COLONY)).eql([]);
     expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
 
     action.cb(space);
 
     expect(space.tile!.tileType).eq(TileType.LUNAR_MINE_URBANIZATION);
-    expect(MoonExpansion.spaces(player.game, TileType.MOON_MINE)).eql([space]);
-    expect(MoonExpansion.spaces(player.game, TileType.MOON_COLONY)).eql([space]);
+    expect(MoonExpansion.tiles(player.game, TileType.MOON_MINE)).eql([space]);
+    expect(MoonExpansion.tiles(player.game, TileType.MOON_COLONY)).eql([space]);
     expect(moonData.colonyRate).eq(1);
     expect(player.getTerraformRating()).eq(15);
   });
 
   it('computeVictoryPoints', () => {
-    const vps = new VictoryPointsBreakdown();
+    const vps = player.victoryPointsBreakdown;
     function computeVps() {
-      vps.points.moonColonies = 0;
-      vps.points.moonMines = 0;
-      vps.points.moonRoads = 0;
+      vps.moonColonies = 0;
+      vps.moonMines = 0;
+      vps.moonRoads = 0;
       MoonExpansion.calculateVictoryPoints(player, vps);
       return {
-        colonies: vps.points.moonColonies,
-        mines: vps.points.moonMines,
-        roads: vps.points.moonRoads,
+        colonies: vps.moonColonies,
+        mines: vps.moonMines,
+        roads: vps.moonRoads,
       };
-    }
+    };
 
     expect(computeVps()).eql({colonies: 0, mines: 0, roads: 0});
     MoonExpansion.addTile(player, 'm02', {tileType: TileType.MOON_ROAD});

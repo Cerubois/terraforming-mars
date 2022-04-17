@@ -1,11 +1,11 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
-import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../CardType';
+import {Tags} from '../Tags';
 import {MoonExpansion} from '../../moon/MoonExpansion';
 import {CardRenderer} from '../render/CardRenderer';
 import {CardRequirements} from '../CardRequirements';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
 import {all} from '../Options';
 
@@ -33,7 +33,7 @@ export class LunaResort extends MoonCard {
         }),
       },
     });
-  }
+  };
 
   public override play(player: Player) {
     super.play(player);

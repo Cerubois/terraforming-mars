@@ -1,7 +1,7 @@
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
-import {Resources} from '../../common/Resources';
+import {CardName} from '../../CardName';
+import {Resources} from '../../Resources';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../../common/cards/render/Size';
@@ -27,10 +27,10 @@ export class AerosportTournament extends Card {
         }),
       },
     });
-  }
+  };
 
   public play(player: Player) {
-    player.addResource(Resources.MEGACREDITS, player.game.getCitiesCount(), {log: true});
+    player.addResource(Resources.MEGACREDITS, player.game.getCitiesInPlay(), {log: true});
     return undefined;
   }
 }

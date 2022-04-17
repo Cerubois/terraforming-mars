@@ -1,11 +1,11 @@
 import {Player} from '../../Player';
 import {PreludeCard} from '../prelude/PreludeCard';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {PlaceCityTile} from '../../deferredActions/PlaceCityTile';
 import {BuildColony} from '../../deferredActions/BuildColony';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 
 export class StrategicBasePlanning extends PreludeCard {
   constructor() {

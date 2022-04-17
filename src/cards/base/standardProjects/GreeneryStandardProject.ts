@@ -1,5 +1,5 @@
 import {Player} from '../../../Player';
-import {CardName} from '../../../common/cards/CardName';
+import {CardName} from '../../../CardName';
 import {CardRenderer} from '../../render/CardRenderer';
 import {StandardProjectCard} from '../../StandardProjectCard';
 import {PlaceGreeneryTile} from '../../../deferredActions/PlaceGreeneryTile';
@@ -29,7 +29,7 @@ export class GreeneryStandardProject extends StandardProjectCard {
     }
   }
 
-  public override canAct(player: Player): boolean {
+  public canAct(player: Player): boolean {
     if (player.game.board.getAvailableSpacesForGreenery(player).length === 0) return false;
     return super.canAct(player);
   }

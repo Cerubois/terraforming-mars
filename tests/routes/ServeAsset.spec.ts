@@ -7,19 +7,19 @@ class FileApiMock extends FileAPI {
     readFile: 0,
     readFileSync: 0,
     existsSync: 0,
-  };
+  }
   public constructor() {
     super();
   }
-  public override readFileSync(path: string): Buffer {
+  public readFileSync(path: string): Buffer {
     this.counts.readFileSync++;
     return Buffer.from('data: ' + path);
   }
-  public override readFile(path: string, cb: (err: NodeJS.ErrnoException | null, data: Buffer) => void): void {
+  public readFile(path: string, cb: (err: NodeJS.ErrnoException | null, data: Buffer) => void): void {
     this.counts.readFile++;
     cb(null, Buffer.from('data: ' + path));
   }
-  public override existsSync(_path: string): boolean {
+  public existsSync(_path: string): boolean {
     this.counts.existsSync++;
     return true;
   }
@@ -30,6 +30,7 @@ describe('ServeAsset', () => {
   let scaffolding: RouteTestScaffolding;
   let res: MockResponse;
   let fileApi: FileApiMock;
+<<<<<<< HEAD
   // The expected state of call counts in most simple cases in this test. This is a template
   // used and overridden below. That makes how individual condition changes these calls.
   const primedCache = {
@@ -39,15 +40,25 @@ describe('ServeAsset', () => {
   };
 
   const storedNodeEnv = process.env.NODE_ENV;
+=======
+
+  // Strictly speaking |parameters| can also accept a fragment.
+  const setRequest = function(parameters: string, headers: Array<Array<string>> = []) {
+    req.url = parameters;
+    ctx.url = new URL('http://boo.com' + parameters);
+    headers.forEach((entry) => {
+      req.headers[entry[0]] = entry[1];
+    });
+  };
+
+>>>>>>> main
   beforeEach(() => {
     instance = new ServeAsset(undefined, false);
     scaffolding = new RouteTestScaffolding();
     res = new MockResponse();
     fileApi = new FileApiMock();
   });
-  afterEach(() => {
-    process.env.NODE_ENV = storedNodeEnv;
-  });
+
   it('bad filename', () => {
     scaffolding.url = 'goo.goo.gaa.gaa';
     scaffolding.req.headers['accept-encoding'] = '';
@@ -82,7 +93,7 @@ describe('ServeAsset', () => {
   it('styles.css: uncached', () => {
     instance = new ServeAsset(undefined, false, fileApi);
     // Primes the cache.
-    expect(fileApi.counts).deep.eq(primedCache);
+    expect(fileApi.counts).deep.eq({readFile: 0, readFileSync: 3, existsSync: 0});
 
     scaffolding.url = '/styles.css';
     scaffolding.req.headers['accept-encoding'] = '';
@@ -90,15 +101,16 @@ describe('ServeAsset', () => {
 
     expect(res.content).eq('data: build/styles.css');
     expect(fileApi.counts).deep.eq({
-      ...primedCache,
       readFile: 1, // Still read.
+      readFileSync: 3,
+      existsSync: 0,
     });
   });
 
   it('styles.css.gz: cached', () => {
     instance = new ServeAsset(undefined, true, fileApi);
     // Primes the cache.
-    expect(fileApi.counts).deep.eq(primedCache);
+    expect(fileApi.counts).deep.eq({readFile: 0, readFileSync: 3, existsSync: 0});
 
     scaffolding.url = '/styles.css';
     scaffolding.req.headers['accept-encoding'] = 'gzip';
@@ -106,8 +118,8 @@ describe('ServeAsset', () => {
 
     expect(res.content).eq('data: build/styles.css.gz');
     expect(fileApi.counts).deep.eq({
-      ...primedCache,
       readFile: 0, // Does not change
+<<<<<<< HEAD
     });
   });
 
@@ -134,10 +146,14 @@ describe('ServeAsset', () => {
     expect(fileApi.counts).deep.eq({
       ...primedCache,
       readFile: 1,
+=======
+      readFileSync: 3,
+>>>>>>> main
       existsSync: 0,
     });
   });
 
+<<<<<<< HEAD
   it('sw.js', () => {
     instance = new ServeAsset(undefined, false, fileApi);
     scaffolding.url = '/sw.js';
@@ -150,4 +166,9 @@ describe('ServeAsset', () => {
       existsSync: 0,
     });
   });
+=======
+
+  // Cached CSS
+  // Uncached CSS
+>>>>>>> main
 });

@@ -2,8 +2,13 @@ import {expect} from 'chai';
 import {LocalShading} from '../../../src/cards/venusNext/LocalShading';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Player} from '../../../src/Player';
+<<<<<<< HEAD
 import {Resources} from '../../../src/common/Resources';
 import {getTestPlayer, newTestGame} from '../../TestGame';
+=======
+import {Resources} from '../../../src/Resources';
+import {TestPlayers} from '../../TestPlayers';
+>>>>>>> main
 
 describe('LocalShading', function() {
   let card: LocalShading;

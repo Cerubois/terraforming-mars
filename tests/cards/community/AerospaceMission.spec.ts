@@ -2,13 +2,13 @@ import {expect} from 'chai';
 import {AerospaceMission} from '../../../src/cards/community/AerospaceMission';
 import {Callisto} from '../../../src/colonies/Callisto';
 import {Ceres} from '../../../src/colonies/Ceres';
-import {ColonyName} from '../../../src/common/colonies/ColonyName';
+import {ColonyName} from '../../../src/colonies/ColonyName';
 import {Io} from '../../../src/colonies/Io';
 import {Luna} from '../../../src/colonies/Luna';
 import {Game} from '../../../src/Game';
 import {SelectColony} from '../../../src/inputs/SelectColony';
 import {Player} from '../../../src/Player';
-import {Resources} from '../../../src/common/Resources';
+import {Resources} from '../../../src/Resources';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 

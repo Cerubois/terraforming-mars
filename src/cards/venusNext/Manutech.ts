@@ -1,12 +1,12 @@
 import {ICorporationCard} from '../corporation/ICorporationCard';
 import {Player} from '../../Player';
-import {Tags} from '../../common/cards/Tags';
-import {Resources} from '../../common/Resources';
+import {Tags} from '../Tags';
+import {Resources} from '../../Resources';
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 
 export class Manutech extends Card implements ICorporationCard {
   constructor() {

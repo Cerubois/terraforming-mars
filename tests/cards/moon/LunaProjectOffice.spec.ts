@@ -181,7 +181,7 @@ describe('LunaProjectOffice', () => {
 
 function finishGeneration(game: Game): void {
   const priorGeneration = game.generation;
-  game.getPlayersInGenerationOrder().forEach((player) => {
+  game.getPlayers().forEach((player) => {
     game.playerHasPassed(player);
     game.playerIsFinishedTakingActions();
   });

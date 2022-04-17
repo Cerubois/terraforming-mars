@@ -2,7 +2,7 @@ import {Player} from '../Player';
 import {SelectHowToPay} from '../inputs/SelectHowToPay';
 import {HowToPay} from '../common/inputs/HowToPay';
 import {DeferredAction, Priority} from './DeferredAction';
-import {Resources} from '../common/Resources';
+import {Resources} from '../Resources';
 
 export class SelectHowToPayDeferred implements DeferredAction {
   public priority = Priority.DEFAULT;
@@ -72,5 +72,5 @@ export namespace SelectHowToPayDeferred {
     canUseData?: boolean,
     title?: string;
     afterPay?: () => void;
-  }
+  };
 }

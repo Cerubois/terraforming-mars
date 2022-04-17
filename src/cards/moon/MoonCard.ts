@@ -1,5 +1,5 @@
 import {Player} from '../../Player';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {StaticCardProperties} from '../Card';
 import {ProjectCard} from '../ProjectCard';
 import {IMoonCard} from './IMoonCard';

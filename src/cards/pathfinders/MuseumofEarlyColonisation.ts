@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
-import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../CardType';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CardRequirements} from '../CardRequirements';
-import {Units} from '../../common/Units';
+import {Units} from '../../Units';
 import {all} from '../Options';
 
 export class MuseumofEarlyColonisation extends Card implements IProjectCard {

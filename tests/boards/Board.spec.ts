@@ -1,17 +1,16 @@
 import {expect} from 'chai';
 import {OriginalBoard} from '../../src/boards/OriginalBoard';
 import {Player} from '../../src/Player';
-import {TileType} from '../../src/common/TileType';
+import {TileType} from '../../src/TileType';
 import {ISpace} from '../../src/boards/ISpace';
-import {SpaceType} from '../../src/common/boards/SpaceType';
+import {SpaceType} from '../../src/SpaceType';
 import {TestPlayers} from '../TestPlayers';
 import {Board} from '../../src/boards/Board';
-import {Color} from '../../src/common/Color';
+import {Color} from '../../src/Color';
 import {SerializedBoard} from '../../src/boards/SerializedBoard';
 import {MoonSpaces} from '../../src/moon/MoonSpaces';
 import {Random} from '../../src/Random';
 import {DEFAULT_GAME_OPTIONS, GameOptions} from '../../src/Game';
-import {MultiSet} from 'mnemonist';
 
 describe('Board', function() {
   let board : OriginalBoard; let player : Player; let player2 : Player;
@@ -225,40 +224,28 @@ describe('Board', function() {
     expect(board.getNthAvailableLandSpace(50, -1).id).eq('60');
   });
 
-  it('getOceanCount', function() {
-    expect(board.getOceanCount()).eq(0);
+  it('getOceansOnBoard', function() {
+    expect(board.getOceansOnBoard()).eq(0);
 
     const space1 = board.spaces[1];
     space1.spaceType = SpaceType.OCEAN;
     space1.tile = {tileType: TileType.OCEAN};
 
-    expect(board.getOceanCount()).eq(1);
-    expect(board.getOceanCount({upgradedOceans: false})).eq(1);
-    expect(board.getOceanCount({upgradedOceans: true})).eq(1);
+    expect(board.getOceansOnBoard(true)).eq(1);
+    expect(board.getOceansOnBoard(false)).eq(1);
 
     const space2 = board.spaces[2];
     space2.spaceType = SpaceType.OCEAN;
     space2.tile = {tileType: TileType.OCEAN_SANCTUARY};
 
-    expect(board.getOceanCount()).eq(2);
-    expect(board.getOceanCount({upgradedOceans: false})).eq(1);
-    expect(board.getOceanCount({upgradedOceans: true})).eq(2);
-
-    const space3 = board.spaces[3];
-    space3.spaceType = SpaceType.OCEAN;
-    space3.tile = {tileType: TileType.WETLANDS};
-
-    expect(board.getOceanCount()).eq(2);
-    expect(board.getOceanCount({upgradedOceans: false})).eq(1);
-    expect(board.getOceanCount({upgradedOceans: true})).eq(2);
-    expect(board.getOceanCount({wetlands: true})).eq(3);
-    expect(board.getOceanCount({wetlands: false})).eq(2);
+    expect(board.getOceansOnBoard(true)).eq(2);
+    expect(board.getOceansOnBoard(false)).eq(1);
   });
 
   class TestBoard extends Board {
     public constructor(spaces: Array<ISpace>) {
       super(spaces);
-    }
+    };
 
     public getSpaceById(id: string): ISpace | undefined {
       return this.spaces.find((space) => space.id === id);
@@ -271,7 +258,7 @@ describe('Board', function() {
     public getNoctisCitySpaceIds(): Array<string> {
       return [];
     }
-  }
+  };
 
   it('deserialize', () => {
     const boardJson = {
@@ -308,6 +295,7 @@ describe('Board', function() {
     expect(board.getSpaceById('01')!.player).eq(player1);
     expect(board.getSpaceById('03')!.player).eq(player2);
   });
+<<<<<<< HEAD
 
   it('Deserializing Noctis City without a space type gives it a space type.', () => {
     const boardJson = {
@@ -362,4 +350,6 @@ describe('Board', function() {
     }
     expect(spaces.size, spaces.toJSON()).eq(0);
   });
+=======
+>>>>>>> main
 });

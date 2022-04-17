@@ -5,21 +5,27 @@ import {Pluto} from '../../src/colonies/Pluto';
 import {DustSeals} from '../../src/cards/base/DustSeals';
 import {Player} from '../../src/Player';
 import {Game} from '../../src/Game';
-import {Resources} from '../../src/common/Resources';
+import {Resources} from '../../src/Resources';
 import {OrOptions} from '../../src/inputs/OrOptions';
 import {AndOptions} from '../../src/inputs/AndOptions';
 import {SelectColony} from '../../src/inputs/SelectColony';
 import {SelectCard} from '../../src/inputs/SelectCard';
 import {IProjectCard} from '../../src/cards/IProjectCard';
-import {MAX_COLONY_TRACK_POSITION} from '../../src/common/constants';
+import {MAX_COLONY_TRACK_POSITION} from '../../src/constants';
 import {TestingUtils} from '../TestingUtils';
 import {TestPlayer} from '../TestPlayer';
+<<<<<<< HEAD
 import {CardName} from '../../src/common/cards/CardName';
 import {Pallas} from '../../src/cards/community/Pallas';
 import {Io} from '../../src/colonies/Io';
 import {Europa} from '../../src/colonies/Europa';
 import {ColonyName} from '../../src/common/colonies/ColonyName';
 import {ColonyDeserializer} from '../../src/colonies/ColonyDeserializer';
+=======
+import {CardName} from '../../src/CardName';
+
+const gameOptions = TestingUtils.setCustomGameOptions({coloniesExtension: true});
+>>>>>>> main
 
 function isBuildColonyStandardProjectAvailable(player: TestPlayer) {
   const options = TestingUtils.cast(player.getStandardProjectOption(), SelectCard);
@@ -155,7 +161,7 @@ describe('Colony', function() {
     expect(luna.trackPosition).to.eq(MAX_COLONY_TRACK_POSITION);
   });
 
-  it('Should not decrease trackPosition below 0', function() {
+  it('Shouldn\'t decrease trackPosition below 0', function() {
     luna.decreaseTrack(100);
     expect(luna.trackPosition).to.eq(0);
   });
@@ -238,8 +244,12 @@ describe('Colony', function() {
     expect(isBuildColonyStandardProjectAvailable(player)).to.be.true;
   });
 
+<<<<<<< HEAD
   it('Should not let players build a colony if they already have one', function() {
     game.colonies = [luna]; // Only a single colony in this test to show that building a second colony on a tile isn't possible.
+=======
+  it('Shouldn\'t let players build a colony if they already have one', function() {
+>>>>>>> main
     player.megaCredits = 17;
 
     luna.addColony(player2);
@@ -249,8 +259,12 @@ describe('Colony', function() {
     expect(isBuildColonyStandardProjectAvailable(player)).to.be.false;
   });
 
+<<<<<<< HEAD
   it('Should not let players build a colony if colony tile is full', function() {
     game.colonies = [luna]; // Only a single colony in this test to show that building on a full tile isn't possible.
+=======
+  it('Shouldn\'t let players build a colony if colony tile is full', function() {
+>>>>>>> main
     player.megaCredits = 17;
     expect(luna.isColonyFull()).to.be.false;
 
@@ -291,27 +305,20 @@ describe('Colony', function() {
     expect(isTradeWithColonyActionAvailable(player)).to.be.true;
   });
 
-  it('Player with Helion can trade', function() {
-    expect(isTradeWithColonyActionAvailable(player)).to.be.false;
-
-    player.megaCredits = 7;
-    player.heat = 2;
-    expect(isTradeWithColonyActionAvailable(player)).to.be.false;
-
-    player.canUseHeatAsMegaCredits = true;
-    expect(isTradeWithColonyActionAvailable(player)).to.be.true;
-  });
-
-  it('Should not let players trade if they have no fleet', function() {
+  it('Shouldn\'t let players trade if they have no fleet', function() {
     player.titanium = 3;
 
     luna.trade(player);
     expect(isTradeWithColonyActionAvailable(player)).to.be.false;
   });
 
+<<<<<<< HEAD
   it('Should not let players trade with colonies that have already been traded with', function() {
     game.colonies = [luna]; // Only a single colony in this test to show that retrading on a colony isn't possible.
 
+=======
+  it('Shouldn\'t let players trade with colonies that have already been traded with', function() {
+>>>>>>> main
     player.titanium = 3;
     player2.titanium = 3;
 
@@ -367,6 +374,7 @@ describe('Colony', function() {
     luna.trade(player, {usesTradeFleet: true});
     expect(player.tradesThisGeneration).eq(3);
   });
+<<<<<<< HEAD
 
   it('serializing and deserializing', () => {
     const io = new Io();
@@ -402,4 +410,6 @@ describe('Colony', function() {
     expect(colonies[2].trackPosition).eq(1);
     expect(colonies[2].visitor).is.undefined;
   });
+=======
+>>>>>>> main
 });

@@ -1,10 +1,10 @@
 import {IProjectCard} from '../IProjectCard';
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
-import {Tags} from '../../common/cards/Tags';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
+import {Tags} from '../Tags';
 import {Player} from '../../Player';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {CardRenderer} from '../render/CardRenderer';
 
 export class Advertising extends Card implements IProjectCard {

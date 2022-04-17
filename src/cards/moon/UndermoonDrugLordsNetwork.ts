@@ -1,11 +1,11 @@
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {Player} from '../../Player';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {CardRenderer} from '../render/CardRenderer';
 import {MoonExpansion} from '../../moon/MoonExpansion';
-import {Resources} from '../../common/Resources';
+import {Resources} from '../../Resources';
 import {Card} from '../Card';
 
 export class UndermoonDrugLordsNetwork extends Card implements IProjectCard {
@@ -27,7 +27,7 @@ export class UndermoonDrugLordsNetwork extends Card implements IProjectCard {
         }),
       },
     });
-  }
+  };
 
   public play(player: Player) {
     const gain = Math.floor(MoonExpansion.moonData(player.game).colonyRate / 2);

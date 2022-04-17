@@ -1,9 +1,9 @@
 import {Player} from '../../Player';
 import {PreludeCard} from '../prelude/PreludeCard';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../common/Resources';
-import {Units} from '../../common/Units';
+import {Resources} from '../../Resources';
+import {Units} from '../../Units';
 
 export class AntidesertificationTechniques extends PreludeCard {
   constructor() {

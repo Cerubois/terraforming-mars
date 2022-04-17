@@ -1,14 +1,14 @@
 import {IActionCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../../common/cards/Tags';
+import {Tags} from '../Tags';
 import {Card} from '../Card';
-import {CardType} from '../../common/cards/CardType';
+import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {TileType} from '../../common/TileType';
+import {TileType} from '../../TileType';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
-import {Resources} from '../../common/Resources';
-import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../Resources';
+import {CardName} from '../../CardName';
 import {Board} from '../../boards/Board';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
@@ -43,7 +43,7 @@ export class IndustrialCenter extends Card implements IActionCard, IProjectCard 
     return player.game.board.getAvailableSpacesOnLand(player)
       .filter((space) => player.game.board.getAdjacentSpaces(space).some((adjacentSpace) => Board.isCitySpace(adjacentSpace)));
   }
-  public override canPlay(player: Player): boolean {
+  public canPlay(player: Player): boolean {
     return this.getAvailableSpaces(player).length > 0;
   }
   public play(player: Player) {

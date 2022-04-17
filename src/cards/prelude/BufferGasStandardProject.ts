@@ -1,5 +1,5 @@
 import {Player} from '../../Player';
-import {CardName} from '../../common/cards/CardName';
+import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {StandardProjectCard} from '../StandardProjectCard';
 
@@ -18,6 +18,11 @@ export class BufferGasStandardProject extends StandardProjectCard {
         ),
       },
     });
+  }
+
+  // This feels kind of over-superfluous, but...
+  public canAct(player: Player): boolean {
+    return super.canAct(player);
   }
 
   actionEssence(player: Player): void {

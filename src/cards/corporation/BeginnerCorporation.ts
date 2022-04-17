@@ -1,8 +1,8 @@
 import {ICorporationCard} from './ICorporationCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardName} from '../../common/cards/CardName';
-import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../CardName';
+import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {digit} from '../Options';
 
