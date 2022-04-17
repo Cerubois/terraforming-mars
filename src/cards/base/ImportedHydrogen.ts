@@ -1,16 +1,16 @@
 import {ICard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {SelectCard} from '../../inputs/SelectCard';
 import {PlayerInput} from '../../PlayerInput';
-import {ResourceType} from '../../ResourceType';
-import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
+import {CardResource} from '../../common/CardResource';
+import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../common/Resources';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {CardRenderer} from '../render/CardRenderer';
 import {digit} from '../Options';
@@ -39,8 +39,8 @@ export class ImportedHydrogen extends Card implements IProjectCard {
   }
 
   public play(player: Player): undefined | PlayerInput {
-    const availableMicrobeCards = player.getResourceCards(ResourceType.MICROBE);
-    const availableAnimalCards = player.getResourceCards(ResourceType.ANIMAL);
+    const availableMicrobeCards = player.getResourceCards(CardResource.MICROBE);
+    const availableAnimalCards = player.getResourceCards(CardResource.ANIMAL);
 
     const gainPlants = function() {
       player.addResource(Resources.PLANTS, 3, {log: true});

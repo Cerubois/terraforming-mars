@@ -69,6 +69,26 @@ export class PostgreSQL implements IDatabase {
     });
   }
 
+  getClonableGameByGameId(game_id: GameId, cb: (err: Error | undefined, gameData: IGameData | undefined) => void) {
+    const sql = 'SELECT players FROM games WHERE save_id = 0 AND game_id = $1 LIMIT 1';
+
+    this.client.query(sql, [game_id], (err, res) => {
+      if (err) {
+        console.error('PostgreSQL:getClonableGameByGameId', err);
+        cb(err, undefined);
+        return;
+      }
+      if (res.rows.length === 0) {
+        cb(undefined, undefined);
+        return;
+      }
+      cb(undefined, {
+        gameId: res.rows[0].game_id,
+        playerCount: res.rows[0].players,
+      });
+    });
+  }
+
   getGames(cb: (err: Error | undefined, allGames: Array<GameId>) => void) {
     const allGames: Array<GameId> = [];
     const sql: string = 'SELECT games.game_id FROM games, (SELECT max(save_id) save_id, game_id FROM games WHERE status=\'running\' GROUP BY game_id) a WHERE games.game_id = a.game_id AND games.save_id = a.save_id ORDER BY created_time DESC';
@@ -114,7 +134,7 @@ export class PostgreSQL implements IDatabase {
         console.error('PostgreSQL:getGame', err);
         return cb(err);
       }
-      if (res.rows.length === 0) {
+      if (res.rows.length === 0 || res.rows[0] === undefined) {
         return cb(new Error('Game not found'));
       }
       cb(undefined, JSON.parse(res.rows[0].game));
@@ -122,19 +142,29 @@ export class PostgreSQL implements IDatabase {
   }
 
   // TODO(kberg): throw an error if two game ids exist.
-  getGameId(playerId: string, cb: (err: Error | undefined, gameId?: GameId) => void): void {
-    const sql =
-      `SELECT game_id
-      FROM games, json_array_elements(CAST(game AS JSON)->'players') AS e
-      WHERE save_id = 0 AND e->>'id' = $1`;
+  getGameId(id: string, cb: (err: Error | undefined, gameId?: GameId) => void): void {
+    let sql = undefined;
+    if (id.charAt(0) === 'p') {
+      sql =
+        `SELECT game_id
+          FROM games, json_array_elements(CAST(game AS JSON)->'players') AS e
+          WHERE save_id = 0 AND e->>'id' = $1`;
+    } else if (id.charAt(0) === 's') {
+      sql =
+        `SELECT game_id
+        FROM games
+        WHERE save_id = 0 AND CAST(game AS JSON)->>'spectatorId' = $1`;
+    } else {
+      throw new Error(`id ${id} is neither a player id or spectator id`);
+    }
 
-    this.client.query(sql, [playerId], (err: Error | null, res: QueryResult<any>) => {
+    this.client.query(sql, [id], (err: Error | null, res: QueryResult<any>) => {
       if (err) {
         console.error('PostgreSQL:getGameId', err);
         return cb(err ?? undefined);
       }
       if (res.rowCount === 0) {
-        return cb(new Error('Game not found'));
+        return cb(new Error(`Game for player id ${id} not found`));
       }
       const gameId = res.rows[0].game_id;
       cb(undefined, gameId);
@@ -146,6 +176,9 @@ export class PostgreSQL implements IDatabase {
       if (err) {
         console.error('PostgreSQL:getGameVersion', err);
         return cb(err, undefined);
+      }
+      if (res.rowCount === 0) {
+        return cb(new Error(`Game ${game_id} not found at save_id ${save_id}`), undefined);
       }
       cb(undefined, JSON.parse(res.rows[0].game));
     });

@@ -1,9 +1,9 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
-import {ResourceType} from '../../ResourceType';
+import {CardName} from '../../common/cards/CardName';
+import {CardResource} from '../../common/CardResource';
 import {SelectOption} from '../../inputs/SelectOption';
 import {OrOptions} from '../../inputs/OrOptions';
 import {IResourceCard} from '../ICard';
@@ -18,7 +18,7 @@ export class RedSpotObservatory extends Card implements IProjectCard, IResourceC
       tags: [Tags.JOVIAN, Tags.SCIENCE],
       name: CardName.RED_SPOT_OBSERVATORY,
       cardType: CardType.ACTIVE,
-      resourceType: ResourceType.FLOATER,
+      resourceType: CardResource.FLOATER,
       victoryPoints: 2,
 
       requirements: CardRequirements.builder((b) => b.tag(Tags.SCIENCE, 3)),
@@ -39,7 +39,7 @@ export class RedSpotObservatory extends Card implements IProjectCard, IResourceC
     });
   }
 
-  public resourceCount: number = 0;
+  public override resourceCount: number = 0;
 
   public canAct(): boolean {
     return true;

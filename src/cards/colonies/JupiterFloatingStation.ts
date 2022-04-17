@@ -1,18 +1,18 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
-import {ResourceType} from '../../ResourceType';
+import {CardName} from '../../common/cards/CardName';
+import {CardResource} from '../../common/CardResource';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {IResourceCard} from '../ICard';
-import {Resources} from '../../Resources';
+import {Resources} from '../../common/Resources';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {CardRequirements} from '../CardRequirements';
 import {Card} from '../Card';
 import {CardRenderer} from '../render/CardRenderer';
-import {Size} from '../render/Size';
+import {Size} from '../../common/cards/render/Size';
 
 export class JupiterFloatingStation extends Card implements IProjectCard, IResourceCard {
   constructor() {
@@ -21,7 +21,7 @@ export class JupiterFloatingStation extends Card implements IProjectCard, IResou
       tags: [Tags.JOVIAN],
       name: CardName.JUPITER_FLOATING_STATION,
       cardType: CardType.ACTIVE,
-      resourceType: ResourceType.FLOATER,
+      resourceType: CardResource.FLOATER,
       requirements: CardRequirements.builder((b) => b.tag(Tags.SCIENCE, 3)),
       victoryPoints: 1,
 
@@ -45,7 +45,7 @@ export class JupiterFloatingStation extends Card implements IProjectCard, IResou
     });
   }
 
-  public resourceCount: number = 0;
+  public override resourceCount: number = 0;
 
   public canAct(): boolean {
     return true;
@@ -54,7 +54,7 @@ export class JupiterFloatingStation extends Card implements IProjectCard, IResou
   public action(player: Player) {
     return new OrOptions(
       new SelectOption('Add 1 floater to a Jovian card', 'Add floater', () => {
-        player.game.defer(new AddResourcesToCard(player, ResourceType.FLOATER, {
+        player.game.defer(new AddResourcesToCard(player, CardResource.FLOATER, {
           restrictedTag: Tags.JOVIAN, title: 'Add 1 floater to a Jovian card',
         }));
         return undefined;

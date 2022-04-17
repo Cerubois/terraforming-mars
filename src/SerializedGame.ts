@@ -2,9 +2,12 @@ import {Phase} from './Phase';
 import {CardName} from './CardName';
 import {SerializedClaimedMilestone} from './milestones/ClaimedMilestone';
 import {SerializedFundedAward} from './awards/FundedAward';
+<<<<<<< HEAD
+=======
 import {IMilestone} from './milestones/IMilestone';
 import {IAward} from './awards/IAward';
 import {ColonyDealer} from './colonies/ColonyDealer';
+>>>>>>> main
 import {DeferredAction} from './deferredActions/DeferredAction';
 import {SerializedColony} from './SerializedColony';
 import {SerializedPlayer} from './SerializedPlayer';
@@ -23,10 +26,12 @@ export interface SerializedGame {
     aresData?: IAresData;
     awards: Array<IAward> | Array<string>; // TODO(bafolts): remove Array<IAward> by 2021-12-01
     board: SerializedBoard;
+    // game.rng changes over the course of a game but isn't saved and serialized
+    // for instance, in the face of a redeal.
+    currentSeed: number | undefined; // TODO(kberg): Remove '|undefined' by 2022-06-01
     claimedMilestones: Array<SerializedClaimedMilestone>;
     clonedGamedId?: string;
     colonies: Array<SerializedColony>;
-    colonyDealer: ColonyDealer | undefined;
     dealer: SerializedDealer;
     deferredActions: Array<DeferredAction>;
     donePlayers: Array<PlayerId>;

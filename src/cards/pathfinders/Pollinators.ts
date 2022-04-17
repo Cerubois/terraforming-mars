@@ -2,13 +2,13 @@ import {IProjectCard} from '../IProjectCard';
 import {IActionCard, IResourceCard, VictoryPoints} from '../ICard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
-import {CardName} from '../../CardName';
+import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {ResourceType} from '../../ResourceType';
-import {Tags} from '../Tags';
+import {CardResource} from '../../common/CardResource';
+import {Tags} from '../../common/cards/Tags';
 import {CardRequirements} from '../CardRequirements';
-import {Resources} from '../../Resources';
+import {Resources} from '../../common/Resources';
 
 export class Pollinators extends Card implements IProjectCard, IResourceCard, IActionCard {
   constructor() {
@@ -17,7 +17,7 @@ export class Pollinators extends Card implements IProjectCard, IResourceCard, IA
       name: CardName.POLLINATORS,
       cost: 19,
       tags: [Tags.PLANT, Tags.ANIMAL],
-      resourceType: ResourceType.ANIMAL,
+      resourceType: CardResource.ANIMAL,
       requirements: CardRequirements.builder((b) => b.tag(Tags.PLANT, 3)),
       victoryPoints: VictoryPoints.resource(1, 1),
 

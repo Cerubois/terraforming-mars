@@ -1,10 +1,10 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
-import {ResourceType} from '../../ResourceType';
-import {Resources} from '../../Resources';
+import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
 import {IResourceCard} from '../ICard';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
@@ -17,7 +17,7 @@ export class RefugeeCamps extends Card implements IProjectCard, IResourceCard {
       tags: [Tags.EARTH],
       name: CardName.REFUGEE_CAMP,
       cardType: CardType.ACTIVE,
-      resourceType: ResourceType.CAMP,
+      resourceType: CardResource.CAMP,
       victoryPoints: VictoryPoints.resource(1, 1),
 
       metadata: {
@@ -33,7 +33,7 @@ export class RefugeeCamps extends Card implements IProjectCard, IResourceCard {
     });
   }
 
-  public resourceCount: number = 0;
+  public override resourceCount: number = 0;
 
   public canAct(player: Player): boolean {
     return player.getProduction(Resources.MEGACREDITS) >= -4;

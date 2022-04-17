@@ -1,11 +1,11 @@
-import {CardType} from './CardType';
+import {CardType} from '../common/cards/CardType';
 import {AndOptions} from '../inputs/AndOptions';
 import {IProjectCard} from './IProjectCard';
 import {ISpace} from '../boards/ISpace';
-import {Message} from '../Message';
+import {Message} from '../common/logs/Message';
 import {PlayerInput} from '../PlayerInput';
 import {Player} from '../Player';
-import {Tags} from './Tags';
+import {Tags} from '../common/cards/Tags';
 import {SelectAmount} from '../inputs/SelectAmount';
 import {SelectCard} from '../inputs/SelectCard';
 import {SelectHowToPay} from '../inputs/SelectHowToPay';
@@ -13,14 +13,16 @@ import {SelectPlayer} from '../inputs/SelectPlayer';
 import {SelectSpace} from '../inputs/SelectSpace';
 import {OrOptions} from '../inputs/OrOptions';
 import {SelectOption} from '../inputs/SelectOption';
-import {ResourceType} from '../ResourceType';
-import {CardName} from '../CardName';
-import {ICardMetadata} from './ICardMetadata';
+import {CardResource} from '../common/CardResource';
+import {CardName} from '../common/cards/CardName';
+import {ICardMetadata} from '../common/cards/ICardMetadata';
 import {StandardProjectCard} from './StandardProjectCard';
 import {CardRequirements} from './CardRequirements';
-import {GlobalParameter} from '../GlobalParameter';
+import {GlobalParameter} from '../common/GlobalParameter';
 import {BoardType} from '../boards/BoardType';
-import {Units} from '../Units';
+import {Units} from '../common/Units';
+import {ICardDiscount} from '../common/cards/Types';
+import {IVictoryPoints} from '../common/cards/IVictoryPoints';
 
 export interface IActionCard {
     action: (player: Player) => OrOptions | SelectOption | AndOptions | SelectAmount | SelectCard<ICard> | SelectCard<IProjectCard> | SelectHowToPay | SelectPlayer | SelectSpace | undefined;
@@ -33,24 +35,14 @@ export function isIActionCard(object: any): object is IActionCard {
 
 export interface IResourceCard {
     resourceCount: number;
-    resourceType?: ResourceType;
+    resourceType?: CardResource;
 }
 
-export interface CardDiscount {
-  tag?: Tags, // When absent, discount applies to all cards.
-  amount: number
- }
-export interface VictoryPoints {
-    type: 'resource' | Tags,
-    points: number,
-    per: number,
-  }
-
 export namespace VictoryPoints {
-  export function resource(points: number, per: number): VictoryPoints {
+  export function resource(points: number, per: number): IVictoryPoints {
     return {type: 'resource', points, per};
   }
-  export function tags(tag: Tags, points: number, per: number): VictoryPoints {
+  export function tags(tag: Tags, points: number, per: number): IVictoryPoints {
     return {type: tag, points, per};
   }
 }
@@ -73,15 +65,26 @@ export interface ICard extends Partial<IActionCard>, IResourceCard {
     tags: Array<Tags>;
     play: (player: Player) => PlayerInput | undefined;
     getCardDiscount?: (player: Player, card: IProjectCard) => number;
-    cardDiscount?: CardDiscount;
+    cardDiscount?: ICardDiscount | Array<ICardDiscount>;
     // parameter is a Morningstar Inc. special case.
     getRequirementBonus?: (player: Player, parameter: GlobalParameter) => number;
-    victoryPoints?: number | 'special' | VictoryPoints,
+    victoryPoints?: number | 'special' | IVictoryPoints,
     getVictoryPoints: (player: Player) => number;
     onCardPlayed?: (player: Player, card: IProjectCard) => OrOptions | void;
     onStandardProject?: (player: Player, projectType: StandardProjectCard) => void;
     onTilePlaced?: (cardOwner: Player, activePlayer: Player, space: ISpace, boardType: BoardType) => void;
     onDiscard?: (player: Player) => void;
+
+    /**
+     * Optional callback when a resource is added to this card.
+     *
+     * @param player the player whose turn it is. Expected to be the player that owns this card.
+     * @param playedCard the card that received resources. Can be itself, but
+     * for cards like Meat Industry, `playedCard` is the destination card.
+     * @param count the number of resources added to `card`
+     */
+    onResourceAdded?: (player: Player, playedCard: ICard, count: number) => void;
+
     cost?: number;
     cardType: CardType;
     requirements?: CardRequirements;

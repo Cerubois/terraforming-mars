@@ -1,15 +1,15 @@
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
-import {SpaceBonus} from '../../SpaceBonus';
-import {TileType} from '../../TileType';
-import {CardType} from '../CardType';
+import {CardResource} from '../../common/CardResource';
+import {SpaceBonus} from '../../common/boards/SpaceBonus';
+import {TileType} from '../../common/TileType';
+import {CardType} from '../../common/cards/CardType';
 import {IResourceCard} from '../ICard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 
@@ -20,7 +20,7 @@ export class OceanSanctuary extends Card implements IResourceCard {
       name: CardName.OCEAN_SANCTUARY,
       tags: [Tags.ANIMAL],
       cost: 9,
-      resourceType: ResourceType.ANIMAL,
+      resourceType: CardResource.ANIMAL,
       victoryPoints: VictoryPoints.resource(1, 1),
       requirements: CardRequirements.builder((b) => b.oceans(5)),
 
@@ -40,7 +40,7 @@ export class OceanSanctuary extends Card implements IResourceCard {
     player.addResourceTo(this, 1);
     return new SelectSpace(
       'Select space for Ocean Sanctuary',
-      player.game.board.getOceansTiles(false),
+      player.game.board.getOceanSpaces({upgradedOceans: false}),
       (space: ISpace) => {
         const tile = {
           tileType: TileType.OCEAN_SANCTUARY,

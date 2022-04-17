@@ -1,9 +1,9 @@
 import {Player} from '../Player';
-import {ResourceType} from '../ResourceType';
+import {CardResource} from '../common/CardResource';
 import {OrOptions} from '../inputs/OrOptions';
 import {SelectCard} from '../inputs/SelectCard';
 import {SelectOption} from '../inputs/SelectOption';
-import {CardName} from '../CardName';
+import {CardName} from '../common/cards/CardName';
 import {ICard} from '../cards/ICard';
 import {DeferredAction, Priority} from './DeferredAction';
 
@@ -14,7 +14,7 @@ export class RemoveResourcesFromCard implements DeferredAction {
   public priority= Priority.ATTACK_OPPONENT;
   constructor(
         public player: Player,
-        public resourceType: ResourceType,
+        public resourceType: CardResource,
         public count: number = 1,
         public ownCardsOnly: boolean = false,
         public mandatory: boolean = true, // Resource must be removed (either it's a cost or the icon is not red-bordered)
@@ -43,7 +43,7 @@ export class RemoveResourcesFromCard implements DeferredAction {
       (foundCards: Array<ICard>) => {
         const card = foundCards[0];
         const owner = this.player.game.getCardPlayer(card.name);
-        owner.removeResourceFrom(card, this.count, this.player.game, this.player);
+        owner?.removeResourceFrom(card, this.count, this.player);
         return undefined;
       },
     );
@@ -53,7 +53,7 @@ export class RemoveResourcesFromCard implements DeferredAction {
       if (resourceCards.length === 1) {
         const card = resourceCards[0];
         const owner = this.player.game.getCardPlayer(card.name);
-        owner.removeResourceFrom(card, this.count, this.player.game, this.player);
+        owner?.removeResourceFrom(card, this.count, this.player);
         return undefined;
       }
       return selectCard;
@@ -67,10 +67,10 @@ export class RemoveResourcesFromCard implements DeferredAction {
     );
   }
 
-  public static getAvailableTargetCards(player: Player, resourceType: ResourceType | undefined, ownCardsOnly: boolean = false): Array<ICard> {
+  public static getAvailableTargetCards(player: Player, resourceType: CardResource | undefined, ownCardsOnly: boolean = false): Array<ICard> {
     let resourceCards: Array<ICard>;
     if (ownCardsOnly) {
-      if (resourceType === ResourceType.ANIMAL) {
+      if (resourceType === CardResource.ANIMAL) {
         resourceCards = player.getCardsWithResources(resourceType).filter((card) => animalsProtectedCards.includes(card.name) === false);
       } else {
         resourceCards = player.getCardsWithResources(resourceType);
@@ -79,11 +79,11 @@ export class RemoveResourcesFromCard implements DeferredAction {
       resourceCards = [];
       player.game.getPlayers().forEach((p) => {
         switch (resourceType) {
-        case ResourceType.ANIMAL:
+        case CardResource.ANIMAL:
           if (p.hasProtectedHabitats() && player.id !== p.id) return;
           resourceCards.push(...p.getCardsWithResources(resourceType).filter((card) => animalsProtectedCards.includes(card.name) === false));
           break;
-        case ResourceType.MICROBE:
+        case CardResource.MICROBE:
           if (p.hasProtectedHabitats() && player.id !== p.id) return;
         default:
           resourceCards.push(...p.getCardsWithResources(resourceType));

@@ -14,8 +14,13 @@ import {ICard} from '../../cards/ICard';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectCard} from '../../inputs/SelectCard';
 import {SelectOption} from '../../inputs/SelectOption';
+<<<<<<< HEAD
+import {CardResource} from '../../common/CardResource';
+import {Phase} from '../../common/Phase';
+=======
 import {ResourceType} from '../../ResourceType';
 import {Phase} from '../../Phase';
+>>>>>>> main
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {POLITICAL_AGENDAS_MAX_ACTION_USES} from '../../constants';
@@ -118,7 +123,7 @@ class GreensPolicy04 implements Policy {
       {
         title: 'Select how to pay for Turmoil Greens action',
         afterPay: () => {
-          const availableMicrobeCards = player.getResourceCards(ResourceType.MICROBE);
+          const availableMicrobeCards = player.getResourceCards(CardResource.MICROBE);
           const orOptions = new OrOptions();
 
           if (availableMicrobeCards.length === 1) {

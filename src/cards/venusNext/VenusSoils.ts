@@ -1,11 +1,11 @@
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
-import {ResourceType} from '../../ResourceType';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
 import {SelectCard} from '../../inputs/SelectCard';
 import {ICard} from '../ICard';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 
@@ -27,13 +27,13 @@ export class VenusSoils extends Card {
         description: 'Raise Venus 1 step. Increase your Plant production 1 step. Add 2 Microbes to ANOTHER card',
       },
     });
-  };
+  }
 
   public play(player: Player) {
     player.addProduction(Resources.PLANTS, 1);
     player.game.increaseVenusScaleLevel(player, 1);
 
-    const microbeCards = player.getResourceCards(ResourceType.MICROBE);
+    const microbeCards = player.getResourceCards(CardResource.MICROBE);
 
     if (microbeCards.length === 0) return undefined;
 

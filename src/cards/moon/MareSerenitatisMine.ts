@@ -10,7 +10,7 @@ import {Units} from '../../Units';
 import {SpaceType} from '../../SpaceType';
 import {TileType} from '../../TileType';
 import {MoonCard} from './MoonCard';
-import {AltSecondaryTag} from '../render/CardRenderItem';
+import {AltSecondaryTag} from '../../common/cards/render/AltSecondaryTag';
 
 export class MareSerenitatisMine extends MoonCard {
   constructor() {

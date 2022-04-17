@@ -1,9 +1,9 @@
 import {IActionCard, IResourceCard} from '../ICard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
-import {CardName} from '../../CardName';
+import {CardResource} from '../../common/CardResource';
+import {CardName} from '../../common/cards/CardName';
 import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -17,7 +17,7 @@ export class StratosphericBirds extends Card implements IActionCard, IResourceCa
       cardType: CardType.ACTIVE,
       tags: [Tags.VENUS, Tags.ANIMAL],
       cost: 12,
-      resourceType: ResourceType.ANIMAL,
+      resourceType: CardResource.ANIMAL,
       victoryPoints: VictoryPoints.resource(1, 1),
 
       requirements: CardRequirements.builder((b) => b.venus(12)),
@@ -36,10 +36,10 @@ export class StratosphericBirds extends Card implements IActionCard, IResourceCa
         },
       },
     });
-  };
+  }
   public override resourceCount: number = 0;
   public override canPlay(player: Player): boolean {
-    const cardsWithFloater = player.getCardsWithResources().filter((card) => card.resourceType === ResourceType.FLOATER);
+    const cardsWithFloater = player.getCardsWithResources(CardResource.FLOATER);
     if (cardsWithFloater.length === 0) return false;
 
     if (cardsWithFloater.length > 1) {
@@ -48,12 +48,12 @@ export class StratosphericBirds extends Card implements IActionCard, IResourceCa
       const floaterCard = cardsWithFloater[0];
       if (floaterCard.name !== CardName.DIRIGIBLES) return true;
 
-      const canPayForFloater = ((floaterCard.resourceCount! - 1) * 3 + player.megaCredits) >= player.getCardCost(this);
+      const canPayForFloater = ((floaterCard.resourceCount - 1) * 3 + player.megaCredits) >= player.getCardCost(this);
       return canPayForFloater;
     }
   }
   public play(player: Player) {
-    player.game.defer(new RemoveResourcesFromCard(player, ResourceType.FLOATER, 1, true));
+    player.game.defer(new RemoveResourcesFromCard(player, CardResource.FLOATER, 1, true));
     return undefined;
   }
   public canAct(): boolean {

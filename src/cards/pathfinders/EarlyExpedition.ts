@@ -1,14 +1,14 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
-import {CardName} from '../../CardName';
+import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {CardRequirements} from '../CardRequirements';
-import {Units} from '../../Units';
+import {Units} from '../../common/Units';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
-import {ResourceType} from '../../ResourceType';
+import {CardResource} from '../../common/CardResource';
 import {nextToNoOtherTileFn} from '../../boards/Board';
 import {ISpace} from '../../boards/ISpace';
 import {SelectSpace} from '../../inputs/SelectSpace';
@@ -50,7 +50,7 @@ export class EarlyExpedition extends Card implements IProjectCard {
 
   public play(player: Player) {
     player.adjustProduction(this.productionBox);
-    player.game.defer(new AddResourcesToCard(player, ResourceType.DATA));
+    player.game.defer(new AddResourcesToCard(player, CardResource.DATA));
 
     return new SelectSpace('Select place next to no other tile for city', this.getAvailableSpaces(player), (foundSpace: ISpace) => {
       player.game.addCityTile(player, foundSpace.id);

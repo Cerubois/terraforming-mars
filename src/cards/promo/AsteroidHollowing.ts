@@ -2,12 +2,12 @@ import {IProjectCard} from '../IProjectCard';
 import {IActionCard, IResourceCard} from '../ICard';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardName} from '../../CardName';
-import {CardType} from '../CardType';
-import {ResourceType} from '../../ResourceType';
-import {Tags} from '../Tags';
+import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../../common/cards/CardType';
+import {CardResource} from '../../common/CardResource';
+import {Tags} from '../../common/cards/Tags';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
+import {Resources} from '../../common/Resources';
 import {CardRenderer} from '../render/CardRenderer';
 
 export class AsteroidHollowing extends Card implements IActionCard, IProjectCard, IResourceCard {
@@ -17,7 +17,7 @@ export class AsteroidHollowing extends Card implements IActionCard, IProjectCard
       name: CardName.ASTEROID_HOLLOWING,
       tags: [Tags.SPACE],
       cost: 16,
-      resourceType: ResourceType.ASTEROID,
+      resourceType: CardResource.ASTEROID,
 
       victoryPoints: VictoryPoints.resource(1, 2),
 
@@ -32,7 +32,7 @@ export class AsteroidHollowing extends Card implements IActionCard, IProjectCard
       },
     });
   }
-  public resourceCount = 0;
+  public override resourceCount = 0;
 
   public play() {
     return undefined;

@@ -1,15 +1,15 @@
 import {IActionCard, IResourceCard} from '../ICard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
+import {CardResource} from '../../common/CardResource';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
-import {CardName} from '../../CardName';
-import {MAX_VENUS_SCALE} from '../../constants';
+import {CardName} from '../../common/cards/CardName';
+import {MAX_VENUS_SCALE} from '../../common/constants';
 import {LogHelper} from '../../LogHelper';
 import {CardRenderer} from '../render/CardRenderer';
-import {Size} from '../render/Size';
+import {Size} from '../../common/cards/render/Size';
 import {Card} from '../Card';
 
 export class ExtractorBalloons extends Card implements IActionCard, IResourceCard {
@@ -19,7 +19,7 @@ export class ExtractorBalloons extends Card implements IActionCard, IResourceCar
       cardType: CardType.ACTIVE,
       tags: [Tags.VENUS],
       cost: 21,
-      resourceType: ResourceType.FLOATER,
+      resourceType: CardResource.FLOATER,
 
       metadata: {
         cardNumber: '223',
@@ -34,9 +34,9 @@ export class ExtractorBalloons extends Card implements IActionCard, IResourceCar
         }),
       },
     });
-  };
+  }
 
-  public resourceCount: number = 0;
+  public override resourceCount: number = 0;
 
   public play(player: Player) {
     player.addResourceTo(this, 3);

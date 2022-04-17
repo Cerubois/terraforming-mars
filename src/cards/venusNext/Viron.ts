@@ -1,4 +1,4 @@
-import {CorporationCard} from '../corporation/CorporationCard';
+import {ICorporationCard} from '../corporation/ICorporationCard';
 import {Player} from '../../Player';
 import {Tags} from '../Tags';
 import {ICard, isIActionCard} from '../ICard';
@@ -8,7 +8,7 @@ import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 
-export class Viron extends Card implements ICard, CorporationCard {
+export class Viron extends Card implements ICard, ICorporationCard {
   constructor() {
     super({
       name: CardName.VIRON,

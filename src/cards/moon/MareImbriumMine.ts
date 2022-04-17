@@ -10,7 +10,7 @@ import {Units} from '../../Units';
 import {TileType} from '../../TileType';
 import {IMoonCard} from './IMoonCard';
 import {MoonCard} from './MoonCard';
-import {AltSecondaryTag} from '../render/CardRenderItem';
+import {AltSecondaryTag} from '../../common/cards/render/AltSecondaryTag';
 
 export class MareImbriumMine extends MoonCard implements IProjectCard, IMoonCard {
   constructor() {

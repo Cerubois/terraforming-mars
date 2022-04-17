@@ -6,7 +6,7 @@ import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 import {Tags} from '../../cards/Tags';
 import {CardRenderer} from '../../cards/render/CardRenderer';
-import {Size} from '../../cards/render/Size';
+import {Size} from '../../common/cards/render/Size';
 import {played} from '../../cards/Options';
 
 const RENDER_DATA = CardRenderer.builder((b) => {
@@ -27,7 +27,7 @@ export class SolarFlare extends GlobalEvent implements IGlobalEvent {
     game.getPlayers().forEach((player) => {
       const amount = Math.min(5, player.getTagCount(Tags.SPACE, 'raw')) - turmoil.getPlayerInfluence(player);
       if (amount > 0) {
-        player.addResource(Resources.MEGACREDITS, amount * -3, {log: true, from: this.name});
+        player.deductResource(Resources.MEGACREDITS, amount * 3, {log: true, from: this.name});
       }
     });
   }

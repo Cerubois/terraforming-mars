@@ -1,10 +1,10 @@
 import {ICard, IActionCard, IResourceCard} from '../ICard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
+import {CardResource} from '../../common/CardResource';
 import {SelectCard} from '../../inputs/SelectCard';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -19,7 +19,7 @@ export class FloatingHabs extends Card implements IActionCard, IResourceCard {
       tags: [Tags.VENUS],
       cost: 5,
 
-      resourceType: ResourceType.FLOATER,
+      resourceType: CardResource.FLOATER,
       victoryPoints: VictoryPoints.resource(1, 2),
 
       requirements: CardRequirements.builder((b) => b.tag(Tags.SCIENCE, 2)),
@@ -34,7 +34,7 @@ export class FloatingHabs extends Card implements IActionCard, IResourceCard {
         description: 'Requires 2 Science tags.',
       },
     });
-  };
+  }
   public override resourceCount: number = 0;
 
   public play() {
@@ -45,7 +45,7 @@ export class FloatingHabs extends Card implements IActionCard, IResourceCard {
   }
 
   public action(player: Player) {
-    const floaterCards = player.getResourceCards(ResourceType.FLOATER);
+    const floaterCards = player.getResourceCards(CardResource.FLOATER);
 
     // add to itself if no other available target
     if (floaterCards.length === 1) {

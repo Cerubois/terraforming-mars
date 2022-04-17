@@ -1,11 +1,11 @@
 import {IActionCard, IResourceCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
-import {CardName} from '../../CardName';
+import {CardResource} from '../../common/CardResource';
+import {CardName} from '../../common/cards/CardName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {max, played} from '../Options';
@@ -17,7 +17,7 @@ export class Psychrophiles extends Card implements IActionCard, IProjectCard, IR
       name: CardName.PSYCHROPHILES,
       tags: [Tags.MICROBE],
       cost: 2,
-      resourceType: ResourceType.MICROBE,
+      resourceType: CardResource.MICROBE,
 
       requirements: CardRequirements.builder((b) => b.temperature(-20, {max})),
       metadata: {
@@ -34,18 +34,18 @@ export class Psychrophiles extends Card implements IActionCard, IProjectCard, IR
       },
     });
   }
-    public resourceCount = 0;
+  public override resourceCount = 0;
 
-    public play() {
-      return undefined;
-    }
+  public play() {
+    return undefined;
+  }
 
-    public canAct(): boolean {
-      return true;
-    }
+  public canAct(): boolean {
+    return true;
+  }
 
-    public action(player: Player) {
-      player.addResourceTo(this);
-      return undefined;
-    }
+  public action(player: Player) {
+    player.addResourceTo(this);
+    return undefined;
+  }
 }

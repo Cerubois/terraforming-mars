@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
-import {CardName} from '../../CardName';
+import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Tags} from '../Tags';
-import {Resources} from '../../Resources';
-import {ResourceType} from '../../ResourceType';
+import {Tags} from '../../common/cards/Tags';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
 import {all} from '../Options';
 import {ICard} from '../ICard';
 import {SelectCard} from '../../inputs/SelectCard';
@@ -40,8 +40,8 @@ export class CassiniStation extends Card implements IProjectCard {
     player.addProduction(Resources.ENERGY, coloniesCount, {log: true});
 
     const cards = [
-      ...player.getResourceCards(ResourceType.FLOATER),
-      ...player.getResourceCards(ResourceType.DATA),
+      ...player.getResourceCards(CardResource.FLOATER),
+      ...player.getResourceCards(CardResource.DATA),
     ];
 
     if (cards.length === 0) {
@@ -53,7 +53,7 @@ export class CassiniStation extends Card implements IProjectCard {
       cards,
       (selected: Array<ICard>) => {
         const card = selected[0];
-        if (card.resourceType === ResourceType.FLOATER) {
+        if (card.resourceType === CardResource.FLOATER) {
           player.addResourceTo(card, {qty: 2, log: true});
         } else {
           player.addResourceTo(card, {qty: 3, log: true});

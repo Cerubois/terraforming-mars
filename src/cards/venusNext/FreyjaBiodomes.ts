@@ -1,11 +1,11 @@
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
-import {ResourceType} from '../../ResourceType';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
 import {SelectCard} from '../../inputs/SelectCard';
 import {ICard} from '../ICard';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
@@ -33,13 +33,13 @@ export class FreyjaBiodomes extends Card {
         },
       },
     });
-  };
+  }
   public override canPlay(player: Player): boolean {
     return player.getProduction(Resources.ENERGY) >= 1;
   }
   public getResCards(player: Player): ICard[] {
-    let resourceCards = player.getResourceCards(ResourceType.ANIMAL);
-    resourceCards = resourceCards.concat(player.getResourceCards(ResourceType.MICROBE));
+    let resourceCards = player.getResourceCards(CardResource.ANIMAL);
+    resourceCards = resourceCards.concat(player.getResourceCards(CardResource.MICROBE));
     return resourceCards.filter((card) => card.tags.includes(Tags.VENUS));
   }
 

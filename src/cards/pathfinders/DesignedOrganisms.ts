@@ -1,15 +1,15 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
-import {CardName} from '../../CardName';
+import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../Resources';
-import {Tags} from '../Tags';
+import {Resources} from '../../common/Resources';
+import {Tags} from '../../common/cards/Tags';
 import {CardRequirements} from '../CardRequirements';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
-import {ResourceType} from '../../ResourceType';
-import {Units} from '../../Units';
+import {CardResource} from '../../common/CardResource';
+import {Units} from '../../common/Units';
 
 export class DesignedOrganisms extends Card implements IProjectCard {
   constructor() {
@@ -36,8 +36,8 @@ export class DesignedOrganisms extends Card implements IProjectCard {
   public play(player: Player) {
     player.addResource(Resources.PLANTS, 3);
     player.addProduction(Resources.PLANTS, 2);
-    player.game.defer(new AddResourcesToCard(player, ResourceType.MICROBE, {count: 3}));
-    player.game.defer(new AddResourcesToCard(player, ResourceType.ANIMAL, {count: 1}));
+    player.game.defer(new AddResourcesToCard(player, CardResource.MICROBE, {count: 3}));
+    player.game.defer(new AddResourcesToCard(player, CardResource.ANIMAL, {count: 1}));
     return undefined;
   }
 }

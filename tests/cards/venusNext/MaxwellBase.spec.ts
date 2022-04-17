@@ -10,10 +10,17 @@ import {Player} from '../../../src/Player';
 import {Resources} from '../../../src/Resources';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
+<<<<<<< HEAD
+import {CardName} from '../../../src/common/cards/CardName';
+import {Tags} from '../../../src/common/cards/Tags';
+import {CardType} from '../../../src/common/cards/CardType';
+import {CardResource} from '../../../src/common/CardResource';
+=======
 import {CardName} from '../../../src/CardName';
 import {Tags} from '../../../src/cards/Tags';
 import {CardType} from '../../../src/cards/CardType';
 import {ResourceType} from '../../../src/ResourceType';
+>>>>>>> main
 import {IProjectCard} from '../../../src/cards/IProjectCard';
 
 describe('MaxwellBase', function() {
@@ -91,7 +98,7 @@ describe('MaxwellBase', function() {
       metadata: {
         cardNumber: '1',
       },
-      resourceType: ResourceType.SYNDICATE_FLEET,
+      resourceType: CardResource.SYNDICATE_FLEET,
       resourceCount: 0,
     };
     player.playedCards.push(fakeCard);

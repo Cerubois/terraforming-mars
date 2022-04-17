@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
 import {IActionCard, IResourceCard} from '../ICard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
-import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
+import {CardResource} from '../../common/CardResource';
+import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../common/Resources';
 import {CardRenderer} from '../render/CardRenderer';
 import {played} from '../Options';
 
@@ -17,7 +17,7 @@ export class SaturnSurfing extends Card implements IActionCard, IProjectCard, IR
       name: CardName.SATURN_SURFING,
       cost: 13,
       tags: [Tags.JOVIAN, Tags.EARTH],
-      resourceType: ResourceType.FLOATER,
+      resourceType: CardResource.FLOATER,
       victoryPoints: 1,
 
       metadata: {
@@ -34,19 +34,19 @@ export class SaturnSurfing extends Card implements IActionCard, IProjectCard, IR
     });
   }
 
-    public resourceCount = 0;
+  public override resourceCount = 0;
 
-    public play(player: Player) {
-      this.resourceCount = player.getTagCount(Tags.EARTH) + 1;
-      return undefined;
-    }
+  public play(player: Player) {
+    this.resourceCount = player.getTagCount(Tags.EARTH) + 1;
+    return undefined;
+  }
 
-    public canAct(): boolean {
-      return this.resourceCount > 0;
-    }
+  public canAct(): boolean {
+    return this.resourceCount > 0;
+  }
 
-    public action(player: Player) {
-      player.addResource(Resources.MEGACREDITS, Math.min(5, this.resourceCount--));
-      return undefined;
-    }
+  public action(player: Player) {
+    player.addResource(Resources.MEGACREDITS, Math.min(5, this.resourceCount--));
+    return undefined;
+  }
 }

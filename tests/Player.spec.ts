@@ -9,7 +9,8 @@ import {SelectOption} from '../src/inputs/SelectOption';
 import {Resources} from '../src/Resources';
 import {TestPlayers} from './TestPlayers';
 import {SerializedPlayer} from '../src/SerializedPlayer';
-import {SerializedTimer} from '../src/SerializedTimer';
+import {SerializedTimer} from '../src/common/SerializedTimer';
+import {SerializedGame} from '../src/SerializedGame';
 import {Player} from '../src/Player';
 import {Color} from '../src/Color';
 import {VictoryPointsBreakdown} from '../src/VictoryPointsBreakdown';
@@ -275,9 +276,10 @@ describe('Player', function() {
         afterFirstAction: false,
         lastStoppedAt: 0,
       } as SerializedTimer,
+      victoryPointsByGeneration: [],
     };
 
-    const newPlayer = Player.deserialize(json as SerializedPlayer);
+    const newPlayer = Player.deserialize(json as SerializedPlayer, {generation: 1} as SerializedGame);
 
     expect(newPlayer.color).eq(Color.PURPLE);
     expect(newPlayer.tradesThisGeneration).eq(100);
@@ -650,6 +652,44 @@ describe('Player', function() {
     expect(player2.megaCredits).eq(3);
   });
 
+  it('removeResourcesFrom', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const game = Game.newInstance('foobar', [player], player);
+
+    const log = game.gameLog;
+    log.length = 0; // Empty it out.
+
+    const card = new Pets();
+    expect(card.resourceCount).eq(0);
+    expect(log.length).eq(0);
+
+    log.length = 0;
+    card.resourceCount = 6;
+    player.removeResourceFrom(card);
+    expect(card.resourceCount).eq(5);
+    expect(log.length).eq(1);
+    expect(log[0].data[1].value).eq('1');
+    expect(log[0].data[3].value).eq('Pets');
+
+    log.length = 0;
+    player.removeResourceFrom(card, 1);
+    expect(card.resourceCount).eq(4);
+    expect(log.length).eq(1);
+    expect(log[0].data[1].value).eq('1');
+
+    log.length = 0;
+    player.removeResourceFrom(card, 3);
+    expect(log.length).eq(1);
+    expect(log[0].data[1].value).eq('3');
+
+    log.length = 0;
+    card.resourceCount = 4;
+    player.removeResourceFrom(card, 5);
+    expect(card.resourceCount).eq(0);
+    expect(log.length).eq(1);
+    expect(log[0].data[1].value).eq('4');
+  });
+
   it('adds resources', () => {
     const player = TestPlayers.BLUE.newPlayer();
     Game.newInstance('x', [player], player);
@@ -707,7 +747,7 @@ describe('Player', function() {
 
     const log = game.gameLog;
     const logEntry = log[log.length - 1];
-    expect(TestingUtils.formatLogMessage(logEntry)).eq('blue\'s megacredits amount increased by 12 by Global Event');
+    expect(TestingUtils.formatLogMessage(logEntry)).eq('blue\'s megacredits amount increased by 12 by Asteroid Mining');
   });
 
   it('addResource logs error when deducting too much', () => {

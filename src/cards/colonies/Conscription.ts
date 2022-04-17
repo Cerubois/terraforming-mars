@@ -6,7 +6,7 @@ import {CardName} from '../../CardName';
 import {CardRequirements} from '../CardRequirements';
 import {Card} from '../Card';
 import {CardRenderer} from '../render/CardRenderer';
-import {Size} from '../render/Size';
+import {Size} from '../../common/cards/render/Size';
 
 export class Conscription extends Card implements IProjectCard {
   constructor() {
@@ -28,7 +28,7 @@ export class Conscription extends Card implements IProjectCard {
     });
   }
 
-  public getCardDiscount(player: Player) {
+  public override getCardDiscount(player: Player) {
     if (player.lastCardPlayed === this.name) {
       return 16;
     }

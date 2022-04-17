@@ -73,6 +73,23 @@ export class SQLite implements IDatabase {
     });
   }
 
+  getClonableGameByGameId(gameId: GameId, cb: (err: Error | undefined, gameData: IGameData | undefined) => void) {
+    const sql = 'SELECT players FROM games WHERE save_id = 0 AND game_id = ? LIMIT 1';
+
+    this.db.get(sql, [gameId], (err, row) => {
+      if (err) {
+        cb(err, undefined);
+      } else if (row) {
+        cb(undefined, {
+          gameId,
+          playerCount: row.players,
+        });
+      } else {
+        cb(undefined, undefined);
+      }
+    });
+  }
+
   getGames(cb: (err: Error | undefined, allGames: Array<GameId>) => void) {
     const allGames: Array<GameId> = [];
     const sql: string = 'SELECT distinct game_id game_id FROM games WHERE status = \'running\'';
@@ -128,9 +145,17 @@ export class SQLite implements IDatabase {
   }
 
   // TODO(kberg): throw an error if two game ids exist.
-  getGameId(playerId: string, cb: (err: Error | undefined, gameId?: GameId) => void): void {
-    const sql = 'SELECT game_id from games, json_each(games.game, \'$.players\') e where json_extract(e.value, \'$.id\') = ?';
-    this.db.get(sql, [playerId], (err: Error | null, row: { gameId: any; }) => {
+  getGameId(id: string, cb: (err:Error | undefined, gameId?: GameId) => void): void {
+    let sql = undefined;
+    if (id.charAt(0) === 'p') {
+      sql = 'SELECT game_id from games, json_each(games.game, \'$.players\') e where json_extract(e.value, \'$.id\') = ?';
+    } else if (id.charAt(0) === 's') {
+      sql = 'SELECT game_id from games where json_extract(games.game, \'$.spectatorId\') = ?';
+    } else {
+      throw new Error(`id ${id} is neither a player id or spectator id`);
+    }
+    console.log(sql);
+    this.db.get(sql, [id], (err: Error | null, row: { gameId: any; }) => {
       if (err) {
         return cb(err ?? undefined);
       }

@@ -1,15 +1,15 @@
 import {ICard, IActionCard} from '../ICard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {SelectCard} from '../../inputs/SelectCard';
 import {IProjectCard} from '../IProjectCard';
-import {ResourceType} from '../../ResourceType';
-import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
+import {CardResource} from '../../common/CardResource';
+import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../common/Resources';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {max} from '../Options';
@@ -45,7 +45,7 @@ export class ExtremeColdFungus extends Card implements IActionCard, IProjectCard
     return true;
   }
   public action(player: Player) {
-    const otherMicrobeCards = player.getResourceCards(ResourceType.MICROBE);
+    const otherMicrobeCards = player.getResourceCards(CardResource.MICROBE);
 
     if (otherMicrobeCards.length === 0) {
       player.addResource(Resources.PLANTS, 1, {log: true});

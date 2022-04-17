@@ -1,14 +1,14 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
-import {ResourceType} from '../../ResourceType';
+import {CardName} from '../../common/cards/CardName';
+import {CardResource} from '../../common/CardResource';
 import {IResourceCard} from '../ICard';
 import {CardRequirements} from '../CardRequirements';
 import {Card} from '../Card';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resources} from '../../Resources';
+import {Resources} from '../../common/Resources';
 import {all, played} from '../Options';
 
 export class MartianZoo extends Card implements IProjectCard, IResourceCard {
@@ -18,7 +18,7 @@ export class MartianZoo extends Card implements IProjectCard, IResourceCard {
       tags: [Tags.ANIMAL, Tags.BUILDING],
       name: CardName.MARTIAN_ZOO,
       cardType: CardType.ACTIVE,
-      resourceType: ResourceType.ANIMAL,
+      resourceType: CardResource.ANIMAL,
       requirements: CardRequirements.builder((b) => b.cities(2, {all})),
       victoryPoints: 1,
 
@@ -40,7 +40,7 @@ export class MartianZoo extends Card implements IProjectCard, IResourceCard {
     });
   }
 
-  public resourceCount: number = 0;
+  public override resourceCount: number = 0;
 
   public onCardPlayed(player: Player, card: IProjectCard) {
     if (card.tags.includes(Tags.EARTH)) {

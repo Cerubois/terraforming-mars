@@ -1,13 +1,13 @@
 import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
-import {CardName} from '../../CardName';
+import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {IActionCard, VictoryPoints} from '../ICard';
 import {CardRequirements} from '../CardRequirements';
-import {Tags} from '../Tags';
-import {ResourceType} from '../../ResourceType';
+import {Tags} from '../../common/cards/Tags';
+import {CardResource} from '../../common/CardResource';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {all} from '../Options';
 
@@ -18,7 +18,7 @@ export class MartianCulture extends Card implements IProjectCard, IActionCard {
       name: CardName.MARTIAN_CULTURE,
       cost: 11,
       tags: [Tags.MARS, Tags.MARS],
-      resourceType: ResourceType.DATA,
+      resourceType: CardResource.DATA,
       requirements: CardRequirements.builder((b) => b.tag(Tags.MARS, 2, {all})),
       victoryPoints: VictoryPoints.resource(1, 2),
 
@@ -39,7 +39,7 @@ export class MartianCulture extends Card implements IProjectCard, IActionCard {
   }
 
   public action(player: Player) {
-    player.game.defer(new AddResourcesToCard(player, ResourceType.DATA));
+    player.game.defer(new AddResourcesToCard(player, CardResource.DATA));
     return undefined;
   }
 

@@ -6,10 +6,10 @@ import {Turmoil} from '../Turmoil';
 import {Tags} from '../../cards/Tags';
 import {Resources} from '../../Resources';
 import {CardRenderer} from '../../cards/render/CardRenderer';
-import {Size} from '../../cards/render/Size';
+import {Size} from '../../common/cards/render/Size';
 
 const RENDER_DATA = CardRenderer.builder((b) => {
-  b.minus().plants(2).slash().earth(1, {played: true}).influence({size: Size.SMALL});
+  b.minus().plants(1).slash().earth(1, {played: true}).influence({size: Size.SMALL});
 });
 
 export class TiredEarth extends GlobalEvent implements IGlobalEvent {

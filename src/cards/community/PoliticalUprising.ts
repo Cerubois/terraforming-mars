@@ -5,7 +5,7 @@ import {CardName} from '../../CardName';
 import {TURMOIL_CARD_MANIFEST} from '../turmoil/TurmoilCardManifest';
 import {SendDelegateToArea} from '../../deferredActions/SendDelegateToArea';
 import {CardRenderer} from '../render/CardRenderer';
-import {AltSecondaryTag} from '../render/CardRenderItem';
+import {AltSecondaryTag} from '../../common/cards/render/AltSecondaryTag';
 
 export class PoliticalUprising extends PreludeCard implements IProjectCard {
   constructor() {

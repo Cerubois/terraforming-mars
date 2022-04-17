@@ -1,10 +1,10 @@
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {Player} from '../../Player';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {CardRenderer} from '../render/CardRenderer';
-import {ResourceType} from '../../ResourceType';
+import {CardResource} from '../../common/CardResource';
 import {MoonCards} from '../../moon/MoonCards';
 import {IActionCard, ICard} from '../ICard';
 import {Card} from '../Card';
@@ -31,10 +31,10 @@ export class DarksideObservatory extends Card implements IProjectCard, IActionCa
         }),
       },
     });
-  };
+  }
 
   private include(card: ICard) {
-    return card.resourceType === ResourceType.DATA || MoonCards.scienceCardsWithLessThan2VP.has(card.name);
+    return card.resourceType === CardResource.DATA || MoonCards.scienceCardsWithLessThan2VP.has(card.name);
   }
 
   public canAct(player: Player) {
@@ -42,10 +42,10 @@ export class DarksideObservatory extends Card implements IProjectCard, IActionCa
   }
 
   private addResource(card: ICard, player: Player): void {
-    if (card.resourceType === ResourceType.DATA) {
+    if (card.resourceType === CardResource.DATA) {
       player.addResourceTo(card, {qty: 2, log: true});
     }
-    if (card.resourceType === ResourceType.SCIENCE) {
+    if (card.resourceType === CardResource.SCIENCE) {
       player.addResourceTo(card, {qty: 1, log: true});
     }
   }

@@ -35,6 +35,7 @@ export const POLITICAL_AGENDAS_MAX_ACTION_USES = 3;
 
 // Map specific
 export const HELLAS_BONUS_OCEAN_COST = 6;
+export const VASTITAS_BOREALIS_BONUS_TEMPERATURE_COST = 3;
 
 // Moon
 export const MAXIMUM_COLONY_RATE = 8;
@@ -43,6 +44,7 @@ export const MAXIMUM_LOGISTICS_RATE = 8;
 
 // Pathfinders
 export const SEED_VALUE = 5;
+export const DATA_VALUE = 3;
 
 // Escape Velocity
 export const BONUS_SECONDS_PER_ACTION = 2;

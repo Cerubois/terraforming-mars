@@ -1,10 +1,10 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
-import {ResourceType} from '../../ResourceType';
+import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -29,20 +29,20 @@ export class UrbanDecomposers extends Card implements IProjectCard {
     });
   }
 
-  public canPlay(player: Player): boolean {
+  public override canPlay(player: Player): boolean {
     let coloniesCount: number = 0;
     player.game.colonies.forEach((colony) => {
       coloniesCount += colony.colonies.filter((owner) => owner === player.id).length;
     });
-    return coloniesCount > 0 && player.getCitiesCount() > 0;
+    return coloniesCount > 0 && player.game.getCitiesCount(player) > 0;
   }
 
   public play(player: Player) {
     player.addProduction(Resources.PLANTS, 1);
 
-    const microbeCards = player.getResourceCards(ResourceType.MICROBE);
+    const microbeCards = player.getResourceCards(CardResource.MICROBE);
     if (microbeCards.length) {
-      player.game.defer(new AddResourcesToCard(player, ResourceType.MICROBE, {count: 2}));
+      player.game.defer(new AddResourcesToCard(player, CardResource.MICROBE, {count: 2}));
     }
 
     return undefined;

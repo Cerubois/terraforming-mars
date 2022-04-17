@@ -6,7 +6,12 @@ import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 import {TileType} from '../../TileType';
 import {CardRenderer} from '../../cards/render/CardRenderer';
+<<<<<<< HEAD
+import {Size} from '../../common/cards/render/Size';
+import {Board} from '../../boards/Board';
+=======
 import {Size} from '../../cards/render/Size';
+>>>>>>> main
 
 const RENDER_DATA = CardRenderer.builder((b) => {
   b.minus().megacredits(4).slash().oceans(1).emptyTile().influence({size: Size.SMALL});

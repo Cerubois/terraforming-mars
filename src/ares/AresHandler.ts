@@ -1,18 +1,18 @@
-import {CardName} from '../CardName';
+import {CardName} from '../common/cards/CardName';
 import {ICard} from '../cards/ICard';
 import {Game} from '../Game';
 import {SelectCard} from '../inputs/SelectCard';
 import {ISpace} from '../boards/ISpace';
 import {Player} from '../Player';
-import {Resources} from '../Resources';
-import {ResourceType} from '../ResourceType';
-import {SpaceBonus} from '../SpaceBonus';
-import {OCEAN_UPGRADE_TILES, TileType} from '../TileType';
+import {Resources} from '../common/Resources';
+import {CardResource} from '../common/CardResource';
+import {SpaceBonus} from '../common/boards/SpaceBonus';
+import {OCEAN_UPGRADE_TILES, TileType} from '../common/TileType';
 import {ITile} from '../ITile';
-import {IAresData, IMilestoneCount} from './IAresData';
+import {IAresData, IMilestoneCount} from '../common/ares/IAresData';
 import {IAdjacencyCost} from './IAdjacencyCost';
 import {Multiset} from '../utils/Multiset';
-import {Phase} from '../Phase';
+import {Phase} from '../common/Phase';
 import {DeferredAction} from '../deferredActions/DeferredAction';
 import {SelectHowToPayDeferred} from '../deferredActions/SelectHowToPayDeferred';
 import {SelectProductionToLoseDeferred} from '../deferredActions/SelectProductionToLoseDeferred';
@@ -22,7 +22,7 @@ export enum HazardSeverity {
     NONE,
     MILD,
     SEVERE
-};
+}
 
 export class AresHandler {
   private constructor() {}
@@ -67,7 +67,7 @@ export class AresHandler {
       throw new Error(`A tile with an adjacency bonus must have an owner (${adjacentSpace.x}, ${adjacentSpace.y}, ${adjacentSpace.adjacency.bonus}`);
     }
 
-    const addResourceToCard = function(player: Player, resourceType: ResourceType, resourceAsText: string) {
+    const addResourceToCard = function(player: Player, resourceType: CardResource, resourceAsText: string) {
       const availableCards = player.getResourceCards(resourceType);
       if (availableCards.length === 0) {
       } else if (availableCards.length === 1) {
@@ -94,7 +94,7 @@ export class AresHandler {
       bonuses.add(bonus);
       switch (bonus) {
       case SpaceBonus.ANIMAL:
-        addResourceToCard(player, ResourceType.ANIMAL, 'animal');
+        addResourceToCard(player, CardResource.ANIMAL, 'animal');
         break;
 
       case SpaceBonus.MEGACREDITS:
@@ -106,7 +106,7 @@ export class AresHandler {
         break;
 
       case SpaceBonus.MICROBE:
-        addResourceToCard(player, ResourceType.MICROBE, 'microbe');
+        addResourceToCard(player, CardResource.MICROBE, 'microbe');
         break;
 
       default:
@@ -122,7 +122,7 @@ export class AresHandler {
     let ownerBonus = 1;
     if (adjacentPlayer.cardIsInEffect(CardName.MARKETING_EXPERTS)) {
       ownerBonus = 2;
-    };
+    }
 
     adjacentPlayer.megaCredits += ownerBonus;
     player.game.log('${0} gains ${1} M€ for a tile placed next to ${2}', (b) => b.player(adjacentPlayer).number(ownerBonus).string(tileText));

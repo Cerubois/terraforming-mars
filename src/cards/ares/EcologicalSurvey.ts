@@ -1,11 +1,11 @@
-import {CardName} from '../../CardName';
-import {CardType} from '../CardType';
+import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
 import {ISpace} from '../../boards/ISpace';
-import {SpaceBonus} from '../../SpaceBonus';
-import {Resources} from '../../Resources';
-import {ResourceType} from '../../ResourceType';
-import {Tags} from '../Tags';
+import {SpaceBonus} from '../../common/boards/SpaceBonus';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
+import {Tags} from '../../common/cards/Tags';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {SurveyCard} from './SurveyCard';
@@ -35,7 +35,7 @@ export class EcologicalSurvey extends SurveyCard {
 
   public checkForBonuses(cardOwner: Player, space: ISpace) {
     super.testForStandardResource(cardOwner, space, Resources.PLANTS, SpaceBonus.PLANT);
-    super.testForCardResource(cardOwner, space, ResourceType.MICROBE, SpaceBonus.MICROBE);
-    super.testForCardResource(cardOwner, space, ResourceType.ANIMAL, SpaceBonus.ANIMAL);
+    super.testForCardResource(cardOwner, space, CardResource.MICROBE, SpaceBonus.MICROBE);
+    super.testForCardResource(cardOwner, space, CardResource.ANIMAL, SpaceBonus.ANIMAL);
   }
 }

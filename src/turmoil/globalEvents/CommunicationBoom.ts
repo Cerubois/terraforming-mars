@@ -3,8 +3,13 @@ import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
 import {Turmoil} from '../Turmoil';
+<<<<<<< HEAD
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
+=======
 import {Resources} from '../../Resources';
 import {ResourceType} from '../../ResourceType';
+>>>>>>> main
 import {AddResourcesToCards} from '../../deferredActions/AddResourcesToCards';
 import {CardRenderer} from '../../cards/render/CardRenderer';
 
@@ -27,11 +32,11 @@ export class CommunicationBoom extends GlobalEvent implements IGlobalEvent {
   public resolve(game: Game, turmoil: Turmoil) {
     game.getPlayers().forEach((player) => {
       player.deductResource(Resources.MEGACREDITS, 10, {log: true, from: this.name});
-      player.getResourceCards(ResourceType.DATA).forEach((card) => {
+      player.getResourceCards(CardResource.DATA).forEach((card) => {
         player.addResourceTo(card, {qty: 2, log: true});
       });
       const count = turmoil.getPlayerInfluence(player);
-      game.defer(new AddResourcesToCards(player, ResourceType.DATA, count));
+      game.defer(new AddResourcesToCards(player, CardResource.DATA, count));
     });
   }
 }

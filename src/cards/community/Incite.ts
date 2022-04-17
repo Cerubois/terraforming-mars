@@ -1,4 +1,4 @@
-import {CorporationCard} from '../corporation/CorporationCard';
+import {ICorporationCard} from '../corporation/ICorporationCard';
 import {Player} from '../../Player';
 import {Tags} from '../Tags';
 import {Card} from '../Card';
@@ -6,10 +6,10 @@ import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {SendDelegateToArea} from '../../deferredActions/SendDelegateToArea';
 import {CardRenderer} from '../render/CardRenderer';
-import {Size} from '../render/Size';
+import {Size} from '../../common/cards/render/Size';
 import {Turmoil} from '../../turmoil/Turmoil';
 
-export class Incite extends Card implements CorporationCard {
+export class Incite extends Card implements ICorporationCard {
   constructor() {
     super({
       name: CardName.INCITE,
@@ -27,7 +27,7 @@ export class Incite extends Card implements CorporationCard {
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.effect(undefined, (eb) => {
-              eb.startEffect.influence();
+              eb.empty().startEffect.influence();
             });
             ce.vSpace(Size.SMALL);
             ce.effect('You have +1 influence. When you send a delegate using the lobbying action, you pay 2 M€ less for it.', (eb) => {

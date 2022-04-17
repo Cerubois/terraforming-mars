@@ -8,14 +8,19 @@ import {ColonyName} from '../../../src/colonies/ColonyName';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {TestingUtils} from '../../TestingUtils';
+<<<<<<< HEAD
+import {Units} from '../../../src/common/Units';
+import {IColony} from '../../../src/colonies/IColony';
+=======
 import {Units} from '../../../src/Units';
 import {Colony} from '../../../src/colonies/Colony';
+>>>>>>> main
 
 describe('HuygensObservatory', function() {
   let card: HuygensObservatory;
   let player: TestPlayer;
   let game: Game;
-  let ganymede: Colony;
+  let ganymede: IColony;
 
   beforeEach(function() {
     card = new HuygensObservatory();

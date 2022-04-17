@@ -1,10 +1,10 @@
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {Player} from '../../Player';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
-import {ResourceType} from '../../ResourceType';
-import {Resources} from '../../Resources';
+import {Tags} from '../../common/cards/Tags';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
 import {CardRenderer} from '../render/CardRenderer';
 import {CardRequirements} from '../CardRequirements';
 import {IActionCard} from '../ICard';
@@ -12,7 +12,7 @@ import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {Size} from '../render/Size';
+import {Size} from '../../common/cards/render/Size';
 
 export class CopernicusTower extends Card implements IActionCard, IProjectCard {
   constructor() {
@@ -22,7 +22,7 @@ export class CopernicusTower extends Card implements IActionCard, IProjectCard {
       tags: [Tags.SCIENCE, Tags.MOON],
       cost: 36,
 
-      resourceType: ResourceType.SCIENCE,
+      resourceType: CardResource.SCIENCE,
       requirements: CardRequirements.builder((b) => b.production(Resources.TITANIUM, 2)),
       victoryPoints: VictoryPoints.tags(Tags.MOON, 1, 1),
 
@@ -38,7 +38,7 @@ export class CopernicusTower extends Card implements IActionCard, IProjectCard {
         }),
       },
     });
-  };
+  }
   public override resourceCount = 0;
 
   public play() {

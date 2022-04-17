@@ -1,11 +1,11 @@
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {Player} from '../../Player';
-import {CardType} from '../CardType';
-import {Tags} from '../Tags';
+import {CardType} from '../../common/cards/CardType';
+import {Tags} from '../../common/cards/Tags';
 import {IActionCard} from '../ICard';
-import {ResourceType} from '../../ResourceType';
+import {CardResource} from '../../common/CardResource';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../Units';
+import {Units} from '../../common/Units';
 import {MoonCard} from './MoonCard';
 import {CardRequirements} from '../CardRequirements';
 import {played} from '../Options';
@@ -19,7 +19,7 @@ export class PrideoftheEarthArkship extends MoonCard implements IActionCard {
       tags: [Tags.SCIENCE, Tags.SCIENCE, Tags.SPACE],
       cost: 22,
 
-      resourceType: ResourceType.SCIENCE,
+      resourceType: CardResource.SCIENCE,
       victoryPoints: VictoryPoints.resource(1, 1),
       requirements: CardRequirements.builder((b) => b.tag(Tags.SCIENCE).tag(Tags.SPACE, 2)),
       reserveUnits: Units.of({titanium: 2}),
@@ -35,7 +35,7 @@ export class PrideoftheEarthArkship extends MoonCard implements IActionCard {
         }),
       },
     });
-  };
+  }
   public override resourceCount = 0;
 
   public override play(player: Player) {

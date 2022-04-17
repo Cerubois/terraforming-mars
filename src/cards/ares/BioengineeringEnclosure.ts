@@ -1,10 +1,10 @@
 import {Card} from '../Card';
-import {CardName} from '../../CardName';
-import {ResourceType} from '../../ResourceType';
-import {CardType} from '../CardType';
+import {CardName} from '../../common/cards/CardName';
+import {CardResource} from '../../common/CardResource';
+import {CardType} from '../../common/cards/CardType';
 import {IActionCard, IResourceCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {ICard} from '../../cards/ICard';
 import {SelectCard} from '../../inputs/SelectCard';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
@@ -19,7 +19,7 @@ export class BioengineeringEnclosure extends Card implements IProjectCard, IActi
       name: CardName.BIOENGINEERING_ENCLOSURE,
       tags: [Tags.ANIMAL],
       cost: 7,
-      resourceType: ResourceType.ANIMAL,
+      resourceType: CardResource.ANIMAL,
 
       requirements: CardRequirements.builder((b) => b.tag(Tags.SCIENCE)),
       metadata: {

@@ -1,12 +1,12 @@
 import {IActionCard, IResourceCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
-import {CardName} from '../../CardName';
+import {CardResource} from '../../common/CardResource';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 
 export class SecurityFleet extends Card implements IActionCard, IProjectCard, IResourceCard {
@@ -16,7 +16,7 @@ export class SecurityFleet extends Card implements IActionCard, IProjectCard, IR
       name: CardName.SECURITY_FLEET,
       tags: [Tags.SPACE],
       cost: 12,
-      resourceType: ResourceType.FIGHTER,
+      resourceType: CardResource.FIGHTER,
 
       victoryPoints: VictoryPoints.resource(1, 1),
 
@@ -31,17 +31,17 @@ export class SecurityFleet extends Card implements IActionCard, IProjectCard, IR
       },
     });
   }
-    public resourceCount = 0;
+  public override resourceCount = 0;
 
-    public play() {
-      return undefined;
-    }
-    public canAct(player: Player): boolean {
-      return player.titanium > 0;
-    }
-    public action(player: Player) {
-      player.titanium--;
-      player.addResourceTo(this, 1);
-      return undefined;
-    }
+  public play() {
+    return undefined;
+  }
+  public canAct(player: Player): boolean {
+    return player.titanium > 0;
+  }
+  public action(player: Player) {
+    player.titanium--;
+    player.addResourceTo(this, 1);
+    return undefined;
+  }
 }

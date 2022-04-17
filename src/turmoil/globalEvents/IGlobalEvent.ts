@@ -1,15 +1,20 @@
+<<<<<<< HEAD
+import {GlobalEventName} from '../../common/turmoil/globalEvents/GlobalEventName';
+import {PartyName} from '../../common/turmoil/PartyName';
+import {ICardRenderRoot} from '../../common/cards/render/Types';
+=======
 import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
+>>>>>>> main
 import {Game} from '../../Game';
 import {Turmoil} from '../Turmoil';
-import {CardRenderer} from '../../cards/render/CardRenderer';
 
 export interface IGlobalEvent {
     name: GlobalEventName,
     description: string,
     revealedDelegate: PartyName,
     currentDelegate: PartyName,
-    renderData: CardRenderer;
+    renderData: ICardRenderRoot;
     resolve: (game: Game, turmoil: Turmoil) => void;
 }
 
@@ -18,7 +23,7 @@ export interface StaticGlobalEventProperties {
   description: string,
   revealedDelegate: PartyName,
   currentDelegate: PartyName,
-  renderData: CardRenderer;
+  renderData: ICardRenderRoot;
 }
 
 export const staticGlobalEventProperties = new Map<GlobalEventName, StaticGlobalEventProperties>();

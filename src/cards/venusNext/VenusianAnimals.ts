@@ -1,9 +1,9 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
-import {CardName} from '../../CardName';
+import {CardResource} from '../../common/CardResource';
+import {CardName} from '../../common/cards/CardName';
 import {IResourceCard} from '../ICard';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -18,7 +18,7 @@ export class VenusianAnimals extends Card implements IResourceCard {
       cardType: CardType.ACTIVE,
       tags: [Tags.VENUS, Tags.ANIMAL, Tags.SCIENCE],
       cost: 15,
-      resourceType: ResourceType.ANIMAL,
+      resourceType: CardResource.ANIMAL,
       victoryPoints: VictoryPoints.resource(1, 1),
 
       requirements: CardRequirements.builder((b) => b.venus(18)),
@@ -33,12 +33,12 @@ export class VenusianAnimals extends Card implements IResourceCard {
         description: 'Requires Venus 18%',
       },
     });
-  };
+  }
   public override resourceCount: number = 0;
   public play() {
     return undefined;
   }
   public onCardPlayed(player: Player, card: IProjectCard): void {
-    player.addResourceTo(this, card.tags.filter((tag) => tag === Tags.SCIENCE).length);
+    player.addResourceTo(this, player.cardTagCount(card, Tags.SCIENCE));
   }
 }

@@ -1,5 +1,9 @@
 import {expect} from 'chai';
+<<<<<<< HEAD
+import {Timer} from '../../src/common/Timer';
+=======
 import {Timer} from '../src/Timer';
+>>>>>>> main
 import {FakeClock} from './FakeClock';
 
 describe('Timer', function() {

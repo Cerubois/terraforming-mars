@@ -1,12 +1,12 @@
 import {IActionCard, IResourceCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
-import {CardName} from '../../CardName';
+import {CardResource} from '../../common/CardResource';
+import {CardName} from '../../common/cards/CardName';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
 import {CardRequirements} from '../CardRequirements';
@@ -21,7 +21,7 @@ export class Ants extends Card implements IActionCard, IProjectCard, IResourceCa
       tags: [Tags.MICROBE],
       cost: 9,
 
-      resourceType: ResourceType.MICROBE,
+      resourceType: CardResource.MICROBE,
       victoryPoints: VictoryPoints.resource(1, 2),
       requirements: CardRequirements.builder((b) => b.oxygen(4)),
 
@@ -38,7 +38,7 @@ export class Ants extends Card implements IActionCard, IProjectCard, IResourceCa
     });
   }
 
-  public resourceCount = 0;
+  public override resourceCount = 0;
 
   public play() {
     return undefined;
@@ -50,8 +50,8 @@ export class Ants extends Card implements IActionCard, IProjectCard, IResourceCa
   }
 
   public action(player: Player) {
-    player.game.defer(new RemoveResourcesFromCard(player, ResourceType.MICROBE));
-    player.game.defer(new AddResourcesToCard(player, ResourceType.MICROBE, {filter: (c) => c.name === this.name}));
+    player.game.defer(new RemoveResourcesFromCard(player, CardResource.MICROBE));
+    player.game.defer(new AddResourcesToCard(player, CardResource.MICROBE, {filter: (c) => c.name === this.name}));
     return undefined;
   }
 }

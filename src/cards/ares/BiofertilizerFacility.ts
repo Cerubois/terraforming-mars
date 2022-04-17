@@ -1,20 +1,20 @@
 import {Card} from '../Card';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
-import {ResourceType} from '../../ResourceType';
-import {SpaceBonus} from '../../SpaceBonus';
-import {SpaceType} from '../../SpaceType';
-import {TileType} from '../../TileType';
-import {CardType} from '../CardType';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
+import {SpaceBonus} from '../../common/boards/SpaceBonus';
+import {SpaceType} from '../../common/boards/SpaceType';
+import {TileType} from '../../common/TileType';
+import {CardType} from '../../common/cards/CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../Units';
+import {Units} from '../../common/Units';
 
 export class BiofertilizerFacility extends Card implements IProjectCard {
   constructor() {
@@ -43,7 +43,7 @@ export class BiofertilizerFacility extends Card implements IProjectCard {
 
   public play(player: Player) {
     player.addProduction(Resources.PLANTS, 1);
-    player.game.defer(new AddResourcesToCard(player, ResourceType.MICROBE, {count: 2}));
+    player.game.defer(new AddResourcesToCard(player, CardResource.MICROBE, {count: 2}));
 
     return new SelectSpace(
       'Select space for Biofertilizer Facility tile',

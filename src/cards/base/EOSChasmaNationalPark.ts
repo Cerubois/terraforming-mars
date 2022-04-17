@@ -1,16 +1,16 @@
 import {ICard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
 import {SelectCard} from '../../inputs/SelectCard';
-import {Resources} from '../../Resources';
-import {CardName} from '../../CardName';
-import {ResourceType} from '../../ResourceType';
+import {Resources} from '../../common/Resources';
+import {CardName} from '../../common/cards/CardName';
+import {CardResource} from '../../common/CardResource';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../Units';
+import {Units} from '../../common/Units';
 
 export class EosChasmaNationalPark extends Card implements IProjectCard {
   constructor() {
@@ -35,7 +35,7 @@ export class EosChasmaNationalPark extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    const cards = player.getResourceCards(ResourceType.ANIMAL);
+    const cards = player.getResourceCards(CardResource.ANIMAL);
     player.plants += 3;
     player.addProduction(Resources.MEGACREDITS, 2);
 

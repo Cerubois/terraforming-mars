@@ -1,13 +1,13 @@
 import {IActionCard, IResourceCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
-import {Resources} from '../../Resources';
-import {CardName} from '../../CardName';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
+import {CardName} from '../../common/cards/CardName';
 import {DecreaseAnyProduction} from '../../deferredActions/DecreaseAnyProduction';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -21,7 +21,7 @@ export class Birds extends Card implements IActionCard, IProjectCard, IResourceC
       tags: [Tags.ANIMAL],
       cost: 10,
 
-      resourceType: ResourceType.ANIMAL,
+      resourceType: CardResource.ANIMAL,
       requirements: CardRequirements.builder((b) => b.oxygen(13)),
       victoryPoints: VictoryPoints.resource(1, 1),
 
@@ -40,21 +40,21 @@ export class Birds extends Card implements IActionCard, IProjectCard, IResourceC
     });
   }
 
-    public resourceCount = 0;
+  public override resourceCount = 0;
 
-    public canPlay(player: Player): boolean {
-      return player.game.someoneHasResourceProduction(Resources.PLANTS, 2);
-    }
-    public play(player: Player) {
-      player.game.defer(
-        new DecreaseAnyProduction(player, Resources.PLANTS, {count: 2}));
-      return undefined;
-    }
-    public canAct(): boolean {
-      return true;
-    }
-    public action(player: Player) {
-      player.addResourceTo(this);
-      return undefined;
-    }
+  public override canPlay(player: Player): boolean {
+    return player.game.someoneCanHaveProductionReduced(Resources.PLANTS, 2);
+  }
+  public play(player: Player) {
+    player.game.defer(
+      new DecreaseAnyProduction(player, Resources.PLANTS, {count: 2}));
+    return undefined;
+  }
+  public canAct(): boolean {
+    return true;
+  }
+  public action(player: Player) {
+    player.addResourceTo(this);
+    return undefined;
+  }
 }

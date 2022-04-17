@@ -1,4 +1,4 @@
-import {CorporationCard} from '../corporation/CorporationCard';
+import {ICorporationCard} from '../corporation/ICorporationCard';
 import {Player} from '../../Player';
 import {Tags} from '../Tags';
 import {SelectSpace} from '../../inputs/SelectSpace';
@@ -10,12 +10,12 @@ import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {DeferredAction, Priority} from '../../deferredActions/DeferredAction';
 import {CardRenderer} from '../render/CardRenderer';
-import {Size} from '../render/Size';
+import {Size} from '../../common/cards/render/Size';
 import {BoardType} from '../../boards/BoardType';
 import {Resources} from '../../Resources';
 import {all} from '../Options';
 
-export class Philares extends Card implements CorporationCard {
+export class Philares extends Card implements ICorporationCard {
   constructor() {
     super({
       cardType: CardType.CORPORATION,

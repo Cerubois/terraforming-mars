@@ -295,4 +295,61 @@ describe('Board', function() {
     expect(board.getSpaceById('01')!.player).eq(player1);
     expect(board.getSpaceById('03')!.player).eq(player2);
   });
+<<<<<<< HEAD
+
+  it('Deserializing Noctis City without a space type gives it a space type.', () => {
+    const boardJson = {
+      'spaces': [
+        {
+          'id': '01',
+          'spaceType': 'colony', 'bonus': [],
+          'x': -1, 'y': -1, 'player': 'name-1-id',
+          'tile': {'tileType': 2},
+        },
+        {
+          'id': '03',
+          'spaceType': 'land', 'bonus': [1, 1],
+          'x': 4, 'y': 0, 'player': 'name-2-id',
+          'tile': {'tileType': 0},
+        },
+        {
+          'id': '04',
+          'spaceType': 'ocean', 'bonus': [1, 1],
+          'x': 5, 'y': 0,
+          'tile': {'tileType': 1},
+        },
+        {
+          'id': '31',
+          'spaceType': undefined, 'bonus': [],
+          'x': 6, 'y': 0,
+        },
+      ],
+    };
+    const player1 = new Player('name-1', Color.RED, false, 0, 'name-1-id');
+    const player2 = new Player('name-2', Color.YELLOW, false, 0, 'name-2-id');
+
+    const board = new TestBoard(Board.deserializeSpaces((boardJson as SerializedBoard).spaces, [player1, player2]));
+    expect(board.getSpaceById('31')!.spaceType).eq(SpaceType.LAND);
+  });
+
+  it('Randomized maps have space types on all spaces, #4056', () => {
+    const spaces = new MultiSet<string>();
+    for (let idx = 0; idx < 4_000; idx++) {
+      const seed = Math.random();
+      board = OriginalBoard.newInstance({
+        ...DEFAULT_GAME_OPTIONS,
+        shuffleMapOption: true,
+      },
+      new Random(seed));
+      for (const space of board.spaces) {
+        if (space.spaceType === undefined) {
+          console.log(`Bad seed ${seed}`);
+          spaces.add(space.id);
+        }
+      }
+    }
+    expect(spaces.size, spaces.toJSON()).eq(0);
+  });
+=======
+>>>>>>> main
 });

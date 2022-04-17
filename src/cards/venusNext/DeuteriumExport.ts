@@ -1,14 +1,14 @@
 import {IActionCard, IResourceCard} from '../ICard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
+import {CardResource} from '../../common/CardResource';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
-import {Resources} from '../../Resources';
-import {CardName} from '../../CardName';
+import {Resources} from '../../common/Resources';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Size} from '../render/Size';
+import {Size} from '../../common/cards/render/Size';
 import {Card} from '../Card';
 
 export class DeuteriumExport extends Card implements IActionCard, IResourceCard {
@@ -18,7 +18,7 @@ export class DeuteriumExport extends Card implements IActionCard, IResourceCard 
       cardType: CardType.ACTIVE,
       tags: [Tags.SPACE, Tags.VENUS, Tags.ENERGY],
       cost: 11,
-      resourceType: ResourceType.FLOATER,
+      resourceType: CardResource.FLOATER,
 
       metadata: {
         cardNumber: '221',
@@ -33,9 +33,9 @@ export class DeuteriumExport extends Card implements IActionCard, IResourceCard 
         }),
       },
     });
-  };
+  }
 
-  public resourceCount: number = 0;
+  public override resourceCount: number = 0;
 
   public play() {
     return undefined;

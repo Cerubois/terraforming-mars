@@ -1,10 +1,10 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
-import {CardName} from '../../CardName';
+import {CardResource} from '../../common/CardResource';
+import {CardName} from '../../common/cards/CardName';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {CardRenderer} from '../render/CardRenderer';
 import {digit} from '../Options';
@@ -34,8 +34,8 @@ export class ImportedNitrogen extends Card implements IProjectCard {
   public play(player: Player) {
     player.plants += 4;
     player.increaseTerraformRating();
-    player.game.defer(new AddResourcesToCard(player, ResourceType.MICROBE, {count: 3}));
-    player.game.defer(new AddResourcesToCard(player, ResourceType.ANIMAL, {count: 2}));
+    player.game.defer(new AddResourcesToCard(player, CardResource.MICROBE, {count: 3}));
+    player.game.defer(new AddResourcesToCard(player, CardResource.ANIMAL, {count: 2}));
     return undefined;
   }
 }

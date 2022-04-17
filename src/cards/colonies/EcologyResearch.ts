@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
-import {ResourceType} from '../../ResourceType';
+import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
-import {Size} from '../render/Size';
+import {Size} from '../../common/cards/render/Size';
 import {Card} from '../Card';
 import {CardRenderer} from '../render/CardRenderer';
 
@@ -34,14 +34,14 @@ export class EcologyResearch extends Card implements IProjectCard {
     const coloniesCount = player.getColoniesCount();
     player.addProduction(Resources.PLANTS, coloniesCount, {log: true});
 
-    const animalCards = player.getResourceCards(ResourceType.ANIMAL);
+    const animalCards = player.getResourceCards(CardResource.ANIMAL);
     if (animalCards.length) {
-      player.game.defer(new AddResourcesToCard(player, ResourceType.ANIMAL, {count: 1}));
+      player.game.defer(new AddResourcesToCard(player, CardResource.ANIMAL, {count: 1}));
     }
 
-    const microbeCards = player.getResourceCards(ResourceType.MICROBE);
+    const microbeCards = player.getResourceCards(CardResource.MICROBE);
     if (microbeCards.length) {
-      player.game.defer(new AddResourcesToCard(player, ResourceType.MICROBE, {count: 2}));
+      player.game.defer(new AddResourcesToCard(player, CardResource.MICROBE, {count: 2}));
     }
 
     return undefined;

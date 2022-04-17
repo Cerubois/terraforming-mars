@@ -1,24 +1,24 @@
 import {Player} from '../../Player';
-import {CardType} from '../CardType';
-import {CardName} from '../../CardName';
+import {CardType} from '../../common/cards/CardType';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {Tags} from '../Tags';
-import {Size} from '../render/Size';
+import {Tags} from '../../common/cards/Tags';
+import {Size} from '../../common/cards/render/Size';
 import {played} from '../Options';
-import {CorporationCard} from '../corporation/CorporationCard';
-import {ResourceType} from '../../ResourceType';
+import {ICorporationCard} from '../corporation/ICorporationCard';
+import {CardResource} from '../../common/CardResource';
 import {ISpace} from '../../boards/ISpace';
-import {TileType} from '../../TileType';
+import {Board} from '../../boards/Board';
 
-export class SoylentSeedlingSystems extends Card implements CorporationCard {
+export class SoylentSeedlingSystems extends Card implements ICorporationCard {
   constructor() {
     super({
       cardType: CardType.CORPORATION,
       name: CardName.SOYLENT_SEEDLING_SYSTEMS,
       tags: [Tags.SCIENCE, Tags.PLANT],
       startingMegaCredits: 38,
-      resourceType: ResourceType.SEED,
+      resourceType: CardResource.SEED,
 
       metadata: {
         cardNumber: 'PfC8',
@@ -28,7 +28,7 @@ export class SoylentSeedlingSystems extends Card implements CorporationCard {
             eb.greenery().startEffect.seed();
           }).br;
           b.effect('When paying for a plant card, or the STANDARD GREENERY PROJECT, seeds here may be used as 5 M€ each.', (eb) => {
-            eb.plants(1, {played}).slash().greenery(Size.MEDIUM, true).startEffect.seed().equals().megacredits(5);
+            eb.plants(1, {played}).slash().greenery(Size.MEDIUM).startEffect.seed().equals().megacredits(5);
           }).br;
         }),
         description: 'You starrt with 38M€ and 2 seeds on this card.',
@@ -47,7 +47,7 @@ export class SoylentSeedlingSystems extends Card implements CorporationCard {
     if (cardOwner.id !== activePlayer.id) {
       return;
     }
-    if (space.tile?.tileType === TileType.GREENERY) {
+    if (Board.isGreenerySpace(space)) {
       cardOwner.addResourceTo(this, {log: true});
     }
   }

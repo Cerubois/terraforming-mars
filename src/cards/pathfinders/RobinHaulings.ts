@@ -1,33 +1,33 @@
 import {Card} from '../Card';
-import {CorporationCard} from '../corporation/CorporationCard';
-import {Tags} from '../Tags';
+import {ICorporationCard} from '../corporation/ICorporationCard';
+import {Tags} from '../../common/cards/Tags';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
-import {CardType} from '../CardType';
+import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../../common/cards/CardType';
 import {CardRenderer} from '../render/CardRenderer';
-import {ResourceType} from '../../ResourceType';
+import {CardResource} from '../../common/CardResource';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {played} from '../Options';
 import {IProjectCard} from '../IProjectCard';
-import {MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE} from '../../constants';
+import {MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE} from '../../common/constants';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 
-export class RobinHaulings extends Card implements CorporationCard {
+export class RobinHaulings extends Card implements ICorporationCard {
   constructor() {
     super({
       cardType: CardType.CORPORATION,
       name: CardName.ROBIN_HAULINGS,
       tags: [Tags.MARS, Tags.VENUS],
       startingMegaCredits: 39,
-      resourceType: ResourceType.FLOATER,
+      resourceType: CardResource.FLOATER,
 
       metadata: {
         cardNumber: 'PfC9',
         description: 'You start with 39 M€',
         renderData: CardRenderer.builder((b) => {
           b.megacredits(39).br;
-          b.effect('When ever you play a card with a Venus tag add 1 floater to any card.', (eb) => {
+          b.effect('Whenever you play a card with a Venus tag add 1 floater to any card.', (eb) => {
             eb.venus(1, {played}).startEffect.floaters(1).asterix();
           });
           b.br;
@@ -41,13 +41,14 @@ export class RobinHaulings extends Card implements CorporationCard {
 
   public override resourceCount = 0;
 
-  public play() {
+  public play(player: Player) {
+    player.addResourceTo(this, 1);
     return undefined;
   }
 
   public onCardPlayed(player: Player, card: IProjectCard) {
     if (player.isCorporation(CardName.ROBIN_HAULINGS) && card.tags.includes(Tags.VENUS)) {
-      player.game.defer(new AddResourcesToCard(player, ResourceType.FLOATER));
+      player.game.defer(new AddResourcesToCard(player, CardResource.FLOATER));
     }
   }
 
@@ -76,7 +77,7 @@ export class RobinHaulings extends Card implements CorporationCard {
             this.resourceCount -= 3;
             return undefined;
           }));
-    };
+    }
     if (this.canRaiseOxygen(player)) {
       options.options.push(
         new SelectOption(
@@ -87,7 +88,7 @@ export class RobinHaulings extends Card implements CorporationCard {
             this.resourceCount -= 3;
             return undefined;
           }));
-    };
+    }
 
     if (options.options.length === 0) {
       return undefined;

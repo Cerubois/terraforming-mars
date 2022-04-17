@@ -1,17 +1,20 @@
 import {Colony} from './Colony';
-import {ColonyName} from './ColonyName';
-import {ColonyBenefit} from './ColonyBenefit';
-import {Resources} from '../Resources';
+import {ColonyName} from '../common/colonies/ColonyName';
+import {ColonyBenefit} from '../common/colonies/ColonyBenefit';
+import {Resources} from '../common/Resources';
 
 export class Ceres extends Colony {
-    public name = ColonyName.CERES;
-    public description = 'Steel';
-    public buildType = ColonyBenefit.GAIN_PRODUCTION;
-    public buildResource = Resources.STEEL;
-    public tradeType = ColonyBenefit.GAIN_RESOURCES;
-    public tradeQuantity = [1, 2, 3, 4, 6, 8, 10];
-    public tradeResource = Resources.STEEL;
-    public colonyBonusType = ColonyBenefit.GAIN_RESOURCES;
-    public colonyBonusQuantity = 2;
-    public colonyBonusResource = Resources.STEEL;
+  constructor() {
+    super({
+      name: ColonyName.CERES,
+      buildType: ColonyBenefit.GAIN_PRODUCTION,
+      buildResource: Resources.STEEL,
+      tradeType: ColonyBenefit.GAIN_RESOURCES,
+      tradeQuantity: [1, 2, 3, 4, 6, 8, 10],
+      tradeResource: Resources.STEEL,
+      colonyBonusType: ColonyBenefit.GAIN_RESOURCES,
+      colonyBonusQuantity: 2,
+      colonyBonusResource: Resources.STEEL,
+    });
+  }
 }

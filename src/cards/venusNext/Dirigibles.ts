@@ -1,10 +1,10 @@
 import {ICard, IActionCard, IResourceCard} from '../ICard';
-import {Tags} from '../Tags';
-import {CardType} from '../CardType';
+import {Tags} from '../../common/cards/Tags';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
+import {CardResource} from '../../common/CardResource';
 import {SelectCard} from '../../inputs/SelectCard';
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {played} from '../Options';
@@ -16,7 +16,7 @@ export class Dirigibles extends Card implements IActionCard, IResourceCard {
       cardType: CardType.ACTIVE,
       tags: [Tags.VENUS],
       cost: 11,
-      resourceType: ResourceType.FLOATER,
+      resourceType: CardResource.FLOATER,
 
       metadata: {
         cardNumber: '222',
@@ -30,9 +30,9 @@ export class Dirigibles extends Card implements IActionCard, IResourceCard {
         }),
       },
     });
-  };
+  }
 
-  public resourceCount: number = 0;
+  public override resourceCount: number = 0;
 
   public play() {
     return undefined;
@@ -41,7 +41,7 @@ export class Dirigibles extends Card implements IActionCard, IResourceCard {
     return true;
   }
   public action(player: Player) {
-    const floaterCards = player.getResourceCards(ResourceType.FLOATER);
+    const floaterCards = player.getResourceCards(CardResource.FLOATER);
     if (floaterCards.length === 1) {
       player.addResourceTo(this, {log: true});
       return undefined;

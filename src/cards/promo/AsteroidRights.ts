@@ -1,12 +1,12 @@
 import {IProjectCard} from '../IProjectCard';
 import {IActionCard, ICard, IResourceCard} from '../ICard';
 import {Card} from '../Card';
-import {CardName} from '../../CardName';
-import {CardType} from '../CardType';
-import {ResourceType} from '../../ResourceType';
-import {Tags} from '../Tags';
+import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../../common/cards/CardType';
+import {CardResource} from '../../common/CardResource';
+import {Tags} from '../../common/cards/Tags';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
+import {Resources} from '../../common/Resources';
 import {LogHelper} from '../../LogHelper';
 import {SelectCard} from '../../inputs/SelectCard';
 import {OrOptions} from '../../inputs/OrOptions';
@@ -21,7 +21,7 @@ export class AsteroidRights extends Card implements IActionCard, IProjectCard, I
       name: CardName.ASTEROID_RIGHTS,
       tags: [Tags.EARTH, Tags.SPACE],
       cost: 10,
-      resourceType: ResourceType.ASTEROID,
+      resourceType: CardResource.ASTEROID,
 
       metadata: {
         cardNumber: 'X31',
@@ -41,7 +41,7 @@ export class AsteroidRights extends Card implements IActionCard, IProjectCard, I
       },
     });
   }
-  public resourceCount = 0;
+  public override resourceCount = 0;
 
   public play() {
     this.resourceCount = 2;
@@ -55,7 +55,7 @@ export class AsteroidRights extends Card implements IActionCard, IProjectCard, I
   public action(player: Player) {
     const canAddAsteroid = player.canAfford(1);
     const hasAsteroids = this.resourceCount > 0;
-    const asteroidCards = player.getResourceCards(ResourceType.ASTEROID);
+    const asteroidCards = player.getResourceCards(CardResource.ASTEROID);
 
     const gainTitaniumOption = new SelectOption('Remove 1 asteroid on this card to gain 2 titanium', 'Remove asteroid', () => {
       this.resourceCount--;

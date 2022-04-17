@@ -1,13 +1,13 @@
 import {IProjectCard} from '../IProjectCard';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {CardName} from '../../CardName';
-import {ResourceType} from '../../ResourceType';
-import {Resources} from '../../Resources';
+import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
 import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
 import {StealResources} from '../../deferredActions/StealResources';
 import {Card} from '../Card';
-import {Size} from '../render/Size';
+import {Size} from '../../common/cards/render/Size';
 import {CardRenderer} from '../render/CardRenderer';
 import {all} from '../Options';
 
@@ -29,13 +29,13 @@ export class AirRaid extends Card implements IProjectCard {
     });
   }
 
-  public canPlay(player: Player): boolean {
-    return player.getResourceCount(ResourceType.FLOATER) > 0;
+  public override canPlay(player: Player): boolean {
+    return player.getResourceCount(CardResource.FLOATER) > 0;
   }
 
   public play(player: Player) {
     player.game.defer(new StealResources(player, Resources.MEGACREDITS, 5));
-    player.game.defer(new RemoveResourcesFromCard(player, ResourceType.FLOATER, 1, true));
+    player.game.defer(new RemoveResourcesFromCard(player, CardResource.FLOATER, 1, true));
     return undefined;
   }
 }

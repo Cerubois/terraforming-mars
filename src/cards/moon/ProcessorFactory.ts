@@ -1,9 +1,9 @@
-import {CardName} from '../../CardName';
+import {CardName} from '../../common/cards/CardName';
 import {Player} from '../../Player';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
-import {ResourceType} from '../../ResourceType';
+import {Tags} from '../../common/cards/Tags';
+import {CardResource} from '../../common/CardResource';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
@@ -17,7 +17,7 @@ export class ProcessorFactory extends Card implements IProjectCard {
       tags: [Tags.MOON, Tags.BUILDING],
       cost: 8,
 
-      resourceType: ResourceType.DATA,
+      resourceType: CardResource.DATA,
       victoryPoints: VictoryPoints.resource(1, 3),
 
       metadata: {
@@ -29,7 +29,7 @@ export class ProcessorFactory extends Card implements IProjectCard {
         }),
       },
     });
-  };
+  }
   public override resourceCount = 0;
 
   public play() {
@@ -42,7 +42,7 @@ export class ProcessorFactory extends Card implements IProjectCard {
 
   public action(player: Player) {
     player.steel--;
-    player.game.defer(new AddResourcesToCard(player, ResourceType.DATA, {count: 2}));
+    player.game.defer(new AddResourcesToCard(player, CardResource.DATA, {count: 2}));
     return undefined;
   }
 }

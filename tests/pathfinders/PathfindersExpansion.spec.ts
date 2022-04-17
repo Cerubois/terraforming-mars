@@ -4,7 +4,11 @@ import {getTestPlayer, newTestGame} from '../TestGame';
 import {PathfindersExpansion} from '../../src/pathfinders/PathfindersExpansion';
 import {Tags} from '../../src/cards/Tags';
 import {TestingUtils} from '../TestingUtils';
+<<<<<<< HEAD
+import {CardResource} from '../../src/common/CardResource';
+=======
 import {ResourceType} from '../../src/ResourceType';
+>>>>>>> main
 import {Game} from '../../src/Game';
 import {IPathfindersData} from '../../src/pathfinders/IPathfindersData';
 import {CardName} from '../../src/CardName';
@@ -47,10 +51,10 @@ describe('PathfindersExpansion', function() {
 
   it('Venus track', () => {
     const floaterCard = TestingUtils.fakeCard({
-      resourceType: ResourceType.FLOATER,
+      resourceType: CardResource.FLOATER,
     });
     const floaterCard2 = TestingUtils.fakeCard({
-      resourceType: ResourceType.FLOATER,
+      resourceType: CardResource.FLOATER,
     });
     player1.playedCards.push(floaterCard);
     player2.playedCards.push(floaterCard2);

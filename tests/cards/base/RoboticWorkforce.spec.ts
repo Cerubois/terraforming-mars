@@ -27,6 +27,12 @@ import {SolarWindPower} from '../../../src/cards/base/SolarWindPower';
 import {MarsUniversity} from '../../../src/cards/base/MarsUniversity';
 import {Gyropolis} from '../../../src/cards/venusNext/Gyropolis';
 import {VenusGovernor} from '../../../src/cards/venusNext/VenusGovernor';
+<<<<<<< HEAD
+import {CardType} from '../../../src/common/cards/CardType';
+import {ICorporationCard} from '../../../src/cards/corporation/ICorporationCard';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+=======
+>>>>>>> main
 
 describe('RoboticWorkforce', () => {
   let card : RoboticWorkforce; let player : TestPlayer; let game : Game;
@@ -233,11 +239,18 @@ describe('RoboticWorkforce', () => {
           game.moonData!.moon.spaces[4].player = player;
         }
 
+<<<<<<< HEAD
+        if (card.cardType === CardType.CORPORATION) {
+          (game as any).playCorporationCard(player, card as ICorporationCard);
+        } else {
+          player.playCard(card as IProjectCard);
+=======
         const action = card.play(player);
         if (action !== undefined) {
           if (action instanceof SelectSpace) {
             action.cb(action.availableSpaces[0]);
           }
+>>>>>>> main
         }
 
         while (game.deferredActions.length) {

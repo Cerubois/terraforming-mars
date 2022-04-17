@@ -7,7 +7,11 @@ import {getTestPlayer, newTestGame} from '../../TestGame';
 import {CardName} from '../../../src/CardName';
 import {TestingUtils} from '../../TestingUtils';
 import {SelectCard} from '../../../src/inputs/SelectCard';
+<<<<<<< HEAD
+import {CardResource} from '../../../src/common/CardResource';
+=======
 import {ResourceType} from '../../../src/ResourceType';
+>>>>>>> main
 
 describe('ControlledBloom', function() {
   let card: ControlledBloom;
@@ -31,9 +35,9 @@ describe('ControlledBloom', function() {
   });
 
   it('play', function() {
-    const a = TestingUtils.fakeCard({name: 'A' as CardName, resourceType: ResourceType.MICROBE});
-    const b = TestingUtils.fakeCard({name: 'B' as CardName, resourceType: ResourceType.DATA});
-    const c = TestingUtils.fakeCard({name: 'C' as CardName, resourceType: ResourceType.MICROBE});
+    const a = TestingUtils.fakeCard({name: 'A' as CardName, resourceType: CardResource.MICROBE});
+    const b = TestingUtils.fakeCard({name: 'B' as CardName, resourceType: CardResource.DATA});
+    const c = TestingUtils.fakeCard({name: 'C' as CardName, resourceType: CardResource.MICROBE});
     player.playedCards = [a, b, c];
 
     card.play(player);

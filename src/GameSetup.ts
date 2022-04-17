@@ -1,16 +1,17 @@
 import {Board} from './boards/Board';
-import {BoardName} from './boards/BoardName';
+import {BoardName} from './common/boards/BoardName';
 import {ElysiumBoard} from './boards/ElysiumBoard';
-import {Game, GameId, GameOptions} from './Game';
+import {Game, GameOptions} from './Game';
+import {GameId} from './common/Types';
 import {HellasBoard} from './boards/HellasBoard';
 import {OriginalBoard} from './boards/OriginalBoard';
 import {Player} from './Player';
-import {Resources} from './Resources';
-import {ColonyName} from './colonies/ColonyName';
-import {Color} from './Color';
-import {TileType} from './TileType';
+import {Resources} from './common/Resources';
+import {Color} from './common/Color';
+import {TileType} from './common/TileType';
 import {Random} from './Random';
 import {ArabiaTerraBoard} from './boards/ArabiaTerraBoard';
+import {VastitasBorealisBoard} from './boards/VastitasBorealisBoard';
 
 export class GameSetup {
   // Function to construct the board and milestones/awards list
@@ -22,6 +23,8 @@ export class GameSetup {
       return HellasBoard.newInstance(gameOptions, rng);
     case BoardName.ARABIA_TERRA:
       return ArabiaTerraBoard.newInstance(gameOptions, rng);
+    case BoardName.VASTITAS_BOREALIS:
+      return VastitasBorealisBoard.newInstance(gameOptions, rng);
     default:
       return OriginalBoard.newInstance(gameOptions, rng);
     }
@@ -34,19 +37,6 @@ export class GameSetup {
     player.addProduction(Resources.PLANTS, 1);
     player.addProduction(Resources.ENERGY, 1);
     player.addProduction(Resources.HEAT, 1);
-  }
-
-  public static includesCommunityColonies(gameOptions: GameOptions) : boolean {
-    if (!gameOptions.customColoniesList) return false;
-    if (gameOptions.customColoniesList.includes(ColonyName.IAPETUS)) return true;
-    if (gameOptions.customColoniesList.includes(ColonyName.MERCURY)) return true;
-    if (gameOptions.customColoniesList.includes(ColonyName.HYGIEA)) return true;
-    if (gameOptions.customColoniesList.includes(ColonyName.TITANIA)) return true;
-    if (gameOptions.customColoniesList.includes(ColonyName.VENUS)) return true;
-    if (gameOptions.customColoniesList.includes(ColonyName.LEAVITT)) return true;
-    if (gameOptions.customColoniesList.includes(ColonyName.PALLAS)) return true;
-
-    return false;
   }
 
   public static neutralPlayerFor(gameId: GameId): Player {

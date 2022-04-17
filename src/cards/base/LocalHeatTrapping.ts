@@ -1,16 +1,16 @@
 import {IProjectCard} from '../IProjectCard';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {SelectCard} from '../../inputs/SelectCard';
-import {ResourceType} from '../../ResourceType';
+import {CardResource} from '../../common/CardResource';
 import {ICard} from '../ICard';
-import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
+import {CardName} from '../../common/cards/CardName';
+import {Resources} from '../../common/Resources';
 import {CardRenderer} from '../render/CardRenderer';
-import {Units} from '../../Units';
+import {Units} from '../../common/Units';
 import {digit} from '../Options';
 
 export class LocalHeatTrapping extends Card implements IProjectCard {
@@ -33,7 +33,7 @@ export class LocalHeatTrapping extends Card implements IProjectCard {
     });
   }
   public play(player: Player) {
-    const animalCards: Array<ICard> = player.getResourceCards(ResourceType.ANIMAL);
+    const animalCards: Array<ICard> = player.getResourceCards(CardResource.ANIMAL);
     const availableActions = new OrOptions();
 
     const gain4Plants = function() {

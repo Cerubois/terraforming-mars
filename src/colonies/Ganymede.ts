@@ -1,16 +1,19 @@
 import {Colony} from './Colony';
-import {Resources} from '../Resources';
-import {ColonyName} from './ColonyName';
-import {ColonyBenefit} from './ColonyBenefit';
+import {Resources} from '../common/Resources';
+import {ColonyName} from '../common/colonies/ColonyName';
+import {ColonyBenefit} from '../common/colonies/ColonyBenefit';
 
 export class Ganymede extends Colony {
-    public name = ColonyName.GANYMEDE;
-    public description = 'Plants';
-    public buildType = ColonyBenefit.GAIN_PRODUCTION;
-    public buildResource = Resources.PLANTS;
-    public tradeType = ColonyBenefit.GAIN_RESOURCES;
-    public tradeQuantity = [0, 1, 2, 3, 4, 5, 6];
-    public tradeResource = Resources.PLANTS;
-    public colonyBonusType = ColonyBenefit.GAIN_RESOURCES;
-    public colonyBonusResource = Resources.PLANTS;
+  constructor() {
+    super({
+      name: ColonyName.GANYMEDE,
+      buildType: ColonyBenefit.GAIN_PRODUCTION,
+      buildResource: Resources.PLANTS,
+      tradeType: ColonyBenefit.GAIN_RESOURCES,
+      tradeQuantity: [0, 1, 2, 3, 4, 5, 6],
+      tradeResource: Resources.PLANTS,
+      colonyBonusType: ColonyBenefit.GAIN_RESOURCES,
+      colonyBonusResource: Resources.PLANTS,
+    });
+  }
 }

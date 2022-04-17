@@ -1,26 +1,26 @@
-import {CorporationCard} from '../corporation/CorporationCard';
+import {ICorporationCard} from '../corporation/ICorporationCard';
 import {Player} from '../../Player';
-import {Tags} from '../Tags';
-import {ResourceType} from '../../ResourceType';
+import {Tags} from '../../common/cards/Tags';
+import {CardResource} from '../../common/CardResource';
 import {ICard, IActionCard, IResourceCard} from '../ICard';
 import {AndOptions} from '../../inputs/AndOptions';
 import {SelectAmount} from '../../inputs/SelectAmount';
 import {SelectCard} from '../../inputs/SelectCard';
-import {CardName} from '../../CardName';
-import {CardType} from '../CardType';
+import {CardName} from '../../common/cards/CardName';
+import {CardType} from '../../common/cards/CardType';
 import {Card} from '../Card';
 import {CardRenderer} from '../render/CardRenderer';
-import {Size} from '../render/Size';
+import {Size} from '../../common/cards/render/Size';
 import {PlayerInput} from '../../PlayerInput';
-import {Resources} from '../../Resources';
+import {Resources} from '../../common/Resources';
 
-export class StormCraftIncorporated extends Card implements IActionCard, CorporationCard, IResourceCard {
+export class StormCraftIncorporated extends Card implements IActionCard, ICorporationCard, IResourceCard {
   constructor() {
     super({
       name: CardName.STORMCRAFT_INCORPORATED,
       tags: [Tags.JOVIAN],
       startingMegaCredits: 48,
-      resourceType: ResourceType.FLOATER,
+      resourceType: CardResource.FLOATER,
       cardType: CardType.CORPORATION,
       metadata: {
         cardNumber: 'R29',
@@ -43,7 +43,7 @@ export class StormCraftIncorporated extends Card implements IActionCard, Corpora
     });
   }
 
-  public resourceCount = 0;
+  public override resourceCount = 0;
 
   public play() {
     return undefined;
@@ -54,7 +54,7 @@ export class StormCraftIncorporated extends Card implements IActionCard, Corpora
   }
 
   public action(player: Player) {
-    const floaterCards = player.getResourceCards(ResourceType.FLOATER);
+    const floaterCards = player.getResourceCards(CardResource.FLOATER);
     if (floaterCards.length === 1) {
       player.addResourceTo(this, {log: true});
       return undefined;

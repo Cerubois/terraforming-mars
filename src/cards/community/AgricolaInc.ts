@@ -1,4 +1,4 @@
-import {CorporationCard} from '../corporation/CorporationCard';
+import {ICorporationCard} from '../corporation/ICorporationCard';
 import {Player} from '../../Player';
 import {Tags} from '../Tags';
 import {Resources} from '../../Resources';
@@ -7,10 +7,10 @@ import {CardName} from '../../CardName';
 import {ITagCount} from '../../ITagCount';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
-import {Size} from '../render/Size';
+import {Size} from '../../common/cards/render/Size';
 import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 
-export class AgricolaInc extends Card implements CorporationCard {
+export class AgricolaInc extends Card implements ICorporationCard {
   constructor() {
     super({
       name: CardName.AGRICOLA_INC,

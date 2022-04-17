@@ -8,8 +8,13 @@ import {ISpace} from '../../../src/boards/ISpace';
 import {SpaceBonus} from '../../../src/SpaceBonus';
 import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {TestingUtils} from '../../TestingUtils';
+<<<<<<< HEAD
+import {CardResource} from '../../../src/common/CardResource';
+import {Units} from '../../../src/common/Units';
+=======
 import {ResourceType} from '../../../src/ResourceType';
 import {Units} from '../../../src/Units';
+>>>>>>> main
 import {OrOptions} from '../../../src/inputs/OrOptions';
 
 describe('GeologicalExpedition', function() {
@@ -26,8 +31,8 @@ describe('GeologicalExpedition', function() {
     player = getTestPlayer(game, 0);
     game.board = EmptyBoard.newInstance();
     space = game.board.getAvailableSpacesOnLand(player)[0];
-    microbeCard = TestingUtils.fakeCard({resourceType: ResourceType.MICROBE});
-    scienceCard = TestingUtils.fakeCard({resourceType: ResourceType.SCIENCE});
+    microbeCard = TestingUtils.fakeCard({resourceType: CardResource.MICROBE});
+    scienceCard = TestingUtils.fakeCard({resourceType: CardResource.SCIENCE});
     player.playedCards = [card, microbeCard, scienceCard];
     (player as any).waitingFor = undefined;
     (player as any).waitingForCb = undefined;

@@ -1,13 +1,13 @@
 import {IActionCard, IResourceCard} from '../ICard';
 import {IProjectCard} from '../IProjectCard';
-import {Tags} from '../Tags';
+import {Tags} from '../../common/cards/Tags';
 import {Card} from '../Card';
 import {VictoryPoints} from '../ICard';
-import {CardType} from '../CardType';
+import {CardType} from '../../common/cards/CardType';
 import {Player} from '../../Player';
-import {ResourceType} from '../../ResourceType';
-import {Resources} from '../../Resources';
-import {CardName} from '../../CardName';
+import {Resources} from '../../common/Resources';
+import {CardResource} from '../../common/CardResource';
+import {CardName} from '../../common/cards/CardName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 
@@ -19,7 +19,7 @@ export class Livestock extends Card implements IActionCard, IProjectCard, IResou
       tags: [Tags.ANIMAL],
       cost: 13,
 
-      resourceType: ResourceType.ANIMAL,
+      resourceType: CardResource.ANIMAL,
       victoryPoints: VictoryPoints.resource(1, 1),
       requirements: CardRequirements.builder((b) => b.oxygen(9)),
 
@@ -42,21 +42,21 @@ export class Livestock extends Card implements IActionCard, IProjectCard, IResou
     });
   }
 
-    public resourceCount = 0;
-    public canPlay(player: Player): boolean {
-      return player.getProduction(Resources.PLANTS) >= 1;
-    }
-    public play(player: Player) {
-      player.addProduction(Resources.PLANTS, -1);
-      player.addProduction(Resources.MEGACREDITS, 2);
-      return undefined;
-    }
-    public canAct(): boolean {
-      return true;
-    }
-    public action(player: Player) {
-      player.addResourceTo(this);
-      return undefined;
-    }
+  public override resourceCount = 0;
+  public override canPlay(player: Player): boolean {
+    return player.getProduction(Resources.PLANTS) >= 1;
+  }
+  public play(player: Player) {
+    player.addProduction(Resources.PLANTS, -1);
+    player.addProduction(Resources.MEGACREDITS, 2);
+    return undefined;
+  }
+  public canAct(): boolean {
+    return true;
+  }
+  public action(player: Player) {
+    player.addResourceTo(this);
+    return undefined;
+  }
 }
 

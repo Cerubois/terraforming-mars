@@ -1,4 +1,7 @@
+<<<<<<< HEAD
+=======
 import {ISerializable} from './ISerializable';
+>>>>>>> main
 import {SerializedTimer} from './SerializedTimer';
 
 export class Clock {
@@ -7,7 +10,11 @@ export class Clock {
   }
 }
 const REAL_CLOCK = new Clock();
+<<<<<<< HEAD
+export class Timer {
+=======
 export class Timer implements ISerializable<SerializedTimer> {
+>>>>>>> main
   private static lastStoppedAt: number = 0; // When was last time any Timer.stop() called
 
   private sumElapsed: number = 0; // Sum of elapsed closed time intervals
