@@ -529,150 +529,151 @@ type Refs = {
   file: HTMLInputElement,
 }
 
-export default (Vue as WithRefs<Refs>).extend({
-  name: 'CreateGameForm',
-  data(): CreateGameModel {
+export default (Vue as WithRefs<Refs>
+    ).extend({
+    name: 'CreateGameForm',
+    data(): CreateGameModel {
     return {
-      constants,
-      firstIndex: 1,
-      playersCount: 1,
-      players: [
-        {index: 1, name: '', color: Color.RED, beginner: false, handicap: 0, first: false},
-        {index: 2, name: '', color: Color.GREEN, beginner: false, handicap: 0, first: false},
-        {index: 3, name: '', color: Color.YELLOW, beginner: false, handicap: 0, first: false},
-        {index: 4, name: '', color: Color.BLUE, beginner: false, handicap: 0, first: false},
-        {index: 5, name: '', color: Color.BLACK, beginner: false, handicap: 0, first: false},
-        {index: 6, name: '', color: Color.PURPLE, beginner: false, handicap: 0, first: false},
-        {index: 7, name: '', color: Color.ORANGE, beginner: false, handicap: 0, first: false},
-        {index: 8, name: '', color: Color.PINK, beginner: false, handicap: 0, first: false},
-      ],
-      corporateEra: true,
-      prelude: false,
-      draftVariant: true,
-      initialDraft: false,
-      randomMA: RandomMAOptionType.NONE,
-      randomFirstPlayer: true,
-      showOtherPlayersVP: false,
-      beginnerOption: false,
-      venusNext: false,
-      colonies: false,
-      showColoniesList: false,
-      showCorporationList: false,
-      showCardsBlackList: false,
-      turmoil: false,
-      customCorporationsList: [],
-      customColoniesList: [],
-      cardsBlackList: [],
-      isSoloModePage: false,
-      board: BoardName.ORIGINAL,
-      boards: [
-        BoardName.ORIGINAL,
-        BoardName.HELLAS,
-        BoardName.ELYSIUM,
-        RandomBoardOption.OFFICIAL,
-        BoardName.ARABIA_TERRA,
-        BoardName.VASTITAS_BOREALIS,
-        RandomBoardOption.ALL,
-      ],
-      seed: Math.random(),
-      seededGame: false,
-      solarPhaseOption: false,
-      shuffleMapOption: false,
-      promoCardsOption: false,
-      communityCardsOption: false,
-      aresExtension: false,
-      politicalAgendasExtension: AgendaStyle.STANDARD,
-      moonExpansion: false,
-      pathfindersExpansion: false,
-      undoOption: false,
-      showTimers: true,
-      fastModeOption: false,
-      removeNegativeGlobalEventsOption: false,
-      includeVenusMA: true,
-      startingCorporations: 2,
-      soloTR: false,
-      clonedGameId: undefined,
-      allOfficialExpansions: false,
-      requiresVenusTrackCompletion: false,
-      requiresMoonTrackCompletion: false,
-      moonStandardProjectVariant: false,
-      altVenusBoard: false,
-      escapeVelocityMode: false,
-      escapeVelocityThreshold: constants.DEFAULT_ESCAPE_VELOCITY_THRESHOLD,
-      escapeVelocityPeriod: constants.DEFAULT_ESCAPE_VELOCITY_PERIOD,
-      escapeVelocityPenalty: constants.DEFAULT_ESCAPE_VELOCITY_PENALTY,
+    constants,
+    firstIndex: 1,
+    playersCount: 5,
+    players: [
+    {index: 1, name: 'Arthur', color: Color.RED, beginner: false, handicap: 0, first: false},
+    {index: 2, name: 'Drew', color: Color.GREEN, beginner: false, handicap: 0, first: false},
+    {index: 3, name: 'Jacob', color: Color.YELLOW, beginner: false, handicap: 0, first: false},
+    {index: 4, name: 'Mosca', color: Color.BLUE, beginner: false, handicap: 0, first: false},
+    {index: 5, name: 'Steve', color: Color.PINK, beginner: false, handicap: 0, first: false},
+    {index: 6, name: '', color: Color.PURPLE, beginner: false, handicap: 0, first: false},
+    {index: 7, name: '', color: Color.ORANGE, beginner: false, handicap: 0, first: false},
+    {index: 8, name: '', color: Color.PINK, beginner: false, handicap: 0, first: false},
+    ],
+    corporateEra: true,
+    prelude: true,
+    draftVariant: true,
+    initialDraft: true,
+    randomMA: RandomMAOptionType.NONE,
+    randomFirstPlayer: true,
+    showOtherPlayersVP: true,
+    beginnerOption: false,
+    venusNext: true,
+    colonies: true,
+    showColoniesList: false,
+    showCorporationList: false,
+    showCardsBlackList: false,
+    turmoil: true,
+    customCorporationsList: [],
+    customColoniesList: [],
+    cardsBlackList: [],
+    isSoloModePage: false,
+    board: RandomBoardOption.ALL,
+    boards: [
+    BoardName.ORIGINAL,
+    BoardName.HELLAS,
+    BoardName.ELYSIUM,
+    RandomBoardOption.OFFICIAL,
+    BoardName.ARABIA_TERRA,
+    BoardName.VASTITAS_BOREALIS,
+    RandomBoardOption.ALL,
+    ],
+    seed: Math.random(),
+    seededGame: false,
+    solarPhaseOption: false,
+    shuffleMapOption: true,
+    promoCardsOption: true,
+    communityCardsOption: false,
+    aresExtension: false,
+    politicalAgendasExtension: AgendaStyle.STANDARD,
+    moonExpansion: true,
+    pathfindersExpansion: true,
+    undoOption: true,
+    showTimers: true,
+    fastModeOption: false,
+    removeNegativeGlobalEventsOption: false,
+    includeVenusMA: true,
+    startingCorporations: 4,
+    soloTR: false,
+    clonedGameId: undefined,
+    allOfficialExpansions: false,
+    requiresVenusTrackCompletion: true,
+    requiresMoonTrackCompletion: true,
+    moonStandardProjectVariant: false,
+    altVenusBoard: true,
+    escapeVelocityMode: false,
+    escapeVelocityThreshold: constants.DEFAULT_ESCAPE_VELOCITY_THRESHOLD,
+    escapeVelocityPeriod: constants.DEFAULT_ESCAPE_VELOCITY_PERIOD,
+    escapeVelocityPenalty: constants.DEFAULT_ESCAPE_VELOCITY_PENALTY,
     };
-  },
-  components: {
+    },
+    components: {
     Button,
     CardsFilter,
     ColoniesFilter,
     CorporationsFilter,
     PreferencesIcon,
-  },
-  mounted() {
+    },
+    mounted() {
     if (window.location.pathname === '/solo') {
-      this.isSoloModePage = true;
+    this.isSoloModePage = true;
     }
-  },
-  watch: {
+    },
+    watch: {
     allOfficialExpansions(value: boolean) {
-      this.corporateEra = value;
-      this.prelude = value;
-      this.venusNext = value;
-      this.colonies = value;
-      this.turmoil = value;
-      this.promoCardsOption = value;
-      this.solarPhaseOption = value;
+    this.corporateEra = value;
+    this.prelude = value;
+    this.venusNext = value;
+    this.colonies = value;
+    this.turmoil = value;
+    this.promoCardsOption = value;
+    this.solarPhaseOption = value;
     },
     venusNext(value: boolean) {
-      this.solarPhaseOption = value;
+    this.solarPhaseOption = value;
     },
     turmoil(value: boolean) {
-      if (value === false) {
-        this.politicalAgendasExtension = AgendaStyle.STANDARD;
-      }
+    if (value === false) {
+    this.politicalAgendasExtension = AgendaStyle.STANDARD;
+    }
     },
     playersCount(value: number) {
-      if (value === 1) {
-        this.corporateEra = true;
-      }
+    if (value === 1) {
+    this.corporateEra = true;
+    }
     },
-  },
-  methods: {
+    },
+    methods: {
     async downloadCurrentSettings() {
-      const serializedData = await this.serializeSettings();
+    const serializedData = await this.serializeSettings();
 
-      if (serializedData) {
-        const a = document.createElement('a');
-        const blob = new Blob([serializedData], {'type': 'application/json'});
-        a.href = window.URL.createObjectURL(blob);
-        a.download = 'tm_settings.json';
-        a.click();
-      }
+    if (serializedData) {
+    const a = document.createElement('a');
+    const blob = new Blob([serializedData], {'type': 'application/json'});
+    a.href = window.URL.createObjectURL(blob);
+    a.download = 'tm_settings.json';
+    a.click();
+    }
     },
     handleSettingsUpload() {
-      const refs = this.$refs;
-      const file = refs.file.files !== null ? refs.file.files[0] : undefined;
-      const reader = new FileReader();
-      const component = this.$data;
+    const refs = this.$refs;
+    const file = refs.file.files !== null ? refs.file.files[0] : undefined;
+    const reader = new FileReader();
+    const component = this.$data;
 
-      reader.addEventListener('load', function() {
-        const readerResults = reader.result;
-        if (typeof(readerResults) === 'string') {
-          const results = JSON.parse(readerResults);
-          const players = results['players'];
-          component.playersCount = players.length;
-          component.showCorporationList = results['customCorporationsList'].length > 0;
-          component.showColoniesList = results['customColoniesList'].length > 0;
-          component.showCardsBlackList = results['cardsBlackList'].length > 0;
+    reader.addEventListener('load', function() {
+    const readerResults = reader.result;
+    if (typeof(readerResults) === 'string') {
+    const results = JSON.parse(readerResults);
+    const players = results['players'];
+    component.playersCount = players.length;
+    component.showCorporationList = results['customCorporationsList'].length > 0;
+    component.showColoniesList = results['customColoniesList'].length > 0;
+    component.showCardsBlackList = results['cardsBlackList'].length > 0;
 
-          for (const k in results) {
-            if (['customCorporationsList', 'customColoniesList', 'cardsBlackList', 'players'].includes(k)) continue;
-            (component as any)[k] = results[k];
-          }
+    for (const k in results) {
+    if (['customCorporationsList', 'customColoniesList', 'cardsBlackList', 'players'].includes(k)) continue;
+    (component as any)[k] = results[k];
+    }
 
-          for (let i = 0; i < players.length; i++) {
+    for (let i = 0; i < players.length; i++) {
             component.players[i] = players[i];
           }
 
