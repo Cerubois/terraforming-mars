@@ -1,13 +1,12 @@
-import {LunarObservationPost} from '../../../src/cards/moon/LunarObservationPost';
+import {LunarObservationPost} from '../../../src/server/cards/moon/LunarObservationPost';
 import {expect} from 'chai';
-import {SpaceDebrisCleaningOperation} from '../../../src/cards/pathfinders/SpaceDebrisCleaningOperation';
-import {Game} from '../../../src/Game';
+import {SpaceDebrisCleaningOperation} from '../../../src/server/cards/pathfinders/SpaceDebrisCleaningOperation';
+import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {TestPlayers} from '../../TestPlayers';
-import {TestingUtils} from '../../TestingUtils';
-import {Penguins} from '../../../src/cards/promo/Penguins';
-import {Tardigrades} from '../../../src/cards/base/Tardigrades';
-import {OlympusConference} from '../../../src/cards/base/OlympusConference';
+import {runAllActions} from '../../TestingUtils';
+import {Penguins} from '../../../src/server/cards/promo/Penguins';
+import {Tardigrades} from '../../../src/server/cards/base/Tardigrades';
+import {OlympusConference} from '../../../src/server/cards/base/OlympusConference';
 
 describe('SpaceDebrisCleaningOperation', function() {
   let card: SpaceDebrisCleaningOperation;
@@ -16,8 +15,8 @@ describe('SpaceDebrisCleaningOperation', function() {
 
   beforeEach(function() {
     card = new SpaceDebrisCleaningOperation();
-    player = TestPlayers.BLUE.newPlayer();
-    game = Game.newInstance('foobar', [player], player);
+    player = TestPlayer.BLUE.newPlayer();
+    game = Game.newInstance('gameid', [player], player);
     player.playedCards.push(card);
   });
 
@@ -35,7 +34,7 @@ describe('SpaceDebrisCleaningOperation', function() {
 
     player.cardsInHand = [];
     card.play(player);
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(player.titanium).eq(3);
     expect(player.cardsInHand).has.length(1);
@@ -49,7 +48,7 @@ describe('SpaceDebrisCleaningOperation', function() {
     player.playedCards = [tardigrades, penguins, olympusConference];
 
     card.play(player);
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(tardigrades.resourceCount).eq(1);
     expect(penguins.resourceCount).eq(0);

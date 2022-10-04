@@ -1,14 +1,14 @@
 import {expect} from 'chai';
-import {CharityDonation} from '../../../src/cards/pathfinders/CharityDonation';
-import {Game} from '../../../src/Game';
+import {CharityDonation} from '../../../src/server/cards/pathfinders/CharityDonation';
+import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {AcquiredCompany} from '../../../src/cards/base/AcquiredCompany';
-import {BeamFromAThoriumAsteroid} from '../../../src/cards/base/BeamFromAThoriumAsteroid';
-import {CEOsFavoriteProject} from '../../../src/cards/base/CEOsFavoriteProject';
-import {Decomposers} from '../../../src/cards/base/Decomposers';
-import {TestingUtils} from '../../TestingUtils';
+import {AcquiredCompany} from '../../../src/server/cards/base/AcquiredCompany';
+import {BeamFromAThoriumAsteroid} from '../../../src/server/cards/base/BeamFromAThoriumAsteroid';
+import {CEOsFavoriteProject} from '../../../src/server/cards/base/CEOsFavoriteProject';
+import {Decomposers} from '../../../src/server/cards/base/Decomposers';
+import {cast, runAllActions} from '../../TestingUtils';
 import {getTestPlayer, newTestGame} from '../../TestGame';
-import {SelectCard} from '../../../src/inputs/SelectCard';
+import {SelectCard} from '../../../src/server/inputs/SelectCard';
 
 describe('CharityDonation', function() {
   let card: CharityDonation;
@@ -30,45 +30,45 @@ describe('CharityDonation', function() {
     const beamFromAThoriumAsteroid = new BeamFromAThoriumAsteroid();
     const ceosFavoriteProject = new CEOsFavoriteProject();
     const decomposers = new Decomposers();
-    game.dealer.deck.push(decomposers, ceosFavoriteProject, beamFromAThoriumAsteroid, acquiredCompany);
+    game.projectDeck.drawPile.push(decomposers, ceosFavoriteProject, beamFromAThoriumAsteroid, acquiredCompany);
 
-    (player1 as any).waitingFor = undefined;
-    (player2 as any).waitingFor = undefined;
-    (player3 as any).waitingFor = undefined;
+    player1.popWaitingFor();
+    player2.popWaitingFor();
+    player3.popWaitingFor();
 
     // Letting player 2 go first to test the wraparound nature of the algorithm.
     card.play(player2);
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(player1.getWaitingFor()).is.undefined;
     expect(player3.getWaitingFor()).is.undefined;
-    const selectCard2 = TestingUtils.cast(player2.getWaitingFor(), SelectCard);
+    const selectCard2 = cast(player2.getWaitingFor(), SelectCard);
 
     expect(selectCard2.cards).deep.eq([acquiredCompany, beamFromAThoriumAsteroid, ceosFavoriteProject, decomposers]);
 
     player2.process([[beamFromAThoriumAsteroid.name]]);
 
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(player1.getWaitingFor()).is.undefined;
     expect(player2.getWaitingFor()).is.undefined;
-    const selectCard3 = TestingUtils.cast(player3.getWaitingFor(), SelectCard);
+    const selectCard3 = cast(player3.getWaitingFor(), SelectCard);
 
     expect(selectCard3.cards).deep.eq([acquiredCompany, ceosFavoriteProject, decomposers]);
 
     player3.process([[decomposers.name]]);
 
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(player2.getWaitingFor()).is.undefined;
     expect(player3.getWaitingFor()).is.undefined;
-    const selectCard1 = TestingUtils.cast(player1.getWaitingFor(), SelectCard);
+    const selectCard1 = cast(player1.getWaitingFor(), SelectCard);
 
     expect(selectCard1.cards).deep.eq([acquiredCompany, ceosFavoriteProject]);
 
     player1.process([[acquiredCompany.name]]);
 
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(player1.getWaitingFor()).is.undefined;
     expect(player2.getWaitingFor()).is.undefined;
@@ -77,6 +77,6 @@ describe('CharityDonation', function() {
     expect(player1.cardsInHand).deep.eq([acquiredCompany]);
     expect(player2.cardsInHand).deep.eq([beamFromAThoriumAsteroid]);
     expect(player3.cardsInHand).deep.eq([decomposers]);
-    expect(game.dealer.discarded).deep.eq([ceosFavoriteProject]);
+    expect(game.projectDeck.discardPile).deep.eq([ceosFavoriteProject]);
   });
 });

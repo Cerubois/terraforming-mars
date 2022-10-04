@@ -1,28 +1,31 @@
 import {expect} from 'chai';
-import {BannedDelegate} from '../../../src/cards/turmoil/BannedDelegate';
-import {Game} from '../../../src/Game';
-import {OrOptions} from '../../../src/inputs/OrOptions';
-import {SelectDelegate} from '../../../src/inputs/SelectDelegate';
-import {Player} from '../../../src/Player';
+import {BannedDelegate} from '../../../src/server/cards/turmoil/BannedDelegate';
+import {Game} from '../../../src/server/Game';
+import {OrOptions} from '../../../src/server/inputs/OrOptions';
+import {SelectDelegate} from '../../../src/server/inputs/SelectDelegate';
+import {Player} from '../../../src/server/Player';
 import {PartyName} from '../../../src/common/turmoil/PartyName';
-import {Turmoil} from '../../../src/turmoil/Turmoil';
-import {TestingUtils} from '../../TestingUtils';
-import {TestPlayers} from '../../TestPlayers';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
+import {cast, testGameOptions} from '../../TestingUtils';
+import {TestPlayer} from '../../TestPlayer';
 
 describe('Banned Delegate', function() {
-  let card : BannedDelegate; let player : Player; let player2 : Player; let game : Game; let turmoil: Turmoil;
+  let card: BannedDelegate;
+  let player: Player;
+  let player2: Player;
+  let game: Game;
+  let turmoil: Turmoil;
 
   beforeEach(function() {
     card = new BannedDelegate();
-    player = TestPlayers.BLUE.newPlayer();
-    player2 = TestPlayers.RED.newPlayer();
+    player = TestPlayer.BLUE.newPlayer();
+    player2 = TestPlayer.RED.newPlayer();
 
-    const gameOptions = TestingUtils.setCustomGameOptions();
-    game = Game.newInstance('foobar', [player, player2], player, gameOptions);
+    game = Game.newInstance('gameid', [player, player2], player, testGameOptions({turmoilExtension: true}));
     turmoil = game.turmoil!;
   });
 
-  it('Can\'t play', function() {
+  it('Cannot play', function() {
     turmoil.chairman = player2.id;
     expect(player.canPlayIgnoringCost(card)).is.not.true;
   });
@@ -38,12 +41,13 @@ describe('Banned Delegate', function() {
 
     const result = card.play(player);
 
+    // TODO(kberg): This returns both because the Global Event deck is always randomized.
     if (result instanceof SelectDelegate) {
-      const selectDelegate = result as SelectDelegate;
+      const selectDelegate = cast(result, SelectDelegate);
       selectDelegate.cb(result.players[0]);
     } else {
-      const orOptions = result as OrOptions;
-      orOptions.options.forEach((option) => option.cb((option as SelectDelegate).players[0]));
+      const orOptions = cast(result, OrOptions);
+      orOptions.options.forEach((option) => option.cb(cast(option, SelectDelegate).players[0]));
     }
 
     expect(greens.delegates).has.lengthOf(initialDelegatesCount - 1);

@@ -1,8 +1,8 @@
 import {expect} from 'chai';
-import {ApiGame} from '../../src/routes/ApiGame';
-import {Game} from '../../src/Game';
+import {ApiGame} from '../../src/server/routes/ApiGame';
+import {Game} from '../../src/server/Game';
 import {MockResponse} from './HttpMocks';
-import {TestPlayers} from '../TestPlayers';
+import {TestPlayer} from '../TestPlayer';
 import {RouteTestScaffolding} from './RouteTestScaffolding';
 
 describe('ApiGame', () => {
@@ -14,32 +14,32 @@ describe('ApiGame', () => {
     res = new MockResponse();
   });
 
-  it('no parameter', () => {
+  it('no parameter', async () => {
     scaffolding.url = '/api/game';
-    scaffolding.get(ApiGame.INSTANCE, res);
-    expect(res.statusCode).eq(404);
-    expect(res.content).eq('Not found: id parameter missing');
+    await scaffolding.get(ApiGame.INSTANCE, res);
+    expect(res.statusCode).eq(400);
+    expect(res.content).eq('Bad request: missing id parameter');
   });
 
-  it('invalid id', () => {
-    const player = TestPlayers.BLACK.newPlayer();
-    scaffolding.ctx.gameLoader.add(Game.newInstance('validId', [player], player));
+  it('invalid id', async () => {
+    const player = TestPlayer.BLACK.newPlayer();
+    scaffolding.ctx.gameLoader.add(Game.newInstance('game-valid-id', [player], player));
     scaffolding.url = '/api/game?id=invalidId';
-    scaffolding.get(ApiGame.INSTANCE, res);
+    await scaffolding.get(ApiGame.INSTANCE, res);
     expect(res.statusCode).eq(404);
     expect(res.content).eq('Not found: game not found');
   });
 
-  it('valid id', () => {
-    const player = TestPlayers.BLACK.newPlayer();
-    scaffolding.ctx.gameLoader.add(Game.newInstance('validId', [player], player));
-    scaffolding.url = '/api/game?id=validId';
-    scaffolding.get(ApiGame.INSTANCE, res);
+  it('valid id', async () => {
+    const player = TestPlayer.BLACK.newPlayer();
+    scaffolding.ctx.gameLoader.add(Game.newInstance('game-valid-id', [player], player));
+    scaffolding.url = '/api/game?id=game-valid-id';
+    await scaffolding.get(ApiGame.INSTANCE, res);
     // This test is probably brittle.
     expect(JSON.parse(res.content)).deep.eq(
       {
         'activePlayer': 'black',
-        'id': 'validId',
+        'id': 'game-valid-id',
         'lastSoloGeneration': 14,
         'phase': 'research',
         'players': [
@@ -53,11 +53,12 @@ describe('ApiGame', () => {
           'altVenusBoard': false,
           'aresExtension': false,
           'boardName': 'tharsis',
-          'cardsBlackList': [],
+          'bannedCards': [],
           'coloniesExtension': false,
           'communityCardsOption': false,
           'corporateEra': true,
           'draftVariant': false,
+          'corporationsDraft': false,
           'escapeVelocityMode': false,
           'escapeVelocityPenalty': 1,
           'escapeVelocityPeriod': 2,

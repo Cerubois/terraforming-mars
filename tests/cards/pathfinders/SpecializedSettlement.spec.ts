@@ -1,16 +1,16 @@
 import {expect} from 'chai';
-import {SpecializedSettlement} from '../../../src/cards/pathfinders/SpecializedSettlement';
-import {Game} from '../../../src/Game';
+import {SpecializedSettlement} from '../../../src/server/cards/pathfinders/SpecializedSettlement';
+import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {TestingUtils} from '../../TestingUtils';
+import {cast, runAllActions} from '../../TestingUtils';
 import {EmptyBoard} from '../../ares/EmptyBoard';
 import {Units} from '../../../src/common/Units';
-import {SelectSpace} from '../../../src/inputs/SelectSpace';
+import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
 import {SpaceBonus} from '../../../src/common/boards/SpaceBonus';
 import {TileType} from '../../../src/common/TileType';
-import {OrOptions} from '../../../src/inputs/OrOptions';
-import {RoboticWorkforce} from '../../../src/cards/base/RoboticWorkforce';
-import {SelectCard} from '../../../src/inputs/SelectCard';
+import {OrOptions} from '../../../src/server/inputs/OrOptions';
+import {RoboticWorkforce} from '../../../src/server/cards/base/RoboticWorkforce';
+import {SelectCard} from '../../../src/server/inputs/SelectCard';
 import {getTestPlayer, newTestGame} from '../../TestGame';
 
 describe('SpecializedSettlement', function() {
@@ -27,9 +27,9 @@ describe('SpecializedSettlement', function() {
   });
 
   it('Can play', () => {
-    player.setProductionForTest({energy: 0});
+    player.production.override({energy: 0});
     expect(player.canPlayIgnoringCost(card)).is.false;
-    player.setProductionForTest({energy: 1});
+    player.production.override({energy: 1});
     expect(player.canPlayIgnoringCost(card)).is.true;
   });
 
@@ -74,12 +74,10 @@ describe('SpecializedSettlement', function() {
   });
 
   it('play - energy', function() {
-    expect(() => {
-      singleResourceTest(
-        SpaceBonus.ENERGY,
-        {energy: 1},
-        {energy: 1, megacredits: 3});
-    }).to.throw(/Unhandled space bonus/);
+    singleResourceTest(
+      SpaceBonus.ENERGY,
+      {energy: 1},
+      {energy: 0, megacredits: 3});
     expect(player.popWaitingFor()).is.undefined;
   });
 
@@ -107,64 +105,63 @@ describe('SpecializedSettlement', function() {
       [SpaceBonus.HEAT, SpaceBonus.STEEL, SpaceBonus.TITANIUM],
       {heat: 1, steel: 1, titanium: 1},
       {energy: 0, megacredits: 3});
-    const orOptions = TestingUtils.cast(player.popWaitingFor(), OrOptions);
+    const orOptions = cast(player.popWaitingFor(), OrOptions);
     expect(orOptions.options.map((option) => option.title)).deep.eq(['heat', 'steel', 'titanium']);
     orOptions.options[0].cb();
-    expect(player.getProductionForTest()).deep.eq(Units.of({megacredits: 3, heat: 1}));
+    expect(player.production.asUnits()).deep.eq(Units.of({megacredits: 3, heat: 1}));
     expect(player.popWaitingFor()).is.undefined;
   });
-
 
   it('play - 3 different, then play Robotic Workforce', function() {
     singleResourceTest(
       [SpaceBonus.HEAT, SpaceBonus.STEEL, SpaceBonus.TITANIUM],
       {heat: 1, steel: 1, titanium: 1},
       {energy: 0, megacredits: 3});
-    const orOptions = TestingUtils.cast(player.popWaitingFor(), OrOptions);
+    const orOptions = cast(player.popWaitingFor(), OrOptions);
     orOptions.options[0].cb();
-    expect(player.getProductionForTest()).deep.eq(Units.of({megacredits: 3, heat: 1}));
+    expect(player.production.asUnits()).deep.eq(Units.of({megacredits: 3, heat: 1}));
     expect(player.popWaitingFor()).is.undefined;
 
     player.playedCards = [card];
 
     const roboticWorkforce = new RoboticWorkforce();
+    expect(roboticWorkforce.canPlay(player)).is.false;
     expect(roboticWorkforce.play(player)).is.undefined;
-    player.setProductionForTest(Units.of({energy: 1}));
-    const selectCard = TestingUtils.cast(roboticWorkforce.play(player), SelectCard);
+
+    player.production.override(Units.of({energy: 1}));
+    const selectCard = cast(roboticWorkforce.play(player), SelectCard);
     expect(selectCard.cards).deep.eq([card]);
     selectCard.cb([selectCard.cards[0]]);
-    expect(player.getProductionForTest()).deep.eq(Units.of({megacredits: 3, heat: 1}));
+    expect(player.production.asUnits()).deep.eq(Units.of({megacredits: 3, heat: 1}));
   });
 
   it('play on hazard space', function() {
-    player.setProductionForTest({energy: 1});
-    player.megaCredits = 8; // Placing on a hazard space costs 8MC
+    player.production.override({energy: 1});
+    player.megaCredits = 8; // Placing on a mild hazard costs 8MC
 
     const hazardSpace = player.game.board.getAvailableSpacesForCity(player)[0];
     hazardSpace.bonus = [SpaceBonus.HEAT];
     hazardSpace.tile = {tileType: TileType.DUST_STORM_MILD, protectedHazard: false};
 
-    const action = card.play(player);
-
-    const selectSpace = TestingUtils.cast(action, SelectSpace);
+    const selectSpace = cast(card.play(player), SelectSpace);
     expect(selectSpace.availableSpaces).contains(hazardSpace);
     selectSpace.cb(hazardSpace);
 
     expect(hazardSpace.tile?.tileType).eq(TileType.CITY);
     expect(hazardSpace.player).eq(player);
 
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
     expect(player.getResourcesForTest()).deep.eq(Units.of({}));
-    expect(player.getProductionForTest()).deep.eq(Units.of({megacredits: 3}));
+    expect(player.production.asUnits()).deep.eq(Units.of({megacredits: 3}));
   });
 
   function singleResourceTest(spaceBonus: SpaceBonus | Array<SpaceBonus>, resources: Partial<Units>, production: Partial<Units>) {
-    player.setProductionForTest({energy: 1});
+    player.production.override({energy: 1});
     const action = card.play(player);
 
-    expect(player.getProductionForTest()).deep.eq(Units.of({energy: 0, megacredits: 3}));
+    expect(player.production.asUnits()).deep.eq(Units.of({energy: 0, megacredits: 3}));
 
-    const selectSpace = TestingUtils.cast(action, SelectSpace);
+    const selectSpace = cast(action, SelectSpace);
     const space = selectSpace.availableSpaces[0];
     space.bonus = spaceBonus instanceof Array ? spaceBonus : [spaceBonus];
     selectSpace.cb(space);
@@ -173,8 +170,8 @@ describe('SpecializedSettlement', function() {
     expect(space.player).eq(player);
     expect(player.getResourcesForTest()).deep.eq(Units.of(resources));
 
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
-    expect(player.getProductionForTest()).deep.eq(Units.of(production));
+    expect(player.production.asUnits()).deep.eq(Units.of(production));
   }
 });

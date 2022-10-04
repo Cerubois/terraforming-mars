@@ -1,11 +1,10 @@
 import {expect} from 'chai';
-import {Polaris} from '../../../src/cards/pathfinders/Polaris';
-import {Game} from '../../../src/Game';
-import {Resources} from '../../../src/common/Resources';
-import {TestingUtils} from '../../TestingUtils';
+import {Polaris} from '../../../src/server/cards/pathfinders/Polaris';
+import {Game} from '../../../src/server/Game';
+import {cast, runAllActions} from '../../TestingUtils';
 import {TestPlayer} from '../../TestPlayer';
 import {newTestGame, getTestPlayer} from '../../TestGame';
-import {SelectSpace} from '../../../src/inputs/SelectSpace';
+import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
 import {TileType} from '../../../src/common/TileType';
 
 describe('Polaris', function() {
@@ -19,49 +18,45 @@ describe('Polaris', function() {
     game = newTestGame(2);
     player = getTestPlayer(game, 0);
     player2 = getTestPlayer(game, 1);
-    player.corporationCard = card;
+    player.setCorporationForTest(card);
   });
 
   it('initial action', function() {
     card.initialAction(player);
-    TestingUtils.runAllActions(game);
-    const input = player.getWaitingFor();
-
-    expect(input).instanceOf(SelectSpace);
-
+    runAllActions(game);
+    const selectSpace = cast(player.getWaitingFor(), SelectSpace);
     const space = game.board.getSpace('06');
-    const selectSpace = input as SelectSpace;
 
     expect(selectSpace.availableSpaces).includes(space);
 
     selectSpace.cb(space);
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(space.tile?.tileType === TileType.OCEAN);
 
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.production.megacredits).to.eq(1);
     expect(player.megaCredits).to.eq(4);
-    expect(player2.getProduction(Resources.MEGACREDITS)).to.eq(0);
+    expect(player2.production.megacredits).to.eq(0);
     expect(player2.megaCredits).to.eq(0);
   });
 
   it('When anyone plays ocean tile', function() {
     game.addOceanTile(player2, '06');
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.production.megacredits).to.eq(1);
     expect(player.megaCredits).to.eq(0);
-    expect(player2.getProduction(Resources.MEGACREDITS)).to.eq(0);
+    expect(player2.production.megacredits).to.eq(0);
     expect(player2.megaCredits).to.eq(0);
   });
 
   it('When you play ocean tile', function() {
     game.addOceanTile(player, '06');
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.production.megacredits).to.eq(1);
     expect(player.megaCredits).to.eq(4);
-    expect(player2.getProduction(Resources.MEGACREDITS)).to.eq(0);
+    expect(player2.production.megacredits).to.eq(0);
     expect(player2.megaCredits).to.eq(0);
   });
 });

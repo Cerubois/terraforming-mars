@@ -1,17 +1,16 @@
 import {expect} from 'chai';
-import {Game} from '../../src/Game';
-import {CorrosiveRain} from '../../src/turmoil/globalEvents/CorrosiveRain';
-import {Kelvinists} from '../../src/turmoil/parties/Kelvinists';
-import {Turmoil} from '../../src/turmoil/Turmoil';
-import {TestPlayers} from '../TestPlayers';
-import {TestingUtils} from '../TestingUtils';
+import {Game} from '../../src/server/Game';
+import {CorrosiveRain} from '../../src/server/turmoil/globalEvents/CorrosiveRain';
+import {Kelvinists} from '../../src/server/turmoil/parties/Kelvinists';
+import {Turmoil} from '../../src/server/turmoil/Turmoil';
+import {cast, runAllActions, testGameOptions} from '../TestingUtils';
 import {TestPlayer} from '../TestPlayer';
-import {TitanShuttles} from '../../src/cards/colonies/TitanShuttles';
-import {TitanAirScrapping} from '../../src/cards/colonies/TitanAirScrapping';
-import {Birds} from '../../src/cards/base/Birds';
-import {SelectCard} from '../../src/inputs/SelectCard';
-import {OrOptions} from '../../src/inputs/OrOptions';
-import {SelectOption} from '../../src/inputs/SelectOption';
+import {TitanShuttles} from '../../src/server/cards/colonies/TitanShuttles';
+import {TitanAirScrapping} from '../../src/server/cards/colonies/TitanAirScrapping';
+import {Birds} from '../../src/server/cards/base/Birds';
+import {SelectCard} from '../../src/server/inputs/SelectCard';
+import {OrOptions} from '../../src/server/inputs/OrOptions';
+import {SelectOption} from '../../src/server/inputs/SelectOption';
 
 describe('CorrosiveRain', function() {
   let card: CorrosiveRain;
@@ -22,9 +21,9 @@ describe('CorrosiveRain', function() {
 
   beforeEach(() => {
     card = new CorrosiveRain();
-    player = TestPlayers.BLUE.newPlayer();
-    player2 = TestPlayers.RED.newPlayer();
-    game = Game.newInstance('foobar', [player, player2], player, TestingUtils.setCustomGameOptions({turmoilExtension: true}));
+    player = TestPlayer.BLUE.newPlayer();
+    player2 = TestPlayer.RED.newPlayer();
+    game = Game.newInstance('gameid', [player, player2], player, testGameOptions({turmoilExtension: true}));
     turmoil = game.turmoil!;
     player.popWaitingFor(); // To clear out the SelectInitialCards input.
   });
@@ -41,7 +40,7 @@ describe('CorrosiveRain', function() {
 
     card.resolve(game, turmoil);
     expect(game.deferredActions).has.lengthOf(2);
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
     expect(game.deferredActions).has.lengthOf(0);
     expect(player2.cardsInHand).has.lengthOf(3);
     expect(player.cardsInHand).has.lengthOf(0);
@@ -62,10 +61,10 @@ describe('CorrosiveRain', function() {
     player.megaCredits = 3;
 
     card.resolve(game, turmoil);
-    TestingUtils.runAllActions(game);
-    const orOptions = TestingUtils.cast(player.popWaitingFor(), OrOptions);
-    const reduce10MC = TestingUtils.cast(orOptions.options[0], SelectOption);
-    const removeFloaters = TestingUtils.cast(orOptions.options[1], SelectCard);
+    runAllActions(game);
+    const orOptions = cast(player.popWaitingFor(), OrOptions);
+    const reduce10MC = cast(orOptions.options[0], SelectOption);
+    const removeFloaters = cast(orOptions.options[1], SelectCard);
 
     expect(player.megaCredits).eq(3);
     reduce10MC.cb();

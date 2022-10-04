@@ -1,24 +1,27 @@
 import {expect} from 'chai';
-import {Research} from '../../../src/cards/base/Research';
-import {IProjectCard} from '../../../src/cards/IProjectCard';
-import {HousePrinting} from '../../../src/cards/prelude/HousePrinting';
-import {SelfReplicatingRobots} from '../../../src/cards/promo/SelfReplicatingRobots';
-import {Game} from '../../../src/Game';
-import {OrOptions} from '../../../src/inputs/OrOptions';
-import {SelectCard} from '../../../src/inputs/SelectCard';
-import {Player} from '../../../src/Player';
-import {TestPlayers} from '../../TestPlayers';
+import {cast} from '../../TestingUtils';
+import {Research} from '../../../src/server/cards/base/Research';
+import {IProjectCard} from '../../../src/server/cards/IProjectCard';
+import {HousePrinting} from '../../../src/server/cards/prelude/HousePrinting';
+import {SelfReplicatingRobots} from '../../../src/server/cards/promo/SelfReplicatingRobots';
+import {Game} from '../../../src/server/Game';
+import {OrOptions} from '../../../src/server/inputs/OrOptions';
+import {SelectCard} from '../../../src/server/inputs/SelectCard';
+import {Player} from '../../../src/server/Player';
+import {TestPlayer} from '../../TestPlayer';
+import {EarthOffice} from '../../../src/server/cards/base/EarthOffice';
 
 describe('SelfReplicatingRobots', function() {
-  let card : SelfReplicatingRobots; let player : Player;
+  let card: SelfReplicatingRobots;
+  let player: Player;
 
   beforeEach(function() {
     card = new SelfReplicatingRobots();
-    player = TestPlayers.BLUE.newPlayer();
-    Game.newInstance('foobar', [player], player);
+    player = TestPlayer.BLUE.newPlayer();
+    Game.newInstance('gameid', [player], player);
   });
 
-  it('Can\'t play', function() {
+  it('Can not play', function() {
     expect(player.canPlayIgnoringCost(card)).is.not.true;
   });
 
@@ -31,19 +34,26 @@ describe('SelfReplicatingRobots', function() {
     player.playedCards.push(card);
     expect(card.canAct(player)).is.not.true;
 
+    player.cardsInHand.push(new EarthOffice());
+    expect(card.canAct(player)).is.not.true;
+
     player.cardsInHand.push(new HousePrinting());
     expect(card.canAct(player)).is.true;
+  });
 
-    const action = card.action(player);
-    expect(action).instanceOf(OrOptions);
-    (action as OrOptions).options[0].cb([(action.options[0] as SelectCard<IProjectCard>).cards[0]]);
+  it('act', () => {
+    const earthOffice = new EarthOffice();
+    player.cardsInHand.push(earthOffice);
+    player.cardsInHand.push(new HousePrinting());
+
+    const action = cast(card.action(player), OrOptions);
+    action.options[0].cb([cast(action.options[0], SelectCard<IProjectCard>).cards[0]]);
     expect(card.targetCards[0].resourceCount).to.eq(2);
-    expect(player.cardsInHand).has.lengthOf(0);
+    expect(player.cardsInHand).deep.eq([earthOffice]);
     expect(card.targetCards).has.lengthOf(1);
 
-    const action2 = card.action(player);
-    expect(action2 instanceof OrOptions).is.true;
-    (action2 as OrOptions).options[0].cb([(action2.options[0] as SelectCard<IProjectCard>).cards[0]]);
+    const action2 = cast(card.action(player), OrOptions);
+    action2.options[0].cb([cast(action2.options[0], SelectCard<IProjectCard>).cards[0]]);
     expect(card.targetCards[0].resourceCount).to.eq(4);
   });
 });

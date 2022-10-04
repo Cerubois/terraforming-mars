@@ -1,37 +1,42 @@
 import {expect} from 'chai';
 import {SpaceBonus} from '../../src/common/boards/SpaceBonus';
-import {Player} from '../../src/Player';
-import {DEFAULT_GAME_OPTIONS, Game} from '../../src/Game';
+import {Player} from '../../src/server/Player';
+import {Game} from '../../src/server/Game';
+import {DEFAULT_GAME_OPTIONS} from '../../src/server/GameOptions';
+
 import {ARES_OPTIONS_NO_HAZARDS, AresTestHelper, ARES_OPTIONS_WITH_HAZARDS} from './AresTestHelper';
 import {EmptyBoard} from './EmptyBoard';
 import {TileType} from '../../src/common/TileType';
-import {ITile} from '../../src/ITile';
+import {Tile} from '../../src/server/Tile';
 import {SpaceType} from '../../src/common/boards/SpaceType';
 import {Resources} from '../../src/common/Resources';
-import {SelectProductionToLose} from '../../src/inputs/SelectProductionToLose';
-import {OriginalBoard} from '../../src/boards/OriginalBoard';
-import {DesperateMeasures} from '../../src/cards/ares/DesperateMeasures';
-import {Decomposers} from '../../src/cards/base/Decomposers';
-import {EnergyTapping} from '../../src/cards/base/EnergyTapping';
+import {SelectProductionToLose} from '../../src/server/inputs/SelectProductionToLose';
+import {OriginalBoard} from '../../src/server/boards/OriginalBoard';
+import {DesperateMeasures} from '../../src/server/cards/ares/DesperateMeasures';
+import {Decomposers} from '../../src/server/cards/base/Decomposers';
+import {EnergyTapping} from '../../src/server/cards/base/EnergyTapping';
 import {Phase} from '../../src/common/Phase';
-import {TestPlayers} from '../TestPlayers';
-import {_AresHazardPlacement} from '../../src/ares/AresHazards';
-import {AresSetup} from '../../src/ares/AresSetup';
-import {Random} from '../../src/Random';
+import {TestPlayer} from '../TestPlayer';
+import {_AresHazardPlacement} from '../../src/server/ares/AresHazards';
+import {AresSetup} from '../../src/server/ares/AresSetup';
+import {SeededRandom} from '../../src/server/Random';
 import {Units} from '../../src/common/Units';
-import {TestingUtils} from '../TestingUtils';
-import {Ants} from '../../src/cards/base/Ants';
-import {Birds} from '../../src/cards/base/Birds';
+import {addOcean, cast, runAllActions} from '../TestingUtils';
+import {Ants} from '../../src/server/cards/base/Ants';
+import {Birds} from '../../src/server/cards/base/Birds';
+import {SelectSpace} from '../../src/server/inputs/SelectSpace';
 
 // oddly, this no longer tests AresHandler calls. So that's interesting.
 // TODO(kberg): break up tests, but no rush.
 describe('AresHandler', function() {
-  let player : Player; let otherPlayer: Player; let game : Game;
+  let player: Player;
+  let otherPlayer: Player;
+  let game: Game;
 
   beforeEach(function() {
-    player = TestPlayers.BLUE.newPlayer();
-    otherPlayer = TestPlayers.RED.newPlayer();
-    game = Game.newInstance('foobar', [player, otherPlayer], player, ARES_OPTIONS_NO_HAZARDS);
+    player = TestPlayer.BLUE.newPlayer();
+    otherPlayer = TestPlayer.RED.newPlayer();
+    game = Game.newInstance('gameid', [player, otherPlayer], player, ARES_OPTIONS_NO_HAZARDS);
     game.board = EmptyBoard.newInstance();
   });
 
@@ -60,7 +65,7 @@ describe('AresHandler', function() {
 
   describe('setupHazards', function() {
     interface SpaceToTest {
-      tile: ITile;
+      tile: Tile;
       x: number;
       y: number;
     }
@@ -77,7 +82,7 @@ describe('AresHandler', function() {
       // front-load the deck with cards of predetermined costs.
       // four player game places two dust storms.
 
-      const deck = game.dealer.deck;
+      const deck = game.projectDeck.drawPile;
       deck.push(new EnergyTapping());
       deck.push(new Decomposers());
 
@@ -92,7 +97,7 @@ describe('AresHandler', function() {
       // front-load the deck with cards of predetermined costs.
       // 5 player game places one dust storm but with two cards.
 
-      const deck = game.dealer.deck;
+      const deck = game.projectDeck.drawPile;
       deck.push(new EnergyTapping());
       deck.push(new Decomposers());
 
@@ -105,7 +110,7 @@ describe('AresHandler', function() {
       // front-load the deck with cards of predetermined costs.
       // 3 player game places 3 dust storms, the first with two cards.
 
-      const deck = game.dealer.deck;
+      const deck = game.projectDeck.drawPile;
       deck.push(new EnergyTapping());
       deck.push(new Decomposers());
       deck.push(new Ants());
@@ -158,20 +163,20 @@ describe('AresHandler', function() {
     _AresHazardPlacement.putHazardAt(firstSpace, TileType.DUST_STORM_MILD);
 
     // No resources available to play the tile.
-    player.addProduction(Resources.MEGACREDITS, -5);
+    player.production.add(Resources.MEGACREDITS, -5);
 
     const adjacentSpace = game.board.getAdjacentSpaces(firstSpace)[0];
     expect(() => {
       game.addTile(player, adjacentSpace.spaceType, adjacentSpace, {tileType: TileType.GREENERY});
     }).to.throw(/Placing here costs 1 units of production/);
 
-    player.addProduction(Resources.PLANTS, 7);
+    player.production.add(Resources.PLANTS, 7);
     game.addTile(player, adjacentSpace.spaceType, adjacentSpace, {tileType: TileType.GREENERY});
-    TestingUtils.runAllActions(game);
-    const input = TestingUtils.cast(player.getWaitingFor(), SelectProductionToLose);
+    runAllActions(game);
+    const input = cast(player.getWaitingFor(), SelectProductionToLose);
     expect(input.unitsToLose).eq(1);
     input.cb(Units.of({plants: 1}));
-    expect(player.getProduction(Resources.PLANTS)).eq(6);
+    expect(player.production.plants).eq(6);
   });
 
   it('pay adjacent hazard costs - severe', function() {
@@ -179,7 +184,7 @@ describe('AresHandler', function() {
     _AresHazardPlacement.putHazardAt(firstSpace, TileType.DUST_STORM_SEVERE);
 
     // No resources available to play the tile.
-    player.addProduction(Resources.MEGACREDITS, -5);
+    player.production.add(Resources.MEGACREDITS, -5);
 
     const adjacentSpace = game.board.getAdjacentSpaces(firstSpace)[0];
     try {
@@ -188,27 +193,27 @@ describe('AresHandler', function() {
       expect((err as any).toString()).includes('Placing here costs 2 units of production');
     }
 
-    player.addProduction(Resources.PLANTS, 7);
+    player.production.add(Resources.PLANTS, 7);
     game.addTile(player, adjacentSpace.spaceType, adjacentSpace, {tileType: TileType.GREENERY});
 
-    TestingUtils.runAllActions(game);
-    const input = TestingUtils.cast(player.getWaitingFor(), SelectProductionToLose);
+    runAllActions(game);
+    const input = cast(player.getWaitingFor(), SelectProductionToLose);
     expect(input.unitsToLose).eq(2);
     input.cb(Units.of({plants: 2}));
-    expect(player.getProduction(Resources.PLANTS)).eq(5);
+    expect(player.production.plants).eq(5);
   });
 
   it('Adjacenct hazard costs do not apply to oceans', function() {
     const firstSpace = game.board.getAvailableSpacesOnLand(player)[0];
     _AresHazardPlacement.putHazardAt(firstSpace, TileType.DUST_STORM_MILD);
 
-    const before = getProduction(player);
+    const before = player.production.asUnits();
 
     const adjacentSpace = game.board.getAdjacentSpaces(firstSpace)[0];
     game.addTile(player, adjacentSpace.spaceType, adjacentSpace, {tileType: TileType.OCEAN});
     expect(game.deferredActions.peek()).is.undefined;
 
-    const after = getProduction(player);
+    const after = player.production.asUnits();
     expect(before).to.deep.eq(after);
   });
 
@@ -241,33 +246,33 @@ describe('AresHandler', function() {
   });
 
   it('erosion appears after the third ocean', function() {
-    game = Game.newInstance('foobar', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
+    game = Game.newInstance('gameid', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
+    addOcean(player);
+    addOcean(player);
 
     let tiles = AresTestHelper.byTileType(AresTestHelper.getHazards(player));
     expect(tiles.get(TileType.EROSION_MILD)).has.lengthOf(0);
 
-    TestingUtils.addOcean(player);
+    addOcean(player);
 
     tiles = AresTestHelper.byTileType(AresTestHelper.getHazards(player));
     expect(tiles.get(TileType.EROSION_MILD)).has.lengthOf(2);
   });
 
   it('dust storms disappear after the sixth ocean', function() {
-    game = Game.newInstance('foobar', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
+    game = Game.newInstance('gameid', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
+    addOcean(player);
+    addOcean(player);
+    addOcean(player);
+    addOcean(player);
+    addOcean(player);
 
     let tiles = AresTestHelper.byTileType(AresTestHelper.getHazards(player));
     expect(tiles.get(TileType.DUST_STORM_MILD)).has.lengthOf(3);
     expect(tiles.get(TileType.DUST_STORM_SEVERE)).has.lengthOf(0);
     const prior = player.getTerraformRating();
 
-    TestingUtils.addOcean(player);
+    addOcean(player);
 
     tiles = AresTestHelper.byTileType(AresTestHelper.getHazards(player));
     expect(tiles.get(TileType.DUST_STORM_MILD)).has.lengthOf(0);
@@ -276,12 +281,12 @@ describe('AresHandler', function() {
   });
 
   it('dust storms disappear after the sixth ocean, desperate measures changes that', function() {
-    game = Game.newInstance('foobar', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
+    game = Game.newInstance('gameid', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
+    addOcean(player);
+    addOcean(player);
+    addOcean(player);
+    addOcean(player);
+    addOcean(player);
 
     let tiles = AresTestHelper.byTileType(AresTestHelper.getHazards(player));
     expect(tiles.get(TileType.DUST_STORM_MILD)).has.lengthOf(3);
@@ -289,11 +294,11 @@ describe('AresHandler', function() {
 
     // The key two lines
     const protectedDustStorm = tiles.get(TileType.DUST_STORM_MILD)![0];
-    new DesperateMeasures().play(player).cb(protectedDustStorm);
+    cast(new DesperateMeasures().play(player), SelectSpace).cb(protectedDustStorm);
 
     const priorTr = player.getTerraformRating();
 
-    TestingUtils.addOcean(player);
+    addOcean(player);
 
     tiles = AresTestHelper.byTileType(AresTestHelper.getHazards(player));
     expect(tiles.get(TileType.DUST_STORM_MILD)).has.lengthOf(1);
@@ -302,7 +307,7 @@ describe('AresHandler', function() {
   });
 
   it('dust storms amplify at 5% oxygen', function() {
-    game = Game.newInstance('foobar', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
+    game = Game.newInstance('gameid', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
     while (game.getOxygenLevel() < 4) {
       game.increaseOxygenLevel(player, 1);
     }
@@ -319,7 +324,7 @@ describe('AresHandler', function() {
   });
 
   it('amplifying dust storms does not change desperate measures', function() {
-    game = Game.newInstance('foobar', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
+    game = Game.newInstance('gameid', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
     while (game.getOxygenLevel() < 4) {
       game.increaseOxygenLevel(player, 1);
     }
@@ -339,13 +344,13 @@ describe('AresHandler', function() {
   });
 
   it('erosions amplify at -4C', function() {
-    game = Game.newInstance('foobar', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
+    game = Game.newInstance('gameid', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
     while (game.getTemperature() < -6) {
       game.increaseTemperature(player, 1);
     }
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
+    addOcean(player);
+    addOcean(player);
+    addOcean(player);
 
     let tiles = AresTestHelper.byTileType(AresTestHelper.getHazards(player));
     expect(tiles.get(TileType.EROSION_MILD)).has.lengthOf(2);
@@ -359,12 +364,12 @@ describe('AresHandler', function() {
   });
 
   it('severe erosions appear at third ocean when temperature passes -4C', function() {
-    game = Game.newInstance('foobar', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
+    game = Game.newInstance('gameid', [player, otherPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
     while (game.getTemperature() < -6) {
       game.increaseTemperature(player, 1);
     }
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
+    addOcean(player);
+    addOcean(player);
 
     let tiles = AresTestHelper.byTileType(AresTestHelper.getHazards(player));
     expect(tiles.get(TileType.EROSION_MILD)).has.lengthOf(0);
@@ -375,7 +380,7 @@ describe('AresHandler', function() {
     expect(tiles.get(TileType.EROSION_MILD)).has.lengthOf(0);
     expect(tiles.get(TileType.EROSION_SEVERE)).has.lengthOf(0);
 
-    TestingUtils.addOcean(player);
+    addOcean(player);
 
     tiles = AresTestHelper.byTileType(AresTestHelper.getHazards(player));
     expect(tiles.get(TileType.EROSION_MILD)).has.lengthOf(0);
@@ -383,7 +388,7 @@ describe('AresHandler', function() {
   });
 
   it('Placing on top of an ocean doesn\'t regrant bonuses', function() {
-    game.board = OriginalBoard.newInstance(DEFAULT_GAME_OPTIONS, new Random(0));
+    game.board = OriginalBoard.newInstance(DEFAULT_GAME_OPTIONS, new SeededRandom(0));
     const space = game.board.getSpaces(SpaceType.OCEAN, player).find((space) => {
       return space.bonus.length > 0 && space.bonus[0] === SpaceBonus.PLANT;
     })!;
@@ -464,11 +469,3 @@ describe('AresHandler', function() {
     expect(player.getTerraformRating()).eq(20);
   });
 });
-
-function getProduction(player: Player): Map<Resources, number> {
-  const map: Map<Resources, number> = new Map();
-  [Resources.MEGACREDITS, Resources.STEEL, Resources.TITANIUM, Resources.PLANTS, Resources.TITANIUM, Resources.STEEL].forEach(
-    (r) => map.set(r, player.getProduction(r)),
-  );
-  return map;
-}

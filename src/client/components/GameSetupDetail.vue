@@ -36,9 +36,10 @@
 
             <li v-if="playerNumber > 1">
               <div class="setup-item" v-i18n>Draft:</div>
+              <div v-if="gameOptions.corporationsDraft" class="game-config generic" v-i18n>Corporation</div>
               <div v-if="gameOptions.initialDraftVariant" class="game-config generic" v-i18n>Initial</div>
               <div v-if="gameOptions.draftVariant" class="game-config generic" v-i18n>Research phase</div>
-              <div v-if="!gameOptions.initialDraftVariant && !gameOptions.draftVariant" class="game-config generic" v-i18n>Off</div>
+              <div v-if="!gameOptions.initialDraftVariant && !gameOptions.draftVariant && !gameOptions.corporationsDraft" class="game-config generic" v-i18n>Off</div>
             </li>
 
             <li v-if="gameOptions.escapeVelocityMode">
@@ -65,7 +66,7 @@
               <div v-if="gameOptions.undoOption" class="game-config undo" v-i18n>undo</div>
             </li>
 
-            <li v-if="gameOptions.cardsBlackList.length > 0"><div class="setup-item" v-i18n>Banned cards:</div>{{ gameOptions.cardsBlackList.join(', ') }}</li>
+            <li v-if="gameOptions.bannedCards.length > 0"><div class="setup-item" v-i18n>Banned cards:</div>{{ gameOptions.bannedCards.join(', ') }}</li>
           </ul>
         </div>
 </template>
@@ -95,14 +96,23 @@ export default Vue.extend({
     isPoliticalAgendasOn(): boolean {
       return (this.gameOptions.politicalAgendasExtension !== AgendaStyle.STANDARD);
     },
-    getBoardColorClass(boardName: string): string {
-      if (boardName === BoardName.ORIGINAL) {
+    getBoardColorClass(boardName: BoardName): string {
+      switch (boardName) {
+      case BoardName.ORIGINAL:
         return 'game-config board-tharsis map';
-      } else if (boardName === BoardName.HELLAS) {
+      case BoardName.HELLAS:
         return 'game-config board-hellas map';
-      } else if (boardName === BoardName.ELYSIUM) {
+      case BoardName.ELYSIUM:
         return 'game-config board-elysium map';
-      } else {
+      case BoardName.AMAZONIS:
+        return 'game-config board-amazonis map';
+      case BoardName.ARABIA_TERRA:
+        return 'game-config board-arabia_terra map';
+      case BoardName.VASTITAS_BOREALIS:
+        return 'game-config board-vastitas_borealis map';
+      case BoardName.TERRA_CIMMERIA:
+        return 'game-config board-terra_cimmeria map';
+      default:
         return 'game-config board-other map';
       }
     },

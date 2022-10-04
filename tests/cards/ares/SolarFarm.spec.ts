@@ -1,23 +1,25 @@
 import {expect} from 'chai';
-import {AresHandler} from '../../../src/ares/AresHandler';
-import {SolarFarm} from '../../../src/cards/ares/SolarFarm';
-import {Game} from '../../../src/Game';
-import {SelectSpace} from '../../../src/inputs/SelectSpace';
-import {Player} from '../../../src/Player';
-import {Resources} from '../../../src/common/Resources';
+import {AresHandler} from '../../../src/server/ares/AresHandler';
+import {SolarFarm} from '../../../src/server/cards/ares/SolarFarm';
+import {Game} from '../../../src/server/Game';
+import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
+import {Player} from '../../../src/server/Player';
 import {SpaceBonus} from '../../../src/common/boards/SpaceBonus';
 import {TileType} from '../../../src/common/TileType';
 import {ARES_OPTIONS_WITH_HAZARDS} from '../../ares/AresTestHelper';
-import {TestPlayers} from '../../TestPlayers';
+import {TestPlayer} from '../../TestPlayer';
+import {cast} from '../../TestingUtils';
 
 describe('SolarFarm', function() {
-  let card: SolarFarm; let player: Player; let game: Game;
+  let card: SolarFarm;
+  let player: Player;
+  let game: Game;
 
   beforeEach(function() {
     card = new SolarFarm();
-    player = TestPlayers.BLUE.newPlayer();
-    const redPlayer = TestPlayers.RED.newPlayer();
-    game = Game.newInstance('foobar', [player, redPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
+    player = TestPlayer.BLUE.newPlayer();
+    const redPlayer = TestPlayer.RED.newPlayer();
+    game = Game.newInstance('gameid', [player, redPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
   });
 
   it('Play', function() {
@@ -35,11 +37,8 @@ describe('SolarFarm', function() {
       SpaceBonus.PLANT,
     ];
 
-    const action = card.play(player);
-
-    expect(action).instanceOf(SelectSpace);
-
-    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    const action = cast(card.play(player), SelectSpace);
+    expect(player.production.energy).eq(0);
     const citySpace = game.board.getAvailableSpacesOnLand(player).filter((s) => !AresHandler.hasHazardTile(s))[0];
     action.cb(citySpace);
     expect(citySpace.player).to.eq(player);
@@ -47,6 +46,6 @@ describe('SolarFarm', function() {
     expect(citySpace.adjacency).to.deep.eq({
       bonus: [SpaceBonus.ENERGY, SpaceBonus.ENERGY],
     });
-    expect(player.getProduction(Resources.ENERGY)).eq(7);
+    expect(player.production.energy).eq(7);
   });
 });

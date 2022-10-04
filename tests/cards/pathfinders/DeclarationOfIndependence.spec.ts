@@ -1,12 +1,11 @@
 import {expect} from 'chai';
-import {DeclarationOfIndependence} from '../../../src/cards/pathfinders/DeclarationOfIndependence';
-import {Game} from '../../../src/Game';
+import {DeclarationOfIndependence} from '../../../src/server/cards/pathfinders/DeclarationOfIndependence';
+import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {TestPlayers} from '../../TestPlayers';
-import {TestingUtils} from '../../TestingUtils';
-import {Turmoil} from '../../../src/turmoil/Turmoil';
+import {cast, runAllActions, testGameOptions} from '../../TestingUtils';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 import {PartyName} from '../../../src/common/turmoil/PartyName';
-import {SelectPartyToSendDelegate} from '../../../src/inputs/SelectPartyToSendDelegate';
+import {SelectPartyToSendDelegate} from '../../../src/server/inputs/SelectPartyToSendDelegate';
 
 describe('DeclarationOfIndependence', function() {
   let card: DeclarationOfIndependence;
@@ -15,8 +14,8 @@ describe('DeclarationOfIndependence', function() {
 
   beforeEach(function() {
     card = new DeclarationOfIndependence();
-    player = TestPlayers.BLUE.newPlayer();
-    Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions());
+    player = TestPlayer.BLUE.newPlayer();
+    Game.newInstance('gameid', [player], player, testGameOptions({turmoilExtension: true}));
     turmoil = player.game.turmoil!;
   });
 
@@ -40,8 +39,8 @@ describe('DeclarationOfIndependence', function() {
     const marsFirst = turmoil.getPartyByName(PartyName.MARS)!;
     expect(marsFirst.getDelegates(player.id)).eq(0);
     card.play(player);
-    TestingUtils.runAllActions(player.game);
-    const action = TestingUtils.cast(player.getWaitingFor(), SelectPartyToSendDelegate);
+    runAllActions(player.game);
+    const action = cast(player.getWaitingFor(), SelectPartyToSendDelegate);
     action.cb(marsFirst.name);
 
     expect(turmoil.getAvailableDelegateCount(player.id, 'reserve')).eq(4);

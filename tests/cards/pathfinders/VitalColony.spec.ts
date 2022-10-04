@@ -1,11 +1,11 @@
 import {expect} from 'chai';
 import {getTestPlayer, newTestGame} from '../../TestGame';
-import {VitalColony} from '../../../src/cards/pathfinders/VitalColony';
-import {Player} from '../../../src/Player';
-import {SelectColony} from '../../../src/inputs/SelectColony';
+import {VitalColony} from '../../../src/server/cards/pathfinders/VitalColony';
+import {Player} from '../../../src/server/Player';
+import {SelectColony} from '../../../src/server/inputs/SelectColony';
 import {ColonyName} from '../../../src/common/colonies/ColonyName';
-import {Game} from '../../../src/Game';
-import {Resources} from '../../../src/common/Resources';
+import {Game} from '../../../src/server/Game';
+import {cast} from '../../TestingUtils';
 
 describe('VitalColony', function() {
   let card: VitalColony;
@@ -31,17 +31,13 @@ describe('VitalColony', function() {
   it('Should play', function() {
     card.play(player);
 
-    const buildColonyAction = game.deferredActions.pop()!.execute();
-
-    expect(buildColonyAction).is.instanceOf(SelectColony);
-
-    const selectColony = buildColonyAction as SelectColony;
-    const colonyName = selectColony.colonies[0].name as ColonyName;
+    const selectColony = cast(game.deferredActions.pop()!.execute(), SelectColony);
+    const colonyName = selectColony.colonies[0].name;
 
     expect(colonyName).eq(ColonyName.GANYMEDE);
 
     selectColony.cb(selectColony.colonies[0]);
 
-    expect(player.getProduction(Resources.PLANTS)).eq(2);
+    expect(player.production.plants).eq(2);
   });
 });

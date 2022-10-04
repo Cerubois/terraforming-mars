@@ -11,19 +11,21 @@ import LoadGameForm from '@/client/components/LoadGameForm.vue';
 import DebugUI from '@/client/components/DebugUI.vue';
 import {SimpleGameModel} from '@/common/models/SimpleGameModel';
 import Help from '@/client/components/help/Help.vue';
+import AdminHome from '@/client/components/admin/AdminHome.vue';
 
 import {$t} from '@/client/directives/i18n';
 
 import * as constants from '@/common/constants';
 import * as raw_settings from '@/genfiles/settings.json';
 import {SpectatorModel} from '@/common/models/SpectatorModel';
-import {isPlayerId, isSpectatorId} from '@/common/utils/utils';
+import {isPlayerId, isSpectatorId} from '@/common/Types';
 import {hasShowModal, showModal, windowHasHTMLDialogElement} from './HTMLDialogElementCompatibility';
 
 const dialogPolyfill = require('dialog-polyfill');
 
 export interface MainAppData {
-    screen: 'create-game-form' |
+    screen: 'admin' |
+            'create-game-form' |
             'cards' |
             'empty' |
             'game-home' |
@@ -88,6 +90,7 @@ export const mainAppSettings = {
     'games-overview': GamesOverview,
     'debug-ui': DebugUI,
     'help': Help,
+    'admin-home': AdminHome,
   },
   'methods': {
     showAlert(message: string, cb: () => void = () => {}): void {
@@ -115,7 +118,7 @@ export const mainAppSettings = {
       return (this as unknown as typeof mainAppSettings.data).componentsVisibility[targetVar] ? true : false;
     },
     update(path: '/player' | '/spectator'): void {
-      const currentPathname: string = window.location.pathname;
+      const currentPathname = window.location.pathname;
       const xhr = new XMLHttpRequest();
       const app = this as unknown as typeof mainAppSettings.data;
 
@@ -180,7 +183,7 @@ export const mainAppSettings = {
   mounted() {
     document.title = constants.APP_NAME;
     if (!windowHasHTMLDialogElement()) dialogPolyfill.default.registerDialog(document.getElementById('alert-dialog'));
-    const currentPathname: string = window.location.pathname;
+    const currentPathname = window.location.pathname;
     const app = this as unknown as (typeof mainAppSettings.data) & (typeof mainAppSettings.methods);
     if (currentPathname === '/player') {
       app.updatePlayer();
@@ -217,9 +220,7 @@ export const mainAppSettings = {
       xhr.send();
     } else if (currentPathname === '/games-overview') {
       app.screen = 'games-overview';
-    } else if (
-      currentPathname === '/new-game' || currentPathname === '/solo'
-    ) {
+    } else if (currentPathname === '/new-game') {
       app.screen = 'create-game-form';
     } else if (currentPathname === '/load') {
       app.screen = 'load';
@@ -229,6 +230,8 @@ export const mainAppSettings = {
       app.screen = 'help';
     } else if (currentPathname === '/spectator') {
       app.updateSpectator();
+    } else if (currentPathname === '/admin') {
+      app.screen = 'admin';
     } else {
       app.screen = 'start-screen';
     }

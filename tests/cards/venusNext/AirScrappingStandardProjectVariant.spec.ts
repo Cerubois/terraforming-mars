@@ -1,10 +1,10 @@
 import {expect} from 'chai';
 import {CardName} from '../../../src/common/cards/CardName';
-import {AirScrappingStandardProjectVariant} from '../../../src/cards/venusNext/AirScrappingStandardProjectVariant';
-import {TestingUtils} from '../../TestingUtils';
+import {AirScrappingStandardProjectVariant} from '../../../src/server/cards/venusNext/AirScrappingStandardProjectVariant';
+import {runAllActions, testGameOptions} from '../../TestingUtils';
+import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {Game} from '../../../src/Game';
-import {TestPlayers} from '../../TestPlayers';
+import {getTestPlayer, newTestGame} from '../../TestGame';
 
 describe('AirScrappingStandardProjectVariant', function() {
   let card: AirScrappingStandardProjectVariant;
@@ -13,14 +13,15 @@ describe('AirScrappingStandardProjectVariant', function() {
 
   beforeEach(function() {
     card = new AirScrappingStandardProjectVariant();
-    player = TestPlayers.BLUE.newPlayer();
-    game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({altVenusBoard: true}));
+    game = newTestGame(1, testGameOptions({venusNextExtension: true, altVenusBoard: true}));
+    player = getTestPlayer(game, 0);
   });
 
   it('option not available for regular board', function() {
     // Building another game without the alt venus board.
-    const player = TestPlayers.BLUE.newPlayer();
-    Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({altVenusBoard: false}));
+    const game = newTestGame(1);
+    const player = getTestPlayer(game, 0);
+    Game.newInstance('gameid', [player], player, testGameOptions({venusNextExtension: true, altVenusBoard: false}));
     const cards = player.getStandardProjectOption().cards;
     const names = cards.map((card) => card.name);
     expect(names).to.include(CardName.AIR_SCRAPPING_STANDARD_PROJECT);
@@ -79,7 +80,7 @@ describe('AirScrappingStandardProjectVariant', function() {
     expect(game.getVenusScaleLevel()).eq(0);
 
     card.action(player);
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(player.megaCredits).eq(3);
     expect(player.getTerraformRating()).eq(21);
@@ -93,7 +94,7 @@ describe('AirScrappingStandardProjectVariant', function() {
     expect(game.getVenusScaleLevel()).eq(0);
 
     card.action(player);
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(player.megaCredits).eq(5);
     expect(player.getTerraformRating()).eq(21);

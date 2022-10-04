@@ -1,26 +1,27 @@
 import {expect} from 'chai';
-import {Penguins} from '../../../src/cards/promo/Penguins';
-import {Game} from '../../../src/Game';
-import {Player} from '../../../src/Player';
-import {TestingUtils} from '../../TestingUtils';
-import {TestPlayers} from '../../TestPlayers';
+import {Penguins} from '../../../src/server/cards/promo/Penguins';
+import {Game} from '../../../src/server/Game';
+import {Player} from '../../../src/server/Player';
+import {maxOutOceans} from '../../TestingUtils';
+import {TestPlayer} from '../../TestPlayer';
 
 describe('Penguins', function() {
-  let card : Penguins; let player : Player;
+  let card: Penguins;
+  let player: Player;
 
   beforeEach(function() {
     card = new Penguins();
-    player = TestPlayers.BLUE.newPlayer();
-    Game.newInstance('foobar', [player], player);
+    player = TestPlayer.BLUE.newPlayer();
+    Game.newInstance('gameid', [player], player);
   });
 
-  it('Can\'t play', function() {
-    TestingUtils.maxOutOceans(player, 7);
+  it('Cannot play', function() {
+    maxOutOceans(player, 7);
     expect(player.canPlayIgnoringCost(card)).is.not.true;
   });
 
   it('Should play', function() {
-    TestingUtils.maxOutOceans(player, 8);
+    maxOutOceans(player, 8);
     expect(player.canPlayIgnoringCost(card)).is.true;
   });
 

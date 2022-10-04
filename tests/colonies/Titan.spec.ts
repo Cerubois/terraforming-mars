@@ -1,22 +1,26 @@
 import {expect} from 'chai';
-import {AerialMappers} from '../../src/cards/venusNext/AerialMappers';
-import {Dirigibles} from '../../src/cards/venusNext/Dirigibles';
-import {Titan} from '../../src/colonies/Titan';
-import {AddResourcesToCard} from '../../src/deferredActions/AddResourcesToCard';
-import {Game} from '../../src/Game';
-import {Player} from '../../src/Player';
-import {TestPlayers} from '../TestPlayers';
-import {TestingUtils} from '../TestingUtils';
+import {AerialMappers} from '../../src/server/cards/venusNext/AerialMappers';
+import {Dirigibles} from '../../src/server/cards/venusNext/Dirigibles';
+import {Titan} from '../../src/server/colonies/Titan';
+import {AddResourcesToCard} from '../../src/server/deferredActions/AddResourcesToCard';
+import {Game} from '../../src/server/Game';
+import {Player} from '../../src/server/Player';
+import {TestPlayer} from '../TestPlayer';
+import {cast, runAllActions} from '../TestingUtils';
 
 describe('Titan', function() {
-  let titan: Titan; let aerialMappers: AerialMappers; let player: Player; let player2: Player; let game: Game;
+  let titan: Titan;
+  let aerialMappers: AerialMappers;
+  let player: Player;
+  let player2: Player;
+  let game: Game;
 
   beforeEach(function() {
     titan = new Titan();
     aerialMappers = new AerialMappers();
-    player = TestPlayers.BLUE.newPlayer();
-    player2 = TestPlayers.RED.newPlayer();
-    game = Game.newInstance('foobar', [player, player2], player);
+    player = TestPlayer.BLUE.newPlayer();
+    player2 = TestPlayer.RED.newPlayer();
+    game = Game.newInstance('gameid', [player, player2], player);
     game.gameOptions.coloniesExtension = true;
     game.colonies.push(titan);
   });
@@ -32,8 +36,7 @@ describe('Titan', function() {
     titan.addColony(player);
 
     expect(game.deferredActions).has.lengthOf(1);
-    const action = game.deferredActions.pop()!;
-    expect(action).to.be.an.instanceof(AddResourcesToCard);
+    const action = cast(game.deferredActions.pop(), AddResourcesToCard);
     expect(action.player).to.eq(player);
     // Should directly add to AerialMappers, since there's no other target
     action.execute();
@@ -49,8 +52,7 @@ describe('Titan', function() {
     expect(game.deferredActions).has.lengthOf(3);
     game.deferredActions.pop(); // GiveColonyBonus
 
-    const action = game.deferredActions.pop()!; // AddResourcesToCard
-    expect(action).to.be.an.instanceof(AddResourcesToCard);
+    const action = cast(game.deferredActions.pop(), AddResourcesToCard);
     expect(action.player).to.eq(player);
     // Should directly add to AerialMappers, since there's no other target
     action.execute();
@@ -67,7 +69,7 @@ describe('Titan', function() {
     game.deferredActions.pop()!.execute(); // Gain placement floaters
 
     titan.trade(player2);
-    TestingUtils.runAllActions(game); // Gain Trade & Bonus
+    runAllActions(game); // Gain Trade & Bonus
 
     expect(aerialMappers.resourceCount).to.eq(4);
     expect(dirigibles.resourceCount).to.eq(1);

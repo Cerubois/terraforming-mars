@@ -1,29 +1,31 @@
 import {expect} from 'chai';
-import {ByElection} from '../../../src/cards/community/ByElection';
-import {Game} from '../../../src/Game';
-import {OrOptions} from '../../../src/inputs/OrOptions';
-import {Player} from '../../../src/Player';
+import {ByElection} from '../../../src/server/cards/community/ByElection';
+import {Game} from '../../../src/server/Game';
+import {OrOptions} from '../../../src/server/inputs/OrOptions';
+import {Player} from '../../../src/server/Player';
 import {PartyName} from '../../../src/common/turmoil/PartyName';
-import {TestingUtils} from '../../TestingUtils';
-import {TestPlayers} from '../../TestPlayers';
+import {cast, testGameOptions} from '../../TestingUtils';
+import {TestPlayer} from '../../TestPlayer';
+import {SelectOption} from '../../../src/server/inputs/SelectOption';
 
 describe('ByElection', function() {
-  let card : ByElection; let player : Player; let game : Game;
+  let card: ByElection;
+  let player: Player;
+  let game: Game;
 
   beforeEach(function() {
     card = new ByElection();
-    player = TestPlayers.BLUE.newPlayer();
-    const redPlayer = TestPlayers.RED.newPlayer();
-    const gameOptions = TestingUtils.setCustomGameOptions();
-    game = Game.newInstance('foobar', [player, redPlayer], player, gameOptions);
+    player = TestPlayer.BLUE.newPlayer();
+    const redPlayer = TestPlayer.RED.newPlayer();
+    game = Game.newInstance('gameid', [player, redPlayer], player, testGameOptions({turmoilExtension: true}));
   });
 
   it('Should play', function() {
     card.play(player);
     expect(game.deferredActions).has.lengthOf(1);
 
-    const orOptions = game.deferredActions.peek()!.execute() as OrOptions;
-    const subOptions = orOptions.options[0] as OrOptions;
+    const orOptions = cast(game.deferredActions.peek()!.execute(), OrOptions);
+    const subOptions = cast(orOptions.options[0], SelectOption);
     subOptions.cb();
 
     const turmoil = game.turmoil!;

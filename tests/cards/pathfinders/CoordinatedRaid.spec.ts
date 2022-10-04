@@ -1,14 +1,14 @@
 import {expect} from 'chai';
 import {getTestPlayer, newTestGame} from '../../TestGame';
-import {CoordinatedRaid} from '../../../src/cards/pathfinders/CoordinatedRaid';
-import {SelectColony} from '../../../src/inputs/SelectColony';
+import {CoordinatedRaid} from '../../../src/server/cards/pathfinders/CoordinatedRaid';
+import {SelectColony} from '../../../src/server/inputs/SelectColony';
 import {ColonyName} from '../../../src/common/colonies/ColonyName';
-import {Game} from '../../../src/Game';
+import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {Colony} from '../../../src/colonies/Colony';
+import {Colony} from '../../../src/server/colonies/Colony';
 import {ColonyBenefit} from '../../../src/common/colonies/ColonyBenefit';
 import {Resources} from '../../../src/common/Resources';
-import {TestingUtils} from '../../TestingUtils';
+import {cast, runAllActions} from '../../TestingUtils';
 import {Units} from '../../../src/common/Units';
 import {ShouldIncreaseTrack} from '../../../src/common/colonies/ShouldIncreaseTrack';
 
@@ -59,28 +59,28 @@ describe('CoordinatedRaid', function() {
     colony.addColony(player2);
     colony.addColony(player2);
     const action = card.play(player);
-    const selectColony = TestingUtils.cast(action, SelectColony);
+    const selectColony = cast(action, SelectColony);
 
     expect(player.getResourcesForTest()).deep.eq(Units.EMPTY);
     expect(player2.getResourcesForTest()).deep.eq(Units.of({titanium: 6}));
 
     selectColony.cb(colony);
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(player.getResourcesForTest()).deep.eq(Units.of({titanium: 0, steel: 14, megacredits: 6}));
     expect(player2.getResourcesForTest()).deep.eq(Units.of({titanium: 6}));
   });
 
   it('Coordinated Raid ignores Trade Envoys', function() {
-    player.colonyTradeOffset += 2;
+    player.colonies.tradeOffset += 2;
     const colony = game.colonies[1];
     colony.addColony(player2);
-    const selectColony = TestingUtils.cast(card.play(player), SelectColony);
+    const selectColony = cast(card.play(player), SelectColony);
 
     expect(player.getResourcesForTest()).deep.eq(Units.EMPTY);
 
     selectColony.cb(colony);
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(player.getResourcesForTest()).deep.eq(Units.of({titanium: 0, steel: 7, megacredits: 5}));
   });

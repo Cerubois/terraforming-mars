@@ -1,16 +1,13 @@
-import {Game} from '../../../src/Game';
-import {TestingUtils} from '../../TestingUtils';
-import {TestPlayers} from '../../TestPlayers';
-import {LunarMineUrbanization} from '../../../src/cards/moon/LunarMineUrbanization';
 import {expect} from 'chai';
-import {MoonExpansion} from '../../../src/moon/MoonExpansion';
-import {IMoonData} from '../../../src/moon/IMoonData';
+import {Game} from '../../../src/server/Game';
+import {cast, testGameOptions} from '../../TestingUtils';
+import {LunarMineUrbanization} from '../../../src/server/cards/moon/LunarMineUrbanization';
+import {MoonExpansion} from '../../../src/server/moon/MoonExpansion';
+import {IMoonData} from '../../../src/server/moon/IMoonData';
 import {TileType} from '../../../src/common/TileType';
 import {TestPlayer} from '../../TestPlayer';
-import {Resources} from '../../../src/common/Resources';
-import {VictoryPointsBreakdown} from '../../../src/VictoryPointsBreakdown';
-
-const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
+import {VictoryPointsBreakdown} from '../../../src/server/VictoryPointsBreakdown';
+import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
 
 describe('LunarMineUrbanization', () => {
   let player: TestPlayer;
@@ -18,8 +15,8 @@ describe('LunarMineUrbanization', () => {
   let moonData: IMoonData;
 
   beforeEach(() => {
-    player = TestPlayers.BLUE.newPlayer();
-    const game = Game.newInstance('id', [player], player, MOON_OPTIONS);
+    player = TestPlayer.BLUE.newPlayer();
+    const game = Game.newInstance('gameid', [player], player, testGameOptions({moonExpansion: true}));
     card = new LunarMineUrbanization();
     moonData = MoonExpansion.moonData(game);
   });
@@ -43,22 +40,22 @@ describe('LunarMineUrbanization', () => {
     space.tile = {tileType: TileType.MOON_MINE};
     space.player = player;
 
-    player.setProductionForTest({megacredits: 0});
+    player.production.override({megacredits: 0});
     moonData.colonyRate = 0;
     expect(player.getTerraformRating()).eq(14);
     player.titanium = 1;
 
-    const action = card.play(player);
+    const action = cast(card.play(player), SelectSpace);
 
     expect(MoonExpansion.spaces(player.game, TileType.MOON_MINE)).eql([space]);
-    expect(MoonExpansion.spaces(player.game, TileType.MOON_COLONY)).eql([]);
-    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
+    expect(MoonExpansion.spaces(player.game, TileType.MOON_HABITAT)).eql([]);
+    expect(player.production.megacredits).eq(1);
 
     action.cb(space);
 
     expect(space.tile!.tileType).eq(TileType.LUNAR_MINE_URBANIZATION);
     expect(MoonExpansion.spaces(player.game, TileType.MOON_MINE)).eql([space]);
-    expect(MoonExpansion.spaces(player.game, TileType.MOON_COLONY)).eql([space]);
+    expect(MoonExpansion.spaces(player.game, TileType.MOON_HABITAT)).eql([space]);
     expect(moonData.colonyRate).eq(1);
     expect(player.getTerraformRating()).eq(15);
   });
@@ -66,23 +63,23 @@ describe('LunarMineUrbanization', () => {
   it('computeVictoryPoints', () => {
     const vps = new VictoryPointsBreakdown();
     function computeVps() {
-      vps.points.moonColonies = 0;
+      vps.points.moonHabitats = 0;
       vps.points.moonMines = 0;
       vps.points.moonRoads = 0;
       MoonExpansion.calculateVictoryPoints(player, vps);
       return {
-        colonies: vps.points.moonColonies,
+        habitats: vps.points.moonHabitats,
         mines: vps.points.moonMines,
         roads: vps.points.moonRoads,
       };
     }
 
-    expect(computeVps()).eql({colonies: 0, mines: 0, roads: 0});
+    expect(computeVps()).eql({habitats: 0, mines: 0, roads: 0});
     MoonExpansion.addTile(player, 'm02', {tileType: TileType.MOON_ROAD});
     MoonExpansion.calculateVictoryPoints(player, vps);
-    expect(computeVps()).eql({colonies: 0, mines: 0, roads: 1});
+    expect(computeVps()).eql({habitats: 0, mines: 0, roads: 1});
     MoonExpansion.addTile(player, 'm03', {tileType: TileType.LUNAR_MINE_URBANIZATION});
 
-    expect(computeVps()).eql({colonies: 1, mines: 1, roads: 1});
+    expect(computeVps()).eql({habitats: 1, mines: 1, roads: 1});
   });
 });

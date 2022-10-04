@@ -1,14 +1,14 @@
 import {expect} from 'chai';
-import {TerraformingRobots} from '../../../src/cards/pathfinders/TerraformingRobots';
-import {Game} from '../../../src/Game';
+import {TerraformingRobots} from '../../../src/server/cards/pathfinders/TerraformingRobots';
+import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {getTestPlayer, newTestGame} from '../../TestGame';
-import {IProjectCard} from '../../../src/cards/IProjectCard';
-import {TitanShuttles} from '../../../src/cards/colonies/TitanShuttles';
-import {FloatingHabs} from '../../../src/cards/venusNext/FloatingHabs';
-import {MartianCulture} from '../../../src/cards/pathfinders/MartianCulture';
-import {TestingUtils} from '../../TestingUtils';
-import {Tags} from '../../../src/common/cards/Tags';
+import {IProjectCard} from '../../../src/server/cards/IProjectCard';
+import {TitanShuttles} from '../../../src/server/cards/colonies/TitanShuttles';
+import {FloatingHabs} from '../../../src/server/cards/venusNext/FloatingHabs';
+import {MartianCulture} from '../../../src/server/cards/pathfinders/MartianCulture';
+import {fakeCard} from '../../TestingUtils';
+import {Tag} from '../../../src/common/cards/Tag';
 
 describe('TerraformingRobots', function() {
   let card: TerraformingRobots;
@@ -40,22 +40,22 @@ describe('TerraformingRobots', function() {
   it('onCardPlayed', () => {
     expect(card.resourceCount).eq(0);
 
-    card.onCardPlayed(player, TestingUtils.fakeCard({}));
+    card.onCardPlayed(player, fakeCard({}));
     expect(card.resourceCount).eq(0);
 
-    card.onCardPlayed(player, TestingUtils.fakeCard({
-      tags: [Tags.VENUS],
+    card.onCardPlayed(player, fakeCard({
+      tags: [Tag.VENUS],
     }));
     expect(card.resourceCount).eq(0);
 
-    card.onCardPlayed(player, TestingUtils.fakeCard({
-      tags: [Tags.MARS],
+    card.onCardPlayed(player, fakeCard({
+      tags: [Tag.MARS],
     }));
     expect(card.resourceCount).eq(1);
 
     card.resourceCount = 0;
-    card.onCardPlayed(player, TestingUtils.fakeCard({
-      tags: [Tags.MARS, Tags.SCIENCE, Tags.MARS],
+    card.onCardPlayed(player, fakeCard({
+      tags: [Tag.MARS, Tag.SCIENCE, Tag.MARS],
     }));
     expect(card.resourceCount).eq(2);
   });

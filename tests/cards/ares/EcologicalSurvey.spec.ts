@@ -1,42 +1,43 @@
-import {EcologicalSurvey} from '../../../src/cards/ares/EcologicalSurvey';
-import {Game} from '../../../src/Game';
-import {Player} from '../../../src/Player';
+import {EcologicalSurvey} from '../../../src/server/cards/ares/EcologicalSurvey';
+import {Game} from '../../../src/server/Game';
+import {Player} from '../../../src/server/Player';
 import {expect} from 'chai';
 import {ARES_OPTIONS_NO_HAZARDS} from '../../ares/AresTestHelper';
 import {TileType} from '../../../src/common/TileType';
-import {Ants} from '../../../src/cards/base/Ants';
-import {Pets} from '../../../src/cards/base/Pets';
+import {Ants} from '../../../src/server/cards/base/Ants';
+import {Pets} from '../../../src/server/cards/base/Pets';
 import {EmptyBoard} from '../../ares/EmptyBoard';
 import {SpaceBonus} from '../../../src/common/boards/SpaceBonus';
-import {ArcticAlgae} from '../../../src/cards/base/ArcticAlgae';
+import {ArcticAlgae} from '../../../src/server/cards/base/ArcticAlgae';
 import {SpaceType} from '../../../src/common/boards/SpaceType';
 import {Phase} from '../../../src/common/Phase';
-import {TestingUtils} from '../../TestingUtils';
-import {TestPlayers} from '../../TestPlayers';
-import {OceanCity} from '../../../src/cards/ares/OceanCity';
+import {addGreenery, cast, runAllActions} from '../../TestingUtils';
+import {TestPlayer} from '../../TestPlayer';
+import {OceanCity} from '../../../src/server/cards/ares/OceanCity';
+import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
 
 describe('EcologicalSurvey', () => {
-  let card : EcologicalSurvey;
-  let player : Player;
+  let card: EcologicalSurvey;
+  let player: Player;
   let redPlayer : Player;
-  let game : Game;
+  let game: Game;
 
   beforeEach(() => {
     card = new EcologicalSurvey();
-    player = TestPlayers.BLUE.newPlayer();
-    redPlayer = TestPlayers.RED.newPlayer();
-    game = Game.newInstance('foobar', [player, redPlayer], player, ARES_OPTIONS_NO_HAZARDS);
+    player = TestPlayer.BLUE.newPlayer();
+    redPlayer = TestPlayer.RED.newPlayer();
+    game = Game.newInstance('gameid', [player, redPlayer], player, ARES_OPTIONS_NO_HAZARDS);
     game.board = EmptyBoard.newInstance();
   });
 
   it('Can play', () => {
-    TestingUtils.addGreenery(player);
+    addGreenery(player);
     expect(player.canPlayIgnoringCost(card)).is.false;
 
-    TestingUtils.addGreenery(player);
+    addGreenery(player);
     expect(player.canPlayIgnoringCost(card)).is.false;
 
-    TestingUtils.addGreenery(player);
+    addGreenery(player);
     expect(player.canPlayIgnoringCost(card)).is.true;
   });
 
@@ -79,7 +80,7 @@ describe('EcologicalSurvey', () => {
 
     const adjacentSpace = game.board.getAdjacentSpaces(firstSpace)[0];
     game.addTile(player, adjacentSpace.spaceType, adjacentSpace, {tileType: TileType.GREENERY});
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(player.megaCredits).eq(2);
     expect(player.titanium).eq(1);
@@ -114,7 +115,7 @@ describe('EcologicalSurvey', () => {
     player.playedCards = [card];
     game.addTile(player, SpaceType.LAND, space, {tileType: TileType.RESTRICTED_AREA});
 
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     expect(player.titanium).eq(1);
     expect(player.steel).eq(1);
@@ -133,7 +134,7 @@ describe('EcologicalSurvey', () => {
     game.simpleAddTile(redPlayer, space, {tileType: TileType.OCEAN});
 
     player.plants = 0;
-    const selectSpace = new OceanCity().play(player);
+    const selectSpace = cast(new OceanCity().play(player), SelectSpace);
     selectSpace.cb(space);
     expect(player.plants).eq(0);
   });
@@ -149,7 +150,7 @@ describe('EcologicalSurvey', () => {
 
     player.plants = 0;
     game.addTile(player, SpaceType.OCEAN, game.board.spaces[5], {tileType: TileType.OCEAN});
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
     expect(player.plants).eq(3);
   });
 
@@ -165,7 +166,7 @@ describe('EcologicalSurvey', () => {
     game.phase = Phase.SOLAR;
     player.plants = 0;
     game.addTile(player, SpaceType.OCEAN, game.board.spaces[5], {tileType: TileType.OCEAN});
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
     expect(player.plants).eq(2);
   });
 
@@ -177,7 +178,7 @@ describe('EcologicalSurvey', () => {
     space.bonus = [SpaceBonus.MICROBE],
 
     game.addTile(player, SpaceType.LAND, space, {tileType: TileType.RESTRICTED_AREA});
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
     const msg = game.gameLog.pop()!;
     expect(msg.data.length).to.eq(3);

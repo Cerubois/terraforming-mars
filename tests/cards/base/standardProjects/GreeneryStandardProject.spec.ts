@@ -1,14 +1,14 @@
 import {expect} from 'chai';
-import {GreeneryStandardProject} from '../../../../src/cards/base/standardProjects/GreeneryStandardProject';
-import {TestingUtils} from '../../../TestingUtils';
+import {cast} from '../../../TestingUtils';
+import {GreeneryStandardProject} from '../../../../src/server/cards/base/standardProjects/GreeneryStandardProject';
+import {testGameOptions, runAllActions} from '../../../TestingUtils';
 import {TestPlayer} from '../../../TestPlayer';
-import {Game} from '../../../../src/Game';
-import {TestPlayers} from '../../../TestPlayers';
-import {PoliticalAgendas} from '../../../../src/turmoil/PoliticalAgendas';
-import {Reds} from '../../../../src/turmoil/parties/Reds';
+import {Game} from '../../../../src/server/Game';
+import {PoliticalAgendas} from '../../../../src/server/turmoil/PoliticalAgendas';
+import {Reds} from '../../../../src/server/turmoil/parties/Reds';
 import {Phase} from '../../../../src/common/Phase';
 import {MAX_OXYGEN_LEVEL} from '../../../../src/common/constants';
-import {SelectSpace} from '../../../../src/inputs/SelectSpace';
+import {SelectSpace} from '../../../../src/server/inputs/SelectSpace';
 import {SpaceType} from '../../../../src/common/boards/SpaceType';
 import {TileType} from '../../../../src/common/TileType';
 
@@ -19,8 +19,8 @@ describe('GreeneryStandardProject', function() {
 
   beforeEach(function() {
     card = new GreeneryStandardProject();
-    player = TestPlayers.BLUE.newPlayer();
-    game = Game.newInstance('foobar', [player], player);
+    player = TestPlayer.BLUE.newPlayer();
+    game = Game.newInstance('gameid', [player], player);
   });
 
   it('Can act', function() {
@@ -36,9 +36,9 @@ describe('GreeneryStandardProject', function() {
     expect(game.getOxygenLevel()).eq(0);
 
     card.action(player);
-    TestingUtils.runAllActions(game);
+    runAllActions(game);
 
-    const selectSpace = player.getWaitingFor() as SelectSpace;
+    const selectSpace = cast(player.getWaitingFor(), SelectSpace);
     const availableSpace = selectSpace.availableSpaces[0];
 
     expect(availableSpace.spaceType).eq(SpaceType.LAND);
@@ -61,8 +61,8 @@ describe('GreeneryStandardProject', function() {
   });
 
   it('Can not act with reds', () => {
-    player = TestPlayers.BLUE.newPlayer();
-    game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({turmoilExtension: true}));
+    player = TestPlayer.BLUE.newPlayer();
+    game = Game.newInstance('gameid', [player], player, testGameOptions({turmoilExtension: true}));
 
     player.megaCredits = card.cost;
     player.game.phase = Phase.ACTION;

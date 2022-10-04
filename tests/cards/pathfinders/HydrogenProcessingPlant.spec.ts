@@ -1,9 +1,8 @@
 import {expect} from 'chai';
-import {HydrogenProcessingPlant} from '../../../src/cards/pathfinders/HydrogenProcessingPlant';
-import {Game} from '../../../src/Game';
+import {HydrogenProcessingPlant} from '../../../src/server/cards/pathfinders/HydrogenProcessingPlant';
+import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
-import {TestPlayers} from '../../TestPlayers';
-import {TestingUtils} from '../../TestingUtils';
+import {addOcean} from '../../TestingUtils';
 import {Units} from '../../../src/common/Units';
 
 describe('HydrogenProcessingPlant', function() {
@@ -13,8 +12,8 @@ describe('HydrogenProcessingPlant', function() {
 
   beforeEach(function() {
     card = new HydrogenProcessingPlant();
-    player = TestPlayers.BLUE.newPlayer();
-    game = Game.newInstance('foobar', [player], player);
+    player = TestPlayer.BLUE.newPlayer();
+    game = Game.newInstance('gameid', [player], player);
     player.playedCards.push(card);
   });
 
@@ -31,18 +30,18 @@ describe('HydrogenProcessingPlant', function() {
     game.increaseOxygenLevel(player, 1);
     game.increaseOxygenLevel(player, 1);
     expect(game.getOxygenLevel()).eq(3);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    TestingUtils.addOcean(player);
-    expect(player.getProductionForTest()).deep.eq(Units.EMPTY);
+    addOcean(player);
+    addOcean(player);
+    addOcean(player);
+    addOcean(player);
+    addOcean(player);
+    addOcean(player);
+    expect(player.production.asUnits()).deep.eq(Units.EMPTY);
 
     card.play(player);
 
     expect(game.getOxygenLevel()).eq(2);
-    expect(player.getProductionForTest()).deep.eq(Units.of({energy: 3}));
+    expect(player.production.asUnits()).deep.eq(Units.of({energy: 3}));
   });
 });
 

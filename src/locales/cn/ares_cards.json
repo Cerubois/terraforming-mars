@@ -1,7 +1,7 @@
 {
 
     "Bio-Fertilizer Facility": "肥料工厂",
-    "Requires 1 science tag. Increase your plant production 1 step. Add up to 2 microbes to any card. Place this tile which grants an ADJACENCY BONUS of 1 plant and 1 microbe.": "需要你有1个科学标志。提升你的植物产量1级。添加2个微生物资源到任意卡牌。放置此板块，此板块的相邻收益为1个植物和1个微生物",
+    "Requires 1 science tag. Increase your plant production 1 step. Add up to 2 microbes to ANY card. Place this tile which grants an ADJACENCY BONUS of 1 plant and 1 microbe.": "需要你有1个科学标志。提升你的植物产量1级。添加2个微生物资源到任意卡牌。放置此板块，此板块的相邻收益为1个植物和1个微生物",
 
     "Bioengineering Enclosure": "生物工程组件",
     "Action: Remove 1 animal from THIS card to add 1 animal to ANOTHER card.": "行动：从此卡移除1个动物资源并添加1个动物资源到一张其他卡牌上",
@@ -69,7 +69,7 @@
     "Place this tile and raise temperature 2 steps.":"提升温度2级，放置此板块。",
 
     "Ocean City": "海洋城市",
-    "Requires 6 ocean tiles. Decrease your Energy production 1 step and increase your M€ production 3 steps. Place this tile on top of an existing ocean tile, IGNORING NORMAL PLACEMENT RESTRICTIONS FOR CITIES. The tile counts as a city as well as an ocean.": "需求有6块海洋。降低你的电力产量1级，提升你的M€产量3级。放置此板块到一个已有的海洋板块上，无视通常的城市放置限制。此板块即视为城市也视为海洋",
+    "Requires 6 ocean tiles. Decrease your energy production 1 step and increase your M€ production 3 steps. Place this tile on top of an existing ocean tile, IGNORING NORMAL PLACEMENT RESTRICTIONS FOR CITIES. The tile counts as a city as well as an ocean.": "需求有6块海洋。降低你的电力产量1级，提升你的M€产量3级。放置此板块到一个已有的海洋板块上，无视通常的城市放置限制。此板块即视为城市也视为海洋",
 
     "Ocean Farm": "海洋农场",
     "Requires 4 ocean tiles. Increase your heat production 1 step and increase your plant production 1 step. Place this tile on top of an existing ocean tile. The tile grants an ADJACENCY BONUS of 1 plant.": "需求有4块海洋。提升你的热能产量1级，提升你的植物产量1级。放置此板块到一个已有的海洋板块上，此板块的相邻收益为1个植物资源",
