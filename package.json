@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Terraforming Mars Game",
   "engines": {
-    "node": ">=14.x <=16.x"
-    "npm": ">= 4.4.0"
+    "node": ">=14.x <=16.x",
+	"npm": ">= 4.4.0"
   },
   "private": true,
   "dependencies": {
